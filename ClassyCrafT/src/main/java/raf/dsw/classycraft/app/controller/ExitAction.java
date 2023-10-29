@@ -3,22 +3,14 @@ package raf.dsw.classycraft.app.controller;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
 import java.net.URL;
 
-public class ExitAction extends AbstractAction {
+public class ExitAction extends AbstractClassyAction {
     public ExitAction() {
-        Icon icon=null;
-        URL imageUrl=getClass().getResource("/images/exit.png");
-        if(imageUrl!=null){
-            Image img = new ImageIcon(imageUrl).getImage();
-            Image newImg = img.getScaledInstance(30,30,Image.SCALE_DEFAULT);
-            icon=new ImageIcon(newImg);
-        }
-        else{
-            System.err.println("File " + "images/exit.png" + " not found");
-        }
-        putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_F4, ActionEvent.ALT_MASK));
+        Icon icon=this.loadIcon("/images/exit.png");
+        putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_F4, InputEvent.ALT_MASK));
         putValue(SMALL_ICON, icon);
         putValue(NAME, "Exit");
         putValue(SHORT_DESCRIPTION, "Exit");
