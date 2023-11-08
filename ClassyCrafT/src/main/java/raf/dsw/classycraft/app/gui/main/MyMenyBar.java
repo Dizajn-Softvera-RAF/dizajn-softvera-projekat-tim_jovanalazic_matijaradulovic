@@ -1,7 +1,6 @@
-package raf.dsw.classycraft.app.gui;
+package raf.dsw.classycraft.app.gui.main;
 
-import raf.dsw.classycraft.app.controller.AboutUsAction;
-import raf.dsw.classycraft.app.controller.ExitAction;
+import raf.dsw.classycraft.app.controller.*;
 
 import javax.swing.*;
 import java.awt.event.KeyEvent;
@@ -20,5 +19,12 @@ public class MyMenyBar extends JMenuBar {
         AboutUsAction aua = new AboutUsAction();
         editMenu.add(aua);
         add(editMenu);
+
+        JMenu addMenu=new JMenu("Add");
+        addMenu.setMnemonic(KeyEvent.VK_A);
+        addMenu.add(new AddDirectoryAction());
+        addMenu.add(new AddDiagramAction());
+
+        add(addMenu);
     }
 }

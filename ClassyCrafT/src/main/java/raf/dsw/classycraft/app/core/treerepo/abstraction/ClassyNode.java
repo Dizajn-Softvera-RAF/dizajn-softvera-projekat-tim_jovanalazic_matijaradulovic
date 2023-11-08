@@ -18,4 +18,7 @@ public abstract class ClassyNode {
     }
 
 
+    public void setName(String name) {
+        this.name=name;
+    }
 }

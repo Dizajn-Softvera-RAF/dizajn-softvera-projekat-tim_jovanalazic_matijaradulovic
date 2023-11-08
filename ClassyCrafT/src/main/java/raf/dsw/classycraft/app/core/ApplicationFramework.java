@@ -10,6 +10,10 @@ import raf.dsw.classycraft.app.core.treerepo.implementation.ClassyRepository;
 import raf.dsw.classycraft.app.core.treerepo.implementation.ProjectExplorer;
 
 public class ApplicationFramework {
+    public ConsoleLogger getClog() {
+        return (ConsoleLogger) clog;
+    }
+
     Logger clog;
     Logger flog;
     MessageGenerator msgGen;
@@ -27,8 +31,8 @@ public class ApplicationFramework {
     private void initialize(){
         msgGen=new MessageGenerator();
         LoggerFactory logFact=new LoggerFactory();
-        clog=logFact.getLogger("console");
-        flog=logFact.getLogger("file");
+        clog=(ConsoleLogger) logFact.getLogger("console");
+        flog=(FileLogger) logFact.getLogger("file");
         treeRepo=new ClassyRepository(new ProjectExplorer("Tree"));
     }
     public static ApplicationFramework getInstance(){

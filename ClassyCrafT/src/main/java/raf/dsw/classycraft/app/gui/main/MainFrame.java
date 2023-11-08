@@ -1,4 +1,4 @@
-package raf.dsw.classycraft.app.gui;
+package raf.dsw.classycraft.app.gui.main;
 
 import raf.dsw.classycraft.app.core.ApplicationFramework;
 import raf.dsw.classycraft.app.core.msggen.generator.ISubscriber;

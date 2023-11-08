@@ -1,4 +1,6 @@
-package raf.dsw.classycraft.app.gui;
+package raf.dsw.classycraft.app.gui.popups;
+
+import raf.dsw.classycraft.app.gui.main.MainFrame;
 
 import javax.swing.*;
 import java.awt.*;

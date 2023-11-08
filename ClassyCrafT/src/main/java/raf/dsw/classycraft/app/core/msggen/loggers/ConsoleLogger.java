@@ -18,4 +18,7 @@ public class ConsoleLogger implements Logger{
     public void log(Message msg) {
         System.err.println(msg);
     }
+    public void log(String text) {
+        log(new Message(text,MessageType.INFO));
+    }
 }
