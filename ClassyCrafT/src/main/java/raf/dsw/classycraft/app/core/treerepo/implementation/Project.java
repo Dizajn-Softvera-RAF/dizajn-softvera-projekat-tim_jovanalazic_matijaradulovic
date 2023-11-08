@@ -1,7 +1,7 @@
-package raf.dsw.classycraft.app.tree.composite.implementation;
+package raf.dsw.classycraft.app.core.treerepo.implementation;
 
-import raf.dsw.classycraft.app.tree.composite.abstraction.ClassyNode;
-import raf.dsw.classycraft.app.tree.composite.abstraction.ClassyNodeComposite;
+import raf.dsw.classycraft.app.core.treerepo.abstraction.ClassyNode;
+import raf.dsw.classycraft.app.core.treerepo.abstraction.ClassyNodeComposite;
 
 public class Project extends ClassyNodeComposite {
     String author;

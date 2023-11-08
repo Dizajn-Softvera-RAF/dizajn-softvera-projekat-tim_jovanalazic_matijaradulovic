@@ -14,7 +14,7 @@ public abstract class AbstractClassyAction extends AbstractAction {
             icon=new ImageIcon(newImg);
         }
         else{
-            System.err.println("File " + "images/exit.png" + " not found");
+            System.err.println("File not found");
         }
         return icon;
     }

@@ -1,4 +1,4 @@
-package raf.dsw.classycraft.app.gui.swing.view;
+package raf.dsw.classycraft.app.gui;
 
 import raf.dsw.classycraft.app.controller.AboutUsAction;
 import raf.dsw.classycraft.app.controller.ExitAction;
