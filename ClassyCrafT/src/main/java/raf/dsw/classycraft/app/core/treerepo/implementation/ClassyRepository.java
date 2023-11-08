@@ -6,7 +6,7 @@ import raf.dsw.classycraft.app.core.treerepo.abstraction.IClassyRepository;
 public class ClassyRepository implements IClassyRepository {
     ProjectExplorer root;
     @Override
-    public ClassyNodeComposite getRoot() {
+    public ProjectExplorer getRoot() {
         return root;
     }
 

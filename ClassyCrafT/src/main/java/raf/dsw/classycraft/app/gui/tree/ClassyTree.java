@@ -9,7 +9,7 @@ import javax.swing.tree.DefaultTreeModel;
 
 public class ClassyTree implements IClassyTree{
     @Override
-    public JTree generateTree(ProjectExplorer pe) {
+    public ClassyTreeView generateTree(ProjectExplorer pe) {
         ClassyTreeItem root= new ClassyTreeItem(pe);
         DefaultTreeModel dtm=new DefaultTreeModel(root);
         return new ClassyTreeView(dtm);

@@ -1,8 +1,13 @@
 package raf.dsw.classycraft.app.gui.main;
 
+import javafx.scene.control.SplitPane;
 import raf.dsw.classycraft.app.core.ApplicationFramework;
 import raf.dsw.classycraft.app.core.msggen.generator.ISubscriber;
 import raf.dsw.classycraft.app.core.msggen.msg.Message;
+import raf.dsw.classycraft.app.core.treerepo.implementation.ClassyRepository;
+import raf.dsw.classycraft.app.core.treerepo.implementation.ProjectExplorer;
+import raf.dsw.classycraft.app.gui.tree.ClassyTree;
+import raf.dsw.classycraft.app.gui.tree.view.ClassyTreeView;
 
 import javax.swing.*;
 import java.awt.*;
@@ -38,6 +43,17 @@ public class MainFrame extends JFrame implements ISubscriber {
         MyToolBar toolBar = new MyToolBar();
         add(toolBar, BorderLayout.NORTH);
         ApplicationFramework.getInstance().getMsgGen().addSubscriber(this);
+
+        ProjectExplorer pe= ApplicationFramework.getInstance().getTreeRepo().getRoot();
+        ClassyTreeView tw=new ClassyTree().generateTree(pe); //...
+        JTabbedPane tp=new JTabbedPane();
+        tp.add("dij1",new DiagramViewPane());
+        tw.setMinimumSize(new Dimension(150,100));
+        JPanel jp=new JPanel(new FlowLayout(FlowLayout.LEFT));
+        jp.add(tw);
+        JSplitPane sp= new JSplitPane(JSplitPane.HORIZONTAL_SPLIT,jp,tp);
+
+        add(sp);
     }
 
     @Override

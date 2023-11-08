@@ -24,6 +24,10 @@ public class ApplicationFramework {
 
     ClassyRepository treeRepo;
 
+    public ClassyRepository getTreeRepo() {
+        return treeRepo;
+    }
+
     private static ApplicationFramework instance;
     private ApplicationFramework(){
         //initialize();
