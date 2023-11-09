@@ -1,13 +1,13 @@
 package raf.dsw.classycraft.app.core;
 
 
-import raf.dsw.classycraft.app.core.msggen.generator.MessageGenerator;
+import raf.dsw.classycraft.app.core.msggen.generator.MessageGeneratorImplementation;
 import raf.dsw.classycraft.app.core.msggen.loggers.ConsoleLogger;
 import raf.dsw.classycraft.app.core.msggen.loggers.FileLogger;
 import raf.dsw.classycraft.app.core.msggen.loggers.Logger;
 import raf.dsw.classycraft.app.core.msggen.loggers.LoggerFactory;
-import raf.dsw.classycraft.app.core.treerepo.implementation.ClassyRepository;
-import raf.dsw.classycraft.app.core.treerepo.implementation.ProjectExplorer;
+import raf.dsw.classycraft.app.core.treemodel.implementation.ClassyRepositoryImplementation;
+import raf.dsw.classycraft.app.core.treemodel.implementation.ProjectExplorer;
 
 public class ApplicationFramework {
     public ConsoleLogger getClog() {
@@ -16,15 +16,15 @@ public class ApplicationFramework {
 
     Logger clog;
     Logger flog;
-    MessageGenerator msgGen;
+    MessageGeneratorImplementation msgGen;
 
-    public MessageGenerator getMsgGen() {
+    public MessageGeneratorImplementation getMsgGen() {
         return msgGen;
     }
 
-    ClassyRepository treeRepo;
+    ClassyRepositoryImplementation treeRepo;
 
-    public ClassyRepository getTreeRepo() {
+    public ClassyRepositoryImplementation getTreeRepo() {
         return treeRepo;
     }
 
@@ -33,11 +33,11 @@ public class ApplicationFramework {
         //initialize();
     }
     private void initialize(){
-        msgGen=new MessageGenerator();
+        msgGen=new MessageGeneratorImplementation();
         LoggerFactory logFact=new LoggerFactory();
         clog=(ConsoleLogger) logFact.getLogger("console");
         flog=(FileLogger) logFact.getLogger("file");
-        treeRepo=new ClassyRepository(new ProjectExplorer("Tree"));
+        treeRepo=new ClassyRepositoryImplementation(new ProjectExplorer("Explorer"));
     }
     public static ApplicationFramework getInstance(){
         if(instance==null){

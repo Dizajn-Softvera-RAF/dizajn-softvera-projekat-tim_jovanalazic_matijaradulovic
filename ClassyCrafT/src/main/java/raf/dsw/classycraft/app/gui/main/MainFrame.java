@@ -1,19 +1,23 @@
 package raf.dsw.classycraft.app.gui.main;
 
-import javafx.scene.control.SplitPane;
 import raf.dsw.classycraft.app.core.ApplicationFramework;
 import raf.dsw.classycraft.app.core.msggen.generator.ISubscriber;
 import raf.dsw.classycraft.app.core.msggen.msg.Message;
-import raf.dsw.classycraft.app.core.treerepo.implementation.ClassyRepository;
-import raf.dsw.classycraft.app.core.treerepo.implementation.ProjectExplorer;
-import raf.dsw.classycraft.app.gui.tree.ClassyTree;
-import raf.dsw.classycraft.app.gui.tree.view.ClassyTreeView;
+import raf.dsw.classycraft.app.core.msggen.msg.MessageType;
+import raf.dsw.classycraft.app.core.treemodel.implementation.ProjectExplorer;
+import raf.dsw.classycraft.app.gui.treeview.ClassyTreeImplementation;
+import raf.dsw.classycraft.app.gui.treeview.view.ClassyTreeView;
 
 import javax.swing.*;
 import java.awt.*;
 
 public class MainFrame extends JFrame implements ISubscriber {
     private static MainFrame instance;
+    ClassyTreeImplementation treee;//ufffffff....
+
+    public ClassyTreeImplementation getTree() {
+        return treee;
+    }
 
     public MainFrame() {
         //initialize();
@@ -45,21 +49,22 @@ public class MainFrame extends JFrame implements ISubscriber {
         ApplicationFramework.getInstance().getMsgGen().addSubscriber(this);
 
         ProjectExplorer pe= ApplicationFramework.getInstance().getTreeRepo().getRoot();
-        ClassyTreeView tw=new ClassyTree().generateTree(pe); //...
+        ClassyTreeView tw=(treee= new ClassyTreeImplementation()).generateTree(pe); //...
         JTabbedPane tp=new JTabbedPane();
         tp.add("dij1",new DiagramViewPane());
         tw.setMinimumSize(new Dimension(150,100));
         JPanel jp=new JPanel(new FlowLayout(FlowLayout.LEFT));
         jp.add(tw);
         JSplitPane sp= new JSplitPane(JSplitPane.HORIZONTAL_SPLIT,jp,tp);
-
+        sp.setDividerLocation(200);
         add(sp);
     }
 
     @Override
     public void react(Object notification) {
         Message msg = ((Message) notification);
-        JOptionPane.showMessageDialog(this, msg.getText(),msg.getType().name(), msg.getType().ordinal());
+        if(msg.getType()!= MessageType.LOG)
+            JOptionPane.showMessageDialog(this, msg.getText(),msg.getType().name(), msg.getType().ordinal());
 
     }
 }

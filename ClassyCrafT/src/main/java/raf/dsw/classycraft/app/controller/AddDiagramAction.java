@@ -14,6 +14,7 @@ public class AddDiagramAction extends AbstractClassyAction{
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        System.exit(0);
+        //im blue da ba dee da ba dae
+        //da ba deeeeeeeeee da ba daaaaaaaaaae
     }
 }

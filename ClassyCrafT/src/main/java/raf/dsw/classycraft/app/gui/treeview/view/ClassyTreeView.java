@@ -1,7 +1,7 @@
-package raf.dsw.classycraft.app.gui.tree.view;
+package raf.dsw.classycraft.app.gui.treeview.view;
 
-import raf.dsw.classycraft.app.gui.tree.controller.ClassyTreeCellEditor;
-import raf.dsw.classycraft.app.gui.tree.controller.ClassyTreeSelectionListener;
+import raf.dsw.classycraft.app.gui.treeview.controller.ClassyTreeCellEditor;
+import raf.dsw.classycraft.app.gui.treeview.controller.ClassyTreeSelectionListener;
 
 import javax.swing.*;
 import javax.swing.tree.DefaultTreeModel;

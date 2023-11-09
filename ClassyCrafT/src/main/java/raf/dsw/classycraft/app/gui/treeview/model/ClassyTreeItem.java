@@ -1,6 +1,6 @@
-package raf.dsw.classycraft.app.gui.tree.model;
+package raf.dsw.classycraft.app.gui.treeview.model;
 
-import raf.dsw.classycraft.app.core.treerepo.abstraction.ClassyNode;
+import raf.dsw.classycraft.app.core.treemodel.abstraction.ClassyNode;
 
 import javax.swing.tree.DefaultMutableTreeNode;
 
@@ -15,7 +15,12 @@ public class ClassyTreeItem extends DefaultMutableTreeNode {
         return node;
     }
 
+    @Override
+    public String toString() {
+        return node.getName();
+    }
+
     public void setName(String name) {
-        node.setName(name);
+        node.setName(name); //ew
     }
 }

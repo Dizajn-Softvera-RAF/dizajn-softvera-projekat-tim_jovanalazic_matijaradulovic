@@ -1,6 +1,6 @@
-package raf.dsw.classycraft.app.gui.tree.controller;
+package raf.dsw.classycraft.app.gui.treeview.controller;
 
-import raf.dsw.classycraft.app.gui.tree.model.ClassyTreeItem;
+import raf.dsw.classycraft.app.gui.treeview.model.ClassyTreeItem;
 
 import javax.swing.*;
 import javax.swing.tree.DefaultTreeCellEditor;
@@ -13,9 +13,9 @@ import java.util.EventObject;
 
 public class ClassyTreeCellEditor extends DefaultTreeCellEditor implements ActionListener {
     //JTextField nametf;
-    ClassyTreeItem selitem;
+    ClassyTreeItem selitem;//..
     public Component getTreeCellEditorComponent(JTree arg0, Object arg1, boolean arg2, boolean arg3, boolean arg4, int arg5) {
-        JTextField nametf=new JTextField(); //#TODO name gen here
+        JTextField nametf=new JTextField(); //#name hint here?
         nametf.addActionListener(this);
         selitem=(ClassyTreeItem) arg1;
         return nametf;
@@ -32,7 +32,7 @@ public class ClassyTreeCellEditor extends DefaultTreeCellEditor implements Actio
     }
 
     @Override
-    public void actionPerformed(ActionEvent e) {
+    public void actionPerformed(ActionEvent e) {///!!!!!!! call from controller...
         selitem.setName(e.getActionCommand());
     }
 }

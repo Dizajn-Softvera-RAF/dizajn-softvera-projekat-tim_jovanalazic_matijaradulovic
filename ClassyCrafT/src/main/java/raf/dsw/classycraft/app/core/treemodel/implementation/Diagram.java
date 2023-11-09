@@ -1,6 +1,6 @@
-package raf.dsw.classycraft.app.core.treerepo.implementation;
+package raf.dsw.classycraft.app.core.treemodel.implementation;
 
-import raf.dsw.classycraft.app.core.treerepo.abstraction.ClassyNode;
+import raf.dsw.classycraft.app.core.treemodel.abstraction.ClassyNode;
 
 public class Diagram extends ClassyNode {
     public Diagram(String name, ClassyNode parent) {

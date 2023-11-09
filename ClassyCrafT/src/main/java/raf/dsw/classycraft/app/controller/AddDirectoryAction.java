@@ -1,5 +1,7 @@
 package raf.dsw.classycraft.app.controller;
 
+import raf.dsw.classycraft.app.gui.main.MainFrame;
+
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.InputEvent;
@@ -17,6 +19,7 @@ public class AddDirectoryAction extends AbstractClassyAction{
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        //#TODO
+        //....
+        MainFrame.getInstance().getTree().AppendCild();
     }
 }

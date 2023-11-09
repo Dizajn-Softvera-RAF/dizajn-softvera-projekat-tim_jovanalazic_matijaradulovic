@@ -1,15 +1,14 @@
-package raf.dsw.classycraft.app.gui.tree.view;
+package raf.dsw.classycraft.app.gui.treeview.view;
 
-import raf.dsw.classycraft.app.core.treerepo.abstraction.ClassyNode;
-import raf.dsw.classycraft.app.core.treerepo.implementation.Diagram;
-import raf.dsw.classycraft.app.core.treerepo.implementation.Package;
-import raf.dsw.classycraft.app.core.treerepo.implementation.Project;
-import raf.dsw.classycraft.app.core.treerepo.implementation.ProjectExplorer;
-import raf.dsw.classycraft.app.gui.tree.model.ClassyTreeItem;
+import raf.dsw.classycraft.app.core.treemodel.abstraction.ClassyNode;
+import raf.dsw.classycraft.app.core.treemodel.implementation.Diagram;
+import raf.dsw.classycraft.app.core.treemodel.implementation.Package;
+import raf.dsw.classycraft.app.core.treemodel.implementation.Project;
+import raf.dsw.classycraft.app.core.treemodel.implementation.ProjectExplorer;
+import raf.dsw.classycraft.app.gui.treeview.model.ClassyTreeItem;
 
 import javax.swing.*;
 import javax.swing.tree.DefaultTreeCellRenderer;
-import javax.swing.tree.TreeNode;
 import java.awt.*;
 import java.net.URL;
 
@@ -35,7 +34,7 @@ public class ClassyTreeCellRenderer extends DefaultTreeCellRenderer {
         if (imageURL != null)
         {
             Image img = new ImageIcon(imageURL).getImage();
-            Image newImg = img.getScaledInstance(25,25,Image.SCALE_DEFAULT);
+            Image newImg = img.getScaledInstance(18,18,Image.SCALE_DEFAULT);
             setIcon(new ImageIcon(newImg));
         }
 
