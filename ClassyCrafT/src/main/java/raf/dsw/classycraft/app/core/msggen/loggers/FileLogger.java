@@ -4,6 +4,7 @@ import raf.dsw.classycraft.app.core.ApplicationFramework;
 import raf.dsw.classycraft.app.core.msggen.msg.Message;
 
 import java.io.*;
+import java.util.Objects;
 
 public class FileLogger implements Logger{
     File logfile;
@@ -11,7 +12,7 @@ public class FileLogger implements Logger{
     public FileLogger() {
         ApplicationFramework.getInstance().getMsgGen().addSubscriber(this);
 
-        logfile= new File(getClass().getResource("/logs/log.txt").getPath());
+        logfile= new File(Objects.requireNonNull(getClass().getResource("/logs/log.txt")).getPath());
     }
 
     @Override
@@ -21,16 +22,14 @@ public class FileLogger implements Logger{
 
     @Override
     public void log(Message msg) {
-        try {
-            FileWriter fw = new FileWriter(logfile, true);
-            BufferedWriter bw = new BufferedWriter(fw);
+
+        try(FileWriter fw = new FileWriter(logfile, true); BufferedWriter bw = new BufferedWriter(fw)) {
             bw.write(msg.toString());
             bw.newLine();
-            bw.close();
         }
         catch (Exception e)
         {
-
+            System.err.println(e.getMessage());
         }
 
     }

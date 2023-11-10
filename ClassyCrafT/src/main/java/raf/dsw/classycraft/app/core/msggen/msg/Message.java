@@ -36,7 +36,7 @@ public class Message {
 
     @Override
     public String toString() {
-        return String.format("[%s][%s] %s",type.name(),timestamp.format(DateTimeFormatter.ofPattern("dd.MM.YYYY HH:mm")),text);
+        return String.format("[%s][%s] %s",type.name(),timestamp.format(DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm")),text);
     }
 }
 

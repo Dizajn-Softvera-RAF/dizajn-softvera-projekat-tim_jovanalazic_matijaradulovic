@@ -1,5 +1,7 @@
 package raf.dsw.classycraft.app.gui.treeview.controller;
 
+import raf.dsw.classycraft.app.core.ApplicationFramework;
+import raf.dsw.classycraft.app.gui.main.MainFrame;
 import raf.dsw.classycraft.app.gui.treeview.model.ClassyTreeItem;
 
 import javax.swing.*;
@@ -13,11 +15,11 @@ import java.util.EventObject;
 
 public class ClassyTreeCellEditor extends DefaultTreeCellEditor implements ActionListener {
     //JTextField nametf;
-    ClassyTreeItem selitem;//..
     public Component getTreeCellEditorComponent(JTree arg0, Object arg1, boolean arg2, boolean arg3, boolean arg4, int arg5) {
         JTextField nametf=new JTextField(); //#name hint here?
         nametf.addActionListener(this);
-        selitem=(ClassyTreeItem) arg1;
+        //selitem=(ClassyTreeItem) arg1;
+        nametf.setPreferredSize(new Dimension(50,20));
         return nametf;
 
     }
@@ -32,7 +34,9 @@ public class ClassyTreeCellEditor extends DefaultTreeCellEditor implements Actio
     }
 
     @Override
-    public void actionPerformed(ActionEvent e) {///!!!!!!! call from controller...
-        selitem.setName(e.getActionCommand());
+    public void actionPerformed(ActionEvent e)  {///!!!!!!! call from controller...
+          if(!MainFrame.getInstance().getTree().RenameSel( e.getActionCommand()))
+              ApplicationFramework.getInstance().getMsgGen().generateErrorMessage("Neadekvatno ime");
+
     }
 }

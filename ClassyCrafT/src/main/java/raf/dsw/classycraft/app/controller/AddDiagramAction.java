@@ -1,5 +1,8 @@
 package raf.dsw.classycraft.app.controller;
 
+import raf.dsw.classycraft.app.core.ApplicationFramework;
+import raf.dsw.classycraft.app.gui.main.MainFrame;
+
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 
@@ -16,5 +19,12 @@ public class AddDiagramAction extends AbstractClassyAction{
     public void actionPerformed(ActionEvent e) {
         //im blue da ba dee da ba dae
         //da ba deeeeeeeeee da ba daaaaaaaaaae
+        if(!MainFrame.getInstance().getTree().isPackSel()) {
+            ApplicationFramework.getInstance().getMsgGen().generateErrorMessage("Dijagram mora biti u okviru paketa!");
+            return;
+        }
+        MainFrame.getInstance().getTree().AppendChild("diagram");
+
+
     }
 }

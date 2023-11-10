@@ -1,39 +1,37 @@
-package raf.dsw.classycraft.app.core.treemodel.abstraction;
+package raf.dsw.classycraft.app.core.treemodel.nodes;
 
 import java.util.Objects;
 
 public abstract class ClassyNode {
+
+    protected String name;
     public String getName() {
         return name;
     }
 
-    protected String name;
+    public void setName(String name) {
+        this.name=name;
+    }
+
+    protected ClassyNode parent;
+
+    public void setParent(ClassyNodeComposite parent) {
+        this.parent=parent;
+    }
 
     public ClassyNode getParent() {
         return parent;
     }
-
-    protected ClassyNode parent;
 
     public ClassyNode(String name, ClassyNode parent) {
         this.name = name;
         this.parent = parent;
     }
 
-    public ClassyNode(String name) {
-        this.name = name;
+    public ClassyNode() {
     }
 
-    public void setParent(ClassyNode parent) {
-        this.parent = parent;
-    }
-
-
-    public void setName(String name) {
-        this.name=name;
-    }
-    public String getFullName() //hmljmvmlj
-    {
+    public String getFullName() {
         return parent!=null? parent.getFullName()+name+"/" : "/";
     }
 

@@ -1,18 +1,21 @@
 package raf.dsw.classycraft.app.gui.treeview;
 
 import raf.dsw.classycraft.app.core.ApplicationFramework;
-import raf.dsw.classycraft.app.core.treemodel.abstraction.ClassyNode;
-import raf.dsw.classycraft.app.core.treemodel.abstraction.ClassyNodeComposite;
-import raf.dsw.classycraft.app.core.treemodel.implementation.ProjectExplorer;
+import raf.dsw.classycraft.app.core.treemodel.ClassyRepository;
+import raf.dsw.classycraft.app.core.treemodel.factory.AbstractNodeFactory;
+import raf.dsw.classycraft.app.core.treemodel.nodes.*;
+import raf.dsw.classycraft.app.core.treemodel.nodes.Package;
 import raf.dsw.classycraft.app.gui.treeview.model.ClassyTreeItem;
 import raf.dsw.classycraft.app.gui.treeview.view.ClassyTreeView;
 
 import javax.swing.*;
 import javax.swing.tree.DefaultTreeModel;
+import javax.swing.tree.TreePath;
+import javax.swing.tree.TreeSelectionModel;
 
 public class ClassyTreeImplementation implements ClassyTree {
 
-    private ClassyTreeView treeView;//arghhh
+    private ClassyTreeView treeView;
 
 
 
@@ -21,43 +24,60 @@ public class ClassyTreeImplementation implements ClassyTree {
         ClassyTreeItem root= new ClassyTreeItem(pe);
         DefaultTreeModel dtm=new DefaultTreeModel(root);
 
-        return treeView= new ClassyTreeView(dtm);
+        treeView= new ClassyTreeView(dtm);
+        treeView.setSelectionPath(new TreePath(root));
+        treeView.getSelectionModel().setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
+        return treeView;
     }
 
     @Override
-    public boolean AddChild(ClassyTreeItem parentItem) { //named child??
+    public boolean AddChild(ClassyTreeItem parentItem, String type) {
         if(! (parentItem.getNode() instanceof ClassyNodeComposite parentNode) ){
             ApplicationFramework.getInstance().getMsgGen().generateErrorMessage("Dodavanje nije moguće");
-            //log..
+                return false;
+        }
 
+        ClassyNode newNode= CreateNode(parentNode,type);
+        if(newNode==null){
             return false;
         }
-        ClassyNode newNode= CreateNode(parentNode);
         ClassyTreeItem newItem=new ClassyTreeItem(newNode);
         parentNode.AddChild(newNode);
         parentItem.add(newItem);
         treeView.expandPath(treeView.getSelectionPath());
+        treeView.setSelectionPath(treeView.getSelectionPath().pathByAddingChild(newItem));
         SwingUtilities.updateComponentTreeUI(treeView);
-
         return true;
     }
 
     @Override
-    public ClassyNode CreateNode(ClassyNodeComposite parent) {
-        //switch...
-        //return  parent.genChild();
-        return  parent.genChild2();
+    public ClassyNode CreateNode(ClassyNodeComposite parent,String type) {
+        AbstractNodeFactory factory= ClassyRepository.getFactoryOf(parent.getClass().getSimpleName());
+        ClassyNode res= factory.createNode(type);
+        if(res==null)
+            return null;
+        res.setParent(parent);
+        parent.NameChild(res);
+        return res;
     }
-    ///!!!UPDATE TREE MODEL + view?
     @Override
-    public boolean RenameItem(String newName, ClassyTreeItem item) {///....cast cast cast cast error error error error
-        //check name conflict...
-        if(!((ClassyNodeComposite)item.getParent()).NameIsAvailable(newName))
-            return false;
+    public boolean RenameItem( ClassyTreeItem item,String newName) {///....cast cast cast cast error error error error
+        String oldName = item.toString();
         item.setName(newName);
         item.getNode().setName(newName);
-        SwingUtilities.updateComponentTreeUI(treeView);
-        return true;
+
+        if (((ClassyNodeComposite) ((ClassyTreeItem) item.getParent()).getNode()).isUnique(item.getNode())){
+            SwingUtilities.updateComponentTreeUI(treeView);
+            return true;
+        }
+        item.setName(oldName);
+        item.getNode().setName(oldName);
+        return false;
+    }
+    public  boolean RenameSel(String name){
+        if(getSelectedNode()!=null)
+            return RenameItem(getSelectedNode(),name);
+        return false;
     }
     public ClassyTreeItem getSelectedNode() {//..or? am I?
         return (ClassyTreeItem) treeView.getLastSelectedPathComponent();
@@ -65,21 +85,47 @@ public class ClassyTreeImplementation implements ClassyTree {
 
     @Override
     public void RemoveNode(ClassyTreeItem item) {
+        treeView.setSelectionPath(treeView.getSelectionPath().getParentPath());
+
         ClassyNode node= (ClassyNode)item.getNode();
         ((ClassyNodeComposite) node.getParent()).removeChild(node);
-        //item.getParent()
+
         ((DefaultTreeModel)treeView.getModel()).removeNodeFromParent(item);
         treeView.expandPath(treeView.getSelectionPath());
         SwingUtilities.updateComponentTreeUI(treeView);
     }
 
     @Override
-    public void AppendCild() {
-        AddChild(getSelectedNode());
+    public void AppendChild(String type) {
+        if(getSelectedNode()!=null)
+            AddChild(getSelectedNode(),type);
     }
 
     @Override
     public void RemoveSel() {
-        RemoveNode(getSelectedNode());
+
+        if(getSelectedNode()!=null)
+            RemoveNode(getSelectedNode());
+    }
+
+    @Override
+    public void RenameAuthSel(String name) {
+        ClassyTreeItem selitem=getSelectedNode();
+        if(selitem!=null&& selitem.getNode() instanceof Project p)
+        {
+            p.setAuthor(name);
+        }
+    }
+
+    @Override
+    public boolean isProjSel() {
+        ClassyTreeItem selitem = getSelectedNode();
+        return (selitem != null && selitem.getNode() instanceof Project p);
+    }
+
+    @Override
+    public boolean isPackSel() {
+        ClassyTreeItem selitem = getSelectedNode();
+        return (selitem != null && selitem.getNode() instanceof Package);
     }
 }

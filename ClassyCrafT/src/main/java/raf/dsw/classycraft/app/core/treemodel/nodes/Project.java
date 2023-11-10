@@ -1,11 +1,13 @@
-package raf.dsw.classycraft.app.core.treemodel.implementation;
-
-import raf.dsw.classycraft.app.core.treemodel.abstraction.ClassyNode;
-import raf.dsw.classycraft.app.core.treemodel.abstraction.ClassyNodeComposite;
+package raf.dsw.classycraft.app.core.treemodel.nodes;
 
 public class Project extends ClassyNodeComposite {
     static int projcount;
     String author;
+
+    public void setAuthor(String author) {
+        this.author = author;
+    }
+
     String path;
 
     public Project(String name, String author, String path, ClassyNode parent) {
@@ -14,7 +16,10 @@ public class Project extends ClassyNodeComposite {
         this.path=path;
     }
 
-    public Project(String name,ClassyNode parent) {
+    public Project() {
+    }
+
+    public Project(String name, ClassyNode parent) {
         super(name,parent);
         this.author="unknown";
         this.path="unknown";
@@ -24,14 +29,10 @@ public class Project extends ClassyNodeComposite {
         this("project"+projcount++,parent);
     }
 
-    @Override
-    public ClassyNode genChild() {
-        return new Package(this);
-    }
 
     @Override
-    public ClassyNode genChild(String name) {
-        return new Package(name,this);
+    public ClassyNode genChild() {
+        return new Package(null,this);
     }
 
 

@@ -19,6 +19,6 @@ public class TestAction extends AbstractClassyAction{
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        ApplicationFramework.getInstance().getMsgGen().generateMessage("Da li ovo radi?", MessageType.ERROR);
+        ApplicationFramework.getInstance().getMsgGen().generateMessage("Da li ovo radi?", MessageType.WARNING);
     }
 }
