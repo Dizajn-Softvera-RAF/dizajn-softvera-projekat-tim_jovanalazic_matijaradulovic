@@ -1,6 +1,7 @@
 package raf.dsw.classycraft.app.controller;
 
-import raf.dsw.classycraft.app.gui.main.MainFrame;
+import raf.dsw.classycraft.app.core.ApplicationFramework;
+import raf.dsw.classycraft.app.gui.swing.main.MainFrame;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -17,7 +18,13 @@ public class AddDirectoryAction extends AbstractClassyAction{
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        //....
-        MainFrame.getInstance().getTree().AppendChild(null);
+        if(!MainFrame.getInstance().getTree().isSel()) {
+            ApplicationFramework.getInstance().getMsgGen().generateInfoMessage("Izaberi lokaciju za dodavanje.");
+            return;
+        }
+        if(! MainFrame.getInstance().getTree().AppendChild(null)){
+            ApplicationFramework.getInstance().getMsgGen().generateErrorMessage("Dodavanje nije moguće");
+
+        }
     }
 }

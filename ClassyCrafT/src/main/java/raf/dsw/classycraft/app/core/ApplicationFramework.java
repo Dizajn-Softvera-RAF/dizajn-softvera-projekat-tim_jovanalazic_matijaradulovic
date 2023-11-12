@@ -23,7 +23,6 @@ public class ApplicationFramework {
 
     private static ApplicationFramework instance;
     private ApplicationFramework(){
-        //initialize();
     }
     private void initialize(){
         msgGen=new MessageGeneratorImplementation();

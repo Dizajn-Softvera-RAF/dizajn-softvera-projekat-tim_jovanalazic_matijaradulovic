@@ -1,26 +1,43 @@
-package raf.dsw.classycraft.app.gui.main;
+package raf.dsw.classycraft.app.gui.swing.main;
 
 import raf.dsw.classycraft.app.core.ApplicationFramework;
 import raf.dsw.classycraft.app.core.msggen.generator.ISubscriber;
 import raf.dsw.classycraft.app.core.msggen.msg.Message;
 import raf.dsw.classycraft.app.core.msggen.msg.MessageType;
 import raf.dsw.classycraft.app.core.treemodel.nodes.ProjectExplorer;
-import raf.dsw.classycraft.app.gui.treeview.ClassyTreeImplementation;
-import raf.dsw.classycraft.app.gui.treeview.view.ClassyTreeView;
+import raf.dsw.classycraft.app.gui.swing.main.pkgview.PackagePane;
+import raf.dsw.classycraft.app.gui.swing.main.pkgview.PackageTabbedPane;
+import raf.dsw.classycraft.app.gui.swing.treeview.ClassyTreeImplementation;
+import raf.dsw.classycraft.app.gui.swing.treeview.model.ClassyTreeItem;
+import raf.dsw.classycraft.app.gui.swing.treeview.view.ClassyTreeView;
 
 import javax.swing.*;
+import javax.swing.tree.TreePath;
 import java.awt.*;
 
 public class MainFrame extends JFrame implements ISubscriber {
     private static MainFrame instance;
-    ClassyTreeImplementation treee;
+    ClassyTreeImplementation tree;
+    PackagePane pkgpane;
+
+    public void Test(){
+        ClassyTreeItem parent=((ClassyTreeItem) tree.getTreeModel().getRoot());
+        tree.AddChild(parent,null);
+        parent= ((ClassyTreeItem) parent.getLastChild());
+        tree.AddChild(parent,null);
+        parent= ((ClassyTreeItem) parent.getLastChild());
+        tree.AddChild(parent,"diagram");
+        parent= ((ClassyTreeItem) parent.getLastChild());
+        tree.getView().expandPath(new TreePath(parent.getPath()));
+        tree.setSelectedItem(((ClassyTreeItem) parent.getParent()));
+        pkgpane.validate();
+    }
 
     public ClassyTreeImplementation getTree() {
-        return treee;
+        return tree;
     }
 
     public MainFrame() {
-        //initialize();
     }
 
     public static MainFrame getInstance() {
@@ -49,30 +66,17 @@ public class MainFrame extends JFrame implements ISubscriber {
         ApplicationFramework.getInstance().getMsgGen().addSubscriber(this);
 
         ProjectExplorer pe= ApplicationFramework.getInstance().getTreeRepo().getRoot();
-        ClassyTreeView tw=(treee= new ClassyTreeImplementation()).generateTree(pe); //...
-        JPanel jpr=new JPanel();
-        jpr.setLayout(new BoxLayout(jpr,BoxLayout.Y_AXIS));
-        JPanel jlt=new JPanel();
-        jlt.setMaximumSize(new Dimension(500,55));
-        JLabel jlproj=new JLabel("Naziv projekta ovde");
-        jlproj.setAlignmentX(JComponent.LEFT_ALIGNMENT);
-        JLabel jlauth=new JLabel("Ime autora ovde");
-        jlauth.setAlignmentX(JComponent.LEFT_ALIGNMENT);
-
-        jlt.add(jlproj);
-        jlt.add(jlauth);
-        jpr.add(jlt);
-
-        JTabbedPane tp=new JTabbedPane();
-        tp.add("dij1",new DiagramViewPane());
-        tw.setMinimumSize(new Dimension(150,100));
-        jpr.add(tp);
-
+        ClassyTreeView tw=(tree = new ClassyTreeImplementation()).generateTree(pe);
+        pkgpane=new PackagePane();
         JPanel jp=new JPanel(new FlowLayout(FlowLayout.LEFT));
         jp.add(tw);
-        JSplitPane sp= new JSplitPane(JSplitPane.HORIZONTAL_SPLIT,jp,jpr);
+        JSplitPane sp= new JSplitPane(JSplitPane.HORIZONTAL_SPLIT,jp,pkgpane);
         sp.setDividerLocation(200);
         add(sp);
+        Test();
+
+        setVisible(true);
+
     }
 
     @Override

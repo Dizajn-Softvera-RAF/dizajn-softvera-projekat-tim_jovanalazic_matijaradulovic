@@ -1,13 +1,21 @@
 package raf.dsw.classycraft.app.core.treemodel.nodes;
 
-public class Project extends ClassyNodeComposite {
-    static int projcount;
+import raf.dsw.classycraft.app.core.msggen.generator.IPublisher;
+import raf.dsw.classycraft.app.core.msggen.generator.ISubscriber;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class Project extends ClassyNodeComposite implements IPublisher {
     String author;
 
     public void setAuthor(String author) {
         this.author = author;
+        notifySubscribers(this);
     }
-
+    public String getAuthor(){
+        return author;
+    }
     String path;
 
     public Project(String name, String author, String path, ClassyNode parent) {
@@ -17,6 +25,7 @@ public class Project extends ClassyNodeComposite {
     }
 
     public Project() {
+        author="unknown";
     }
 
     public Project(String name, ClassyNode parent) {
@@ -25,14 +34,24 @@ public class Project extends ClassyNodeComposite {
         this.path="unknown";
     }
 
-    public Project(ClassyNode parent) {
-        this("project"+projcount++,parent);
+
+
+    List<ISubscriber> subscribers=new ArrayList<>();
+    @Override
+    public void addSubscriber(ISubscriber subscr) {
+        subscribers.add(subscr);
     }
 
+    @Override
+    public void removeSubscriber(ISubscriber subscr) {
+        subscribers.remove(subscr);
+    }
 
     @Override
-    public ClassyNode genChild() {
-        return new Package(null,this);
+    public void notifySubscribers(Object notification) {
+        for (ISubscriber sub:subscribers) {
+            sub.react (this);
+        }
     }
 
 

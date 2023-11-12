@@ -10,7 +10,7 @@ import raf.dsw.classycraft.app.core.treemodel.nodes.Package;
 public interface ClassyRepository {
     ClassyNodeComposite getRoot();
 
-    public static AbstractNodeFactory getFactoryOf(String name) {
+     static AbstractNodeFactory getFactoryOf(String name) {
         String pkg = Package.class.getSimpleName();
         String proj = Project.class.getSimpleName();
         String exp = ProjectExplorer.class.getSimpleName();

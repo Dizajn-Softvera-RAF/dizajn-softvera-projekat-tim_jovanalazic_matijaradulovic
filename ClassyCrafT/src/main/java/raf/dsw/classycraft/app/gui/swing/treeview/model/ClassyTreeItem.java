@@ -1,4 +1,4 @@
-package raf.dsw.classycraft.app.gui.treeview.model;
+package raf.dsw.classycraft.app.gui.swing.treeview.model;
 
 import raf.dsw.classycraft.app.core.treemodel.nodes.ClassyNode;
 
@@ -21,6 +21,6 @@ public class ClassyTreeItem extends DefaultMutableTreeNode {
     }
 
     public void setName(String name) {
-        node.setName(name); //ew
+        node.setName(name);
     }
 }

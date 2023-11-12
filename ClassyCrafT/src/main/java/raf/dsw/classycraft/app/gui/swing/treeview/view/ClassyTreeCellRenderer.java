@@ -1,11 +1,11 @@
-package raf.dsw.classycraft.app.gui.treeview.view;
+package raf.dsw.classycraft.app.gui.swing.treeview.view;
 
 import raf.dsw.classycraft.app.core.treemodel.nodes.ClassyNode;
 import raf.dsw.classycraft.app.core.treemodel.nodes.Diagram;
 import raf.dsw.classycraft.app.core.treemodel.nodes.Package;
 import raf.dsw.classycraft.app.core.treemodel.nodes.Project;
 import raf.dsw.classycraft.app.core.treemodel.nodes.ProjectExplorer;
-import raf.dsw.classycraft.app.gui.treeview.model.ClassyTreeItem;
+import raf.dsw.classycraft.app.gui.swing.treeview.model.ClassyTreeItem;
 
 import javax.swing.*;
 import javax.swing.tree.DefaultTreeCellRenderer;

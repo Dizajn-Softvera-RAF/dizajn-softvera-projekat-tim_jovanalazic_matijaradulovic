@@ -1,4 +1,4 @@
-package raf.dsw.classycraft.app.gui.main;
+package raf.dsw.classycraft.app.gui.swing.main;
 
 import raf.dsw.classycraft.app.controller.*;
 
@@ -14,8 +14,8 @@ public class MyToolBar extends JToolBar {
         add(new AddDirectoryAction());
         add(new AddDiagramAction());
         add(new RemoveAction());
-        add(new EditNameAction());
-        add(new AddProjInfoAction());
+        add(new RenameAction());
+        add(new EditProjInfoAction());
         add(new TestAction());
 
     }
