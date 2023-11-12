@@ -1,11 +1,9 @@
 package raf.dsw.classycraft.app.controller;
 
-import raf.dsw.classycraft.app.gui.swing.view.AboutUsFrame;
+import raf.dsw.classycraft.app.gui.swing.popups.AboutUsFrame;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
-import java.awt.event.InputEvent;
-import java.awt.event.KeyEvent;
 
 public class AboutUsAction extends AbstractClassyAction{
 
