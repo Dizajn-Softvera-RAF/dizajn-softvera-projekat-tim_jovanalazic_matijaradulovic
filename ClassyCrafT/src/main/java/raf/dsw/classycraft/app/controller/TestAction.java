@@ -8,7 +8,7 @@ import java.awt.event.ActionEvent;
 
 public class TestAction extends AbstractClassyAction{
     public TestAction() {
-        Icon icon=this.loadIcon("/images/?.png");
+        Icon icon=this.loadIcon("/images/qmark.png");
         putValue(SMALL_ICON, icon);
         putValue(NAME, "Test");
         putValue(SHORT_DESCRIPTION, "For debugging");
