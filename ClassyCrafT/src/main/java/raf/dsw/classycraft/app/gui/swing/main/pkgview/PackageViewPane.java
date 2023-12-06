@@ -1,8 +1,8 @@
 package raf.dsw.classycraft.app.gui.swing.main.pkgview;
 
 import raf.dsw.classycraft.app.core.msggen.generator.ISubscriber;
-import raf.dsw.classycraft.app.core.treemodel.nodes.Package;
-import raf.dsw.classycraft.app.core.treemodel.nodes.Project;
+import raf.dsw.classycraft.app.core.treemodel.nodes.projNodes.Package;
+import raf.dsw.classycraft.app.core.treemodel.nodes.projNodes.Project;
 import raf.dsw.classycraft.app.gui.swing.main.MainFrame;
 import raf.dsw.classycraft.app.gui.swing.treeview.model.ClassyTreeItem;
 

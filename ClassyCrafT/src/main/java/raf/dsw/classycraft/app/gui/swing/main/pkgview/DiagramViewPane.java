@@ -1,7 +1,7 @@
 package raf.dsw.classycraft.app.gui.swing.main.pkgview;
 
 import raf.dsw.classycraft.app.core.msggen.generator.ISubscriber;
-import raf.dsw.classycraft.app.core.treemodel.nodes.Diagram;
+import raf.dsw.classycraft.app.core.treemodel.nodes.projNodes.Diagram;
 
 import javax.swing.*;
 

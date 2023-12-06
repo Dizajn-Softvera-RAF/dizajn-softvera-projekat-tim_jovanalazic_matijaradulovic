@@ -6,7 +6,7 @@ import raf.dsw.classycraft.app.core.msggen.generator.ISubscriber;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Diagram extends ClassyNode implements IPublisher {
+public class Diagram extends ClassyNodeComposite implements IPublisher {
     public Diagram(String name, ClassyNode parent) {
         super(name, parent);
     }
@@ -35,5 +35,11 @@ public class Diagram extends ClassyNode implements IPublisher {
         for (ISubscriber sub:subscribers) {
             sub.react (this);
         }
+    }
+
+    @Override
+    public void AddChild(ClassyNode child) {
+        super.AddChild(child);
+        notifySubscribers(this);
     }
 }
