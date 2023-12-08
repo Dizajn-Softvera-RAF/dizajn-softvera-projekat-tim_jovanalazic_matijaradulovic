@@ -4,8 +4,10 @@ import raf.dsw.classycraft.app.core.treemodel.factory.AbstractNodeFactory;
 import raf.dsw.classycraft.app.core.treemodel.factory.ExplorerFactory;
 import raf.dsw.classycraft.app.core.treemodel.factory.PackageFactory;
 import raf.dsw.classycraft.app.core.treemodel.factory.ProjectFactory;
-import raf.dsw.classycraft.app.core.treemodel.nodes.*;
-import raf.dsw.classycraft.app.core.treemodel.nodes.Package;
+import raf.dsw.classycraft.app.core.treemodel.nodes.abstractNodes.ClassyNodeComposite;
+import raf.dsw.classycraft.app.core.treemodel.nodes.projNodes.Package;
+import raf.dsw.classycraft.app.core.treemodel.nodes.projNodes.Project;
+import raf.dsw.classycraft.app.core.treemodel.nodes.projNodes.ProjectExplorer;
 
 public interface ClassyRepository {
     ClassyNodeComposite getRoot();

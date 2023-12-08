@@ -1,6 +1,6 @@
 package raf.dsw.classycraft.app.core.treemodel;
 
-import raf.dsw.classycraft.app.core.treemodel.nodes.ProjectExplorer;
+import raf.dsw.classycraft.app.core.treemodel.nodes.projNodes.ProjectExplorer;
 
 public class ClassyRepositoryImplementation implements ClassyRepository {
     ProjectExplorer root;

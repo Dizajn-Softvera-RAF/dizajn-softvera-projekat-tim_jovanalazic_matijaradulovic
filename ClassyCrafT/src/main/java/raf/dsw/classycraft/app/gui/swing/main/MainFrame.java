@@ -1,12 +1,12 @@
 package raf.dsw.classycraft.app.gui.swing.main;
 
+import raf.dsw.classycraft.app.controller.ActionManager;
 import raf.dsw.classycraft.app.core.ApplicationFramework;
-import raf.dsw.classycraft.app.core.msggen.generator.ISubscriber;
-import raf.dsw.classycraft.app.core.msggen.msg.Message;
-import raf.dsw.classycraft.app.core.msggen.msg.MessageType;
-import raf.dsw.classycraft.app.core.treemodel.nodes.ProjectExplorer;
-import raf.dsw.classycraft.app.gui.swing.main.pkgview.PackagePane;
-import raf.dsw.classycraft.app.gui.swing.main.pkgview.PackageTabbedPane;
+import raf.dsw.classycraft.app.core.msggen.ISubscriber;
+import raf.dsw.classycraft.app.core.msggen.Message;
+import raf.dsw.classycraft.app.core.msggen.MessageType;
+import raf.dsw.classycraft.app.core.treemodel.nodes.projNodes.ProjectExplorer;
+import raf.dsw.classycraft.app.gui.swing.main.pkgview.PackageViewPane;
 import raf.dsw.classycraft.app.gui.swing.treeview.ClassyTreeImplementation;
 import raf.dsw.classycraft.app.gui.swing.treeview.model.ClassyTreeItem;
 import raf.dsw.classycraft.app.gui.swing.treeview.view.ClassyTreeView;
@@ -18,7 +18,14 @@ import java.awt.*;
 public class MainFrame extends JFrame implements ISubscriber {
     private static MainFrame instance;
     ClassyTreeImplementation tree;
-    PackagePane pkgpane;
+
+    public PackageViewPane getPkgpane() {
+        return pkgpane;
+    }
+
+    PackageViewPane pkgpane;
+    ActionManager actions;
+
 
     public void Test(){
         ClassyTreeItem parent=((ClassyTreeItem) tree.getTreeModel().getRoot());
@@ -49,6 +56,7 @@ public class MainFrame extends JFrame implements ISubscriber {
     }
 
     private void initialize() {
+        actions=new ActionManager();
         Toolkit kit = Toolkit.getDefaultToolkit();
         Dimension screenSize = kit.getScreenSize();
         int screenHeight = screenSize.height;
@@ -67,7 +75,7 @@ public class MainFrame extends JFrame implements ISubscriber {
 
         ProjectExplorer pe= ApplicationFramework.getInstance().getTreeRepo().getRoot();
         ClassyTreeView tw=(tree = new ClassyTreeImplementation()).generateTree(pe);
-        pkgpane=new PackagePane();
+        pkgpane=new PackageViewPane();
         JPanel jp=new JPanel(new FlowLayout(FlowLayout.LEFT));
         jp.add(tw);
         JSplitPane sp= new JSplitPane(JSplitPane.HORIZONTAL_SPLIT,jp,pkgpane);
@@ -76,7 +84,10 @@ public class MainFrame extends JFrame implements ISubscriber {
         Test();
 
         setVisible(true);
+    }
 
+    public ActionManager getActions() {
+        return actions;
     }
 
     @Override

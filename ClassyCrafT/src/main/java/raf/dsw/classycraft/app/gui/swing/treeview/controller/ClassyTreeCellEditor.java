@@ -1,8 +1,7 @@
 package raf.dsw.classycraft.app.gui.swing.treeview.controller;
 
 import raf.dsw.classycraft.app.core.ApplicationFramework;
-import raf.dsw.classycraft.app.core.treemodel.nodes.Project;
-import raf.dsw.classycraft.app.core.treemodel.nodes.ProjectExplorer;
+import raf.dsw.classycraft.app.core.treemodel.nodes.projNodes.ProjectExplorer;
 import raf.dsw.classycraft.app.gui.swing.main.MainFrame;
 import raf.dsw.classycraft.app.gui.swing.treeview.model.ClassyTreeItem;
 import raf.dsw.classycraft.app.gui.swing.treeview.view.ClassyTreeView;

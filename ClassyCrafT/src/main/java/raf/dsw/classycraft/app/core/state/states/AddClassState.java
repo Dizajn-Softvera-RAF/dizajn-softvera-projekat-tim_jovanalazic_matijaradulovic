@@ -1,4 +1,22 @@
-package raf.dsw.classycraft.app.core.state;
+package raf.dsw.classycraft.app.core.state.states;
 
-public class AddClassState extends State{
+import raf.dsw.classycraft.app.core.state.State;
+
+import java.awt.*;
+
+public class AddClassState extends State {
+    @Override
+    public void mouseDown(Point pos) {
+
+    }
+
+    @Override
+    public void mouseUp(Point pos) {
+
+    }
+
+    @Override
+    public void mouseDrag(Point pos) {
+
+    }
 }

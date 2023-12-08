@@ -1,7 +1,9 @@
-package raf.dsw.classycraft.app.core.treemodel.nodes;
+package raf.dsw.classycraft.app.core.treemodel.nodes.projNodes;
 
-import raf.dsw.classycraft.app.core.msggen.generator.IPublisher;
-import raf.dsw.classycraft.app.core.msggen.generator.ISubscriber;
+import raf.dsw.classycraft.app.core.msggen.IPublisher;
+import raf.dsw.classycraft.app.core.msggen.ISubscriber;
+import raf.dsw.classycraft.app.core.treemodel.nodes.abstractNodes.ClassyNode;
+import raf.dsw.classycraft.app.core.treemodel.nodes.abstractNodes.ClassyNodeComposite;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,16 +27,21 @@ public class Project extends ClassyNodeComposite implements IPublisher {
     }
 
     public Project() {
-        author="unknown";
+        author="nepoznat";
     }
 
     public Project(String name, ClassyNode parent) {
         super(name,parent);
-        this.author="unknown";
-        this.path="unknown";
+        this.author="nepoznat";
+        this.path="nepoznat";
     }
 
 
+    @Override
+    public void setName(String name) {
+        super.setName(name);
+        notifySubscribers(this);
+    }
 
     List<ISubscriber> subscribers=new ArrayList<>();
     @Override

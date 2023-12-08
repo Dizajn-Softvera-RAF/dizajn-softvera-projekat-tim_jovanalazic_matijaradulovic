@@ -1,4 +1,4 @@
-package raf.dsw.classycraft.app.core.msggen.generator;
+package raf.dsw.classycraft.app.core.msggen;
 
 public interface IPublisher {
     void addSubscriber(ISubscriber subscr);

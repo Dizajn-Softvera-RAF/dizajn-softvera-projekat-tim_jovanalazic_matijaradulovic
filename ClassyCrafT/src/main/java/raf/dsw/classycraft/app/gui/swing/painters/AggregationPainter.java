@@ -1,4 +1,10 @@
 package raf.dsw.classycraft.app.gui.swing.painters;
 
-public class AggregationPainter {
+import java.awt.*;
+
+public class AggregationPainter extends ElementPainter{
+    @Override
+    public void paint(Graphics2D g) {
+
+    }
 }

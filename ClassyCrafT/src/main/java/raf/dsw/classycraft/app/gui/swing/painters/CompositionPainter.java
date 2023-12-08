@@ -1,4 +1,11 @@
 package raf.dsw.classycraft.app.gui.swing.painters;
 
-public class CompositionPainter {
+import java.awt.*;
+
+public class CompositionPainter extends ElementPainter{
+    @Override
+    public void paint(Graphics2D g) {
+
+    }
+
 }

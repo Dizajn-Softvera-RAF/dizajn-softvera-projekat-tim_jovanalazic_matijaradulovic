@@ -1,10 +1,12 @@
 package raf.dsw.classycraft.app.controller;
 
+import raf.dsw.classycraft.app.gui.swing.main.MainFrame;
+
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 
-public class AddEnumAction extends AbstractClassyAction{
-    public AddEnumAction() {
+public class EnumAction extends AbstractClassyAction{
+    public EnumAction() {
         Icon icon=this.loadIcon("/images/enu.png");
         putValue(SMALL_ICON, icon);
         putValue(NAME, "Add new enum");
@@ -13,6 +15,7 @@ public class AddEnumAction extends AbstractClassyAction{
 
     @Override
     public void actionPerformed(ActionEvent e) {
+        MainFrame.getInstance().getPkgpane().StartEnumState();
 
     }
 }

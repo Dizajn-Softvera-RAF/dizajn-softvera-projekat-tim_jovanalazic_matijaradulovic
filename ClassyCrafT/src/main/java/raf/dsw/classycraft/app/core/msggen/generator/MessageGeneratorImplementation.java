@@ -1,7 +1,9 @@
 package raf.dsw.classycraft.app.core.msggen.generator;
 
-import raf.dsw.classycraft.app.core.msggen.msg.Message;
-import raf.dsw.classycraft.app.core.msggen.msg.MessageType;
+import raf.dsw.classycraft.app.core.msggen.IPublisher;
+import raf.dsw.classycraft.app.core.msggen.ISubscriber;
+import raf.dsw.classycraft.app.core.msggen.Message;
+import raf.dsw.classycraft.app.core.msggen.MessageType;
 
 import java.util.ArrayList;
 import java.util.List;

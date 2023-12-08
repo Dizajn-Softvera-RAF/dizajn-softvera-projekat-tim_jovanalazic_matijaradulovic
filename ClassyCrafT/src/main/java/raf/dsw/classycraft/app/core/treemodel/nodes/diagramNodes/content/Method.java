@@ -1,2 +1,4 @@
-package raf.dsw.classycraft.app.core.treemodel.nodes.diagramNodes.content;public class Method {
+package raf.dsw.classycraft.app.core.treemodel.nodes.diagramNodes.content;
+
+public class Method extends ClassContent{
 }

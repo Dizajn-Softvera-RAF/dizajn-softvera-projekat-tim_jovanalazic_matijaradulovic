@@ -15,7 +15,7 @@ public class MyToolBar extends JToolBar {
         add(new AddDiagramAction());
         add(new RemoveAction());
         add(new RenameAction());
-        add(new EditProjInfoAction());
+        add(new EditAuthorAction());
         add(new TestAction());
 
     }

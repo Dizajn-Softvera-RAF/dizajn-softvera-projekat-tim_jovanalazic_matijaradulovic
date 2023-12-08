@@ -1,10 +1,10 @@
-package raf.dsw.classycraft.app.core.treemodel.nodes;
+package raf.dsw.classycraft.app.core.treemodel.nodes.abstractNodes;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public abstract class ClassyNodeComposite extends ClassyNode{
-    List<ClassyNode> children=new ArrayList<>();
+    protected List<ClassyNode> children=new ArrayList<>();
 
     public ClassyNodeComposite(String name, ClassyNode parent) {
         super(name, parent);

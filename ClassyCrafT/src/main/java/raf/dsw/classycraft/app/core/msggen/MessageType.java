@@ -1,4 +1,4 @@
-package raf.dsw.classycraft.app.core.msggen.msg;
+package raf.dsw.classycraft.app.core.msggen;
 
 public enum MessageType {
     ERROR(0),

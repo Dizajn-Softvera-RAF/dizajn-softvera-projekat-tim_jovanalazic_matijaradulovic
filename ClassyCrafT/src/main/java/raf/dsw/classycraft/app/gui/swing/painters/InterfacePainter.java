@@ -1,4 +1,10 @@
 package raf.dsw.classycraft.app.gui.swing.painters;
 
-public class InterfacePainter {
+import java.awt.*;
+
+public class InterfacePainter extends ElementPainter {
+    @Override
+    public void paint(Graphics2D g) {
+
+    }
 }

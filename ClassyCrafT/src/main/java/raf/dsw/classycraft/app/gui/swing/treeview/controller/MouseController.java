@@ -1,8 +1,5 @@
 package raf.dsw.classycraft.app.gui.swing.treeview.controller;
 
-import raf.dsw.classycraft.app.core.msggen.generator.IPublisher;
-import raf.dsw.classycraft.app.core.msggen.generator.ISubscriber;
-import raf.dsw.classycraft.app.core.treemodel.nodes.Diagram;
 import raf.dsw.classycraft.app.gui.swing.main.MainFrame;
 import raf.dsw.classycraft.app.gui.swing.treeview.model.ClassyTreeItem;
 
@@ -10,8 +7,6 @@ import javax.swing.*;
 import javax.swing.tree.TreePath;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.util.ArrayList;
-import java.util.List;
 
 public class MouseController extends MouseAdapter {
     @Override

@@ -1,8 +1,8 @@
 package raf.dsw.classycraft.app.core.msggen.loggers;
 
 import raf.dsw.classycraft.app.core.ApplicationFramework;
-import raf.dsw.classycraft.app.core.msggen.msg.Message;
-import raf.dsw.classycraft.app.core.msggen.msg.MessageType;
+import raf.dsw.classycraft.app.core.msggen.Message;
+import raf.dsw.classycraft.app.core.msggen.MessageType;
 
 public class ConsoleLogger implements Logger{
     @Override

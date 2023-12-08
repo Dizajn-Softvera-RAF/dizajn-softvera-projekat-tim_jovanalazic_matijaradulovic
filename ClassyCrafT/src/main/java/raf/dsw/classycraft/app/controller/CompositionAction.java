@@ -1,11 +1,13 @@
 package raf.dsw.classycraft.app.controller;
 
+import raf.dsw.classycraft.app.gui.swing.main.MainFrame;
+
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 
 
-public class AddCompositionAction extends AbstractClassyAction{
-    public AddCompositionAction() {
+public class CompositionAction extends AbstractClassyAction{
+    public CompositionAction() {
         Icon icon=this.loadIcon("/images/com.png");
         putValue(SMALL_ICON, icon);
         putValue(NAME, "Add composition relation");
@@ -14,6 +16,7 @@ public class AddCompositionAction extends AbstractClassyAction{
 
     @Override
     public void actionPerformed(ActionEvent e) {
+        MainFrame.getInstance().getPkgpane().StartCompostionState();
 
     }
 }

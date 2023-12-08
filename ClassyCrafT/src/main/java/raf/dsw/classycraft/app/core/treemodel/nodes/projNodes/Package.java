@@ -1,7 +1,9 @@
-package raf.dsw.classycraft.app.core.treemodel.nodes;
+package raf.dsw.classycraft.app.core.treemodel.nodes.projNodes;
 
-import raf.dsw.classycraft.app.core.msggen.generator.IPublisher;
-import raf.dsw.classycraft.app.core.msggen.generator.ISubscriber;
+import raf.dsw.classycraft.app.core.msggen.IPublisher;
+import raf.dsw.classycraft.app.core.msggen.ISubscriber;
+import raf.dsw.classycraft.app.core.treemodel.nodes.abstractNodes.ClassyNode;
+import raf.dsw.classycraft.app.core.treemodel.nodes.abstractNodes.ClassyNodeComposite;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -56,9 +58,9 @@ public class Package extends ClassyNodeComposite implements IPublisher {
 
     public Project getProject(){
         ClassyNode currper=this;
-        while ( !(currper.parent instanceof Project)){
-            currper=currper.parent;
+        while ( !(currper.getParent() instanceof Project)){
+            currper=currper.getParent();
         }
-        return (Project) currper.parent;
+        return (Project) currper.getParent();
     }
 }

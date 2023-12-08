@@ -1,7 +1,5 @@
 package raf.dsw.classycraft.app.gui.swing.treeview.controller;
 
-import raf.dsw.classycraft.app.core.ApplicationFramework;
-import raf.dsw.classycraft.app.core.msggen.msg.MessageType;
 import raf.dsw.classycraft.app.gui.swing.main.MainFrame;
 
 import javax.swing.*;

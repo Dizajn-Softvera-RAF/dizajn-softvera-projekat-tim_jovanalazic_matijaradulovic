@@ -4,8 +4,8 @@ import raf.dsw.classycraft.app.gui.swing.main.MainFrame;
 
 import javax.swing.*;
 
-public class DiagramToolBar extends JToolBar {
-    public DiagramToolBar(){
+public class SideToolBar extends JToolBar {
+    public SideToolBar(){
         super(JToolBar.VERTICAL);
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         add(MainFrame.getInstance().getActions().getSelectAction());

@@ -1,7 +1,7 @@
 package raf.dsw.classycraft.app.core.msggen.loggers;
 
 import raf.dsw.classycraft.app.core.ApplicationFramework;
-import raf.dsw.classycraft.app.core.msggen.msg.Message;
+import raf.dsw.classycraft.app.core.msggen.Message;
 
 import java.io.*;
 import java.util.Objects;

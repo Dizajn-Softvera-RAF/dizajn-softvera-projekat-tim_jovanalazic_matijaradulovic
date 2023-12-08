@@ -1,6 +1,6 @@
 package raf.dsw.classycraft.app.core.msggen.generator;
 
-import raf.dsw.classycraft.app.core.msggen.msg.MessageType;
+import raf.dsw.classycraft.app.core.msggen.MessageType;
 
 public interface MessageGenerator {
      void generateMessage(String text, MessageType type);

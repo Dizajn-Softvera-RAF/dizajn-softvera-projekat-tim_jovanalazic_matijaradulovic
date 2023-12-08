@@ -1,4 +1,6 @@
-package raf.dsw.classycraft.app.core.state;
+package raf.dsw.classycraft.app.core.state.states;
+
+import raf.dsw.classycraft.app.core.state.State;
 
 import java.awt.*;
 

@@ -1,7 +1,9 @@
-package raf.dsw.classycraft.app.core.treemodel.nodes;
+package raf.dsw.classycraft.app.core.treemodel.nodes.projNodes;
 
-import raf.dsw.classycraft.app.core.msggen.generator.IPublisher;
-import raf.dsw.classycraft.app.core.msggen.generator.ISubscriber;
+import raf.dsw.classycraft.app.core.msggen.IPublisher;
+import raf.dsw.classycraft.app.core.msggen.ISubscriber;
+import raf.dsw.classycraft.app.core.treemodel.nodes.abstractNodes.ClassyNode;
+import raf.dsw.classycraft.app.core.treemodel.nodes.abstractNodes.ClassyNodeComposite;
 
 import java.util.ArrayList;
 import java.util.List;

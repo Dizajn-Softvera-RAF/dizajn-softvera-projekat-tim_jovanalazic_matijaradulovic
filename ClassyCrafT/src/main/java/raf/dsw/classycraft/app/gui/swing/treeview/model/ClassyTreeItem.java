@@ -1,6 +1,6 @@
 package raf.dsw.classycraft.app.gui.swing.treeview.model;
 
-import raf.dsw.classycraft.app.core.treemodel.nodes.ClassyNode;
+import raf.dsw.classycraft.app.core.treemodel.nodes.abstractNodes.ClassyNode;
 
 import javax.swing.tree.DefaultMutableTreeNode;
 

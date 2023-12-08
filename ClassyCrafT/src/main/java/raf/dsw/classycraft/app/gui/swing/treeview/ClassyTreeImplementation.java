@@ -1,11 +1,13 @@
 package raf.dsw.classycraft.app.gui.swing.treeview;
 
-import raf.dsw.classycraft.app.core.msggen.generator.IPublisher;
-import raf.dsw.classycraft.app.core.msggen.generator.ISubscriber;
+import raf.dsw.classycraft.app.core.msggen.IPublisher;
+import raf.dsw.classycraft.app.core.msggen.ISubscriber;
 import raf.dsw.classycraft.app.core.treemodel.ClassyRepository;
 import raf.dsw.classycraft.app.core.treemodel.factory.AbstractNodeFactory;
-import raf.dsw.classycraft.app.core.treemodel.nodes.*;
-import raf.dsw.classycraft.app.core.treemodel.nodes.Package;
+import raf.dsw.classycraft.app.core.treemodel.nodes.abstractNodes.ClassyNode;
+import raf.dsw.classycraft.app.core.treemodel.nodes.abstractNodes.ClassyNodeComposite;
+import raf.dsw.classycraft.app.core.treemodel.nodes.projNodes.Package;
+import raf.dsw.classycraft.app.core.treemodel.nodes.projNodes.ProjectExplorer;
 import raf.dsw.classycraft.app.gui.swing.treeview.model.ClassyTreeItem;
 import raf.dsw.classycraft.app.gui.swing.treeview.view.ClassyTreeView;
 

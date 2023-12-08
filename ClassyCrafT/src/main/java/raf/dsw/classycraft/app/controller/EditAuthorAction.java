@@ -8,7 +8,7 @@ import raf.dsw.classycraft.app.gui.swing.treeview.model.ClassyTreeItem;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 
-public class EditProjInfoAction extends AbstractClassyAction{
+public class EditAuthorAction extends AbstractClassyAction{
     Icon icon;
     @Override
     public void actionPerformed(ActionEvent e) {
@@ -33,7 +33,7 @@ public class EditProjInfoAction extends AbstractClassyAction{
         p.setAuthor(s);
 
     }
-    public EditProjInfoAction() {
+    public EditAuthorAction() {
         icon=this.loadIcon("/images/addauth.png");
         putValue(SMALL_ICON, icon);
         putValue(NAME, "Add info");

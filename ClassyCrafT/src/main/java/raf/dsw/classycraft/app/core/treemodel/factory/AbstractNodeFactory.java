@@ -1,6 +1,6 @@
 package raf.dsw.classycraft.app.core.treemodel.factory;
 
-import raf.dsw.classycraft.app.core.treemodel.nodes.ClassyNode;
+import raf.dsw.classycraft.app.core.treemodel.nodes.abstractNodes.ClassyNode;
 
 public abstract class AbstractNodeFactory {
 

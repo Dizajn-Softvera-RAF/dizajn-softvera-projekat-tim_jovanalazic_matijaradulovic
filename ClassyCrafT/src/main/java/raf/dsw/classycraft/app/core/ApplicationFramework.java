@@ -5,7 +5,7 @@ import raf.dsw.classycraft.app.core.msggen.generator.MessageGeneratorImplementat
 import raf.dsw.classycraft.app.core.msggen.loggers.Logger;
 import raf.dsw.classycraft.app.core.msggen.loggers.LoggerFactory;
 import raf.dsw.classycraft.app.core.treemodel.ClassyRepositoryImplementation;
-import raf.dsw.classycraft.app.core.treemodel.nodes.ProjectExplorer;
+import raf.dsw.classycraft.app.core.treemodel.nodes.projNodes.ProjectExplorer;
 
 public class ApplicationFramework {
     ClassyRepositoryImplementation treeRepo;

@@ -1,4 +1,5 @@
-package raf.dsw.classycraft.app.core.treemodel.nodes.diagramNodes;
+package raf.dsw.classycraft.app.core.treemodel.nodes.diagramNodes.entities;
 
-public class ClassyClass extends Interclass{
+public class ClassyClass extends Interclass {
+
 }

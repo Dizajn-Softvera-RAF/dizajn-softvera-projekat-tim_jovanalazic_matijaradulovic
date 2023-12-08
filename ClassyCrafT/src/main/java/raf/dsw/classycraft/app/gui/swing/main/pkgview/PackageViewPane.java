@@ -1,20 +1,45 @@
 package raf.dsw.classycraft.app.gui.swing.main.pkgview;
 
-import raf.dsw.classycraft.app.core.msggen.generator.ISubscriber;
+import raf.dsw.classycraft.app.core.msggen.ISubscriber;
+import raf.dsw.classycraft.app.core.state.StateManager;
 import raf.dsw.classycraft.app.core.treemodel.nodes.projNodes.Package;
 import raf.dsw.classycraft.app.core.treemodel.nodes.projNodes.Project;
 import raf.dsw.classycraft.app.gui.swing.main.MainFrame;
+import raf.dsw.classycraft.app.gui.swing.treeview.controller.MouseController;
 import raf.dsw.classycraft.app.gui.swing.treeview.model.ClassyTreeItem;
 
 import javax.swing.*;
+import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
-public class PackagePane extends JPanel implements ISubscriber {
+public class PackageViewPane extends JPanel implements ISubscriber {
+    StateManager stateManager;
     ProjInfoPane projInfo;
     PackageTabbedPane packTabs;
+    SideToolBar sidebar;
 
-    public PackagePane(){
-        setLayout(new BoxLayout(this,BoxLayout.Y_AXIS));
+
+    public void StartClassState(){
+        stateManager.setClassState();
+    }
+    public void StartInterfaceState(){stateManager.setIntefaceState();}
+    public void StartDependencyState(){stateManager.setDependencyState();}
+    public void StartEnumState() {stateManager.setEnumState();}
+    public void StartAggregationState(){stateManager.setAggregationState();}
+    public void StartCompostionState(){stateManager.setCompositionState();}
+    public void StartDeleteState(){stateManager.setDeleteState();}
+    public void StartMoveState(){stateManager.setMoveState();}
+    public void StartSelectionState(){stateManager.setSelectState();}
+    public void StartZoomState(){stateManager.setZoomState();}
+
+    public PackageViewPane(){
+        setLayout(new BorderLayout());
         MainFrame.getInstance().getTree().addSubscriber(this);
+        stateManager=new StateManager();
+        this.addMouseListener(new ClassyMouseListener());
+
     }
     @Override
     public void react(Object notification) {
@@ -24,6 +49,7 @@ public class PackagePane extends JPanel implements ISubscriber {
             updateView(currpackage);
         }
         else {
+
             removeAll();
             projInfo=null;
             packTabs=null;
@@ -36,13 +62,36 @@ public class PackagePane extends JPanel implements ISubscriber {
         this.removeAll();
         projInfo=null;
         packTabs=null;
+        sidebar=null;
         if(pack!=null) {
             Project p = pack.getProject();
             projInfo = new ProjInfoPane(p);
             packTabs = new PackageTabbedPane(pack);
-            add(projInfo);
-            add(packTabs);
+            sidebar=new SideToolBar();
+            add(projInfo, BorderLayout.NORTH);
+            add(packTabs,BorderLayout.CENTER);
+            add(sidebar,BorderLayout.EAST);
         }
         revalidate();
+    }
+
+
+
+    private class ClassyMouseListener extends MouseAdapter {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                stateManager.mouseDown(e.getPoint());
+            }
+
+        @Override
+            public void mouseDragged(MouseEvent e) {
+                stateManager.mouseDrag(e.getPoint());
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+                stateManager.mouseUp(e.getPoint());
+            }
+
     }
 }
