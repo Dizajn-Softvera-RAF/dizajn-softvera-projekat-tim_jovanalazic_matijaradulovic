@@ -18,6 +18,12 @@ public class ActionManager {
     SelectAction selectAction;
     MoveAction moveAction;
     DeleteElementAction deleteElementAction;
+    GeneralizationAction generalizationAction;
+    EditContentAction editContentAction;
+
+    public GeneralizationAction getGeneralizationAction() {
+        return generalizationAction;
+    }
 
     public AggregationAction getAggregationAction() {
         return aggregationAction;
@@ -59,7 +65,13 @@ public class ActionManager {
         return deleteElementAction;
     }
 
+    public EditContentAction getEditContentAction() {
+        return editContentAction;
+    }
+
     public ActionManager() {
+        editContentAction=new EditContentAction();
+        generalizationAction=new GeneralizationAction();
         aboutUsAction=new AboutUsAction();
         addDiagramAction=new AddDiagramAction();
         addDirectoryAction=new AddDirectoryAction();

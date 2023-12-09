@@ -34,11 +34,14 @@ public class PackageViewPane extends JPanel implements ISubscriber {
     public void StartSelectionState(){stateManager.setSelectState();}
     public void StartZoomState(){stateManager.setZoomState();}
 
+    public StateManager getStateManager() {
+        return stateManager;
+    }
+
     public PackageViewPane(){
         setLayout(new BorderLayout());
         MainFrame.getInstance().getTree().addSubscriber(this);
         stateManager=new StateManager();
-        this.addMouseListener(new ClassyMouseListener());
 
     }
     @Override
@@ -75,23 +78,14 @@ public class PackageViewPane extends JPanel implements ISubscriber {
         revalidate();
     }
 
-
-
-    private class ClassyMouseListener extends MouseAdapter {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                stateManager.mouseDown(e.getPoint());
-            }
-
-        @Override
-            public void mouseDragged(MouseEvent e) {
-                stateManager.mouseDrag(e.getPoint());
-            }
-
-            @Override
-            public void mouseReleased(MouseEvent e) {
-                stateManager.mouseUp(e.getPoint());
-            }
-
+    public void StartGeneralization() {
+        stateManager.setGeneralizationState();
     }
+
+    public void StartEditState() {
+        stateManager.setEditState();
+    }
+
+
+
 }

@@ -1,19 +1,23 @@
 package raf.dsw.classycraft.app.core.state;
 
+import raf.dsw.classycraft.app.controller.EditContentAction;
 import raf.dsw.classycraft.app.core.state.states.*;
+import raf.dsw.classycraft.app.gui.swing.main.pkgview.DiagramViewPane;
 
 import java.awt.*;
 
 public class StateManager {
+    EditContentState edi;
+
     public StateManager() {
         initStates();
     }
-
-    AddAggregationState agg;
-    AddCompostionState com;
-    AddDependencyState dep;
-    AddClassState clas;
-    AddInterfaceState inf;
+    GeneralizationState gen;
+    AggregationState agg;
+    CompostionState com;
+    DependencyState dep;
+    ClassState clas;
+    InterfaceState inf;
     DeleteState del;
     SelectionState sel;
     MoveState mov;
@@ -21,18 +25,21 @@ public class StateManager {
     State currState;
     EnumState enu;
     void initStates(){
+        edi=new EditContentState();
+        gen=new GeneralizationState();
         enu=new EnumState();
-        agg=new AddAggregationState();
-        com=new AddCompostionState();
-        dep=new AddDependencyState();
-        clas=new AddClassState();
-        inf=new AddInterfaceState();
+        agg=new AggregationState();
+        com=new CompostionState();
+        dep=new DependencyState();
+        clas=new ClassState();
+        inf=new InterfaceState();
         del=new DeleteState();
         mov=new MoveState();
         zom=new ZoomState();
         sel=new SelectionState();
         currState=sel;
     }
+    public void setGeneralizationState(){setCurrState(gen);}
     public void setCurrState(State s){
         currState=s;
         System.out.println("State set to: "+s.getClass().getSimpleName());
@@ -65,17 +72,21 @@ public class StateManager {
     public void setZoomState(){
         setCurrState(zom);
     }
-    public void mouseDown(Point pos){
-        currState.mouseDown(pos);
+    public void mouseDown(Point pos, DiagramViewPane dview){
+        currState.mouseDown(pos,dview);
     }
-    public void mouseUp(Point pos){
-        currState.mouseUp(pos);
+    public void mouseUp(Point pos, DiagramViewPane dview){
+        currState.mouseUp(pos,dview);
     }
-    public void mouseDrag(Point pos){
-        currState.mouseDrag(pos);
+    public void mouseDrag(Point pos, DiagramViewPane dview){
+        currState.mouseDrag(pos,dview);
     }
 
     public void setEnumState() {
         currState=enu;
+    }
+
+    public void setEditState() {
+        currState=edi;
     }
 }

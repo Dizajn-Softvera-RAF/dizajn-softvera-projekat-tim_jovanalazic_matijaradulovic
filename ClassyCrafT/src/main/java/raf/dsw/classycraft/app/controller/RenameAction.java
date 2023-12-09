@@ -28,7 +28,7 @@ public class RenameAction extends AbstractClassyAction {
                 icon,
                 null,
                 null);
-
+        if(s==null||s.isEmpty()) return;
         if(!MainFrame.getInstance().getTree().RenameSel(s))
             ApplicationFramework.getInstance().getMsgGen().generateErrorMessage("Neispravno ime");
 

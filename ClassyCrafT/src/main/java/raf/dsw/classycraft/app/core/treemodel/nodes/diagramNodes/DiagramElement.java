@@ -6,6 +6,13 @@ import raf.dsw.classycraft.app.core.treemodel.nodes.abstractNodes.ClassyNodeComp
 import java.awt.*;
 
 public abstract class DiagramElement extends ClassyNode {
-    Color col;
-    int stroke;
+    protected Color col;
+
+    public Color getCol() {
+        return col;
+    }
+    public DiagramElement(String n){
+        name=n;
+    }
+
 }

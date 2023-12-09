@@ -15,14 +15,15 @@ public class ProjInfoPane extends JPanel implements ISubscriber {
         this.setLayout(new BoxLayout(this,BoxLayout.X_AXIS));
         this.setMaximumSize(new Dimension(2000,50));
         nameLabel=new JLabel();
-        nameLabel.setAlignmentX(JComponent.RIGHT_ALIGNMENT);
+        nameLabel.setAlignmentX(JComponent.LEFT_ALIGNMENT);
         authLabel=new JLabel();
-        authLabel.setAlignmentX(JComponent.RIGHT_ALIGNMENT);
+        authLabel.setAlignmentX(JComponent.LEFT_ALIGNMENT);
+
         this.add(Box.createGlue());
         this.add(nameLabel);
         this.add(Box.createHorizontalStrut(10));
         this.add(authLabel);
-        this.add(Box.createHorizontalStrut(10));
+        this.add(Box.createGlue());
 
     }
     public ProjInfoPane(Project p){

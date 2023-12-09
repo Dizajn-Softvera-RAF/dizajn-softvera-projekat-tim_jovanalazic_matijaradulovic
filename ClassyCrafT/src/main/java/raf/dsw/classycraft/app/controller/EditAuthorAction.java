@@ -30,6 +30,8 @@ public class EditAuthorAction extends AbstractClassyAction{
                 icon,
                 null,
                 null);
+        if(s==null || s.isEmpty())
+            return;
         p.setAuthor(s);
 
     }

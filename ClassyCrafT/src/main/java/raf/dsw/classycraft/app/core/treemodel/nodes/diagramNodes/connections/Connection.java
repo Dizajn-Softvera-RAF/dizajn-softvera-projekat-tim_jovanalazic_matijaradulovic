@@ -7,4 +7,12 @@ public abstract class Connection extends DiagramElement {
     Interclass source;
     Interclass destination;
 
+    public Connection(Interclass source,String name) {
+        super(name);
+        this.source = source;
+    }
+
+    public void setDestination(Interclass destination) {
+        this.destination = destination;
+    }
 }

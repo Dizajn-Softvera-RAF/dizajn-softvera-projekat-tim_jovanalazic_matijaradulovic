@@ -19,6 +19,7 @@ public class MainFrame extends JFrame implements ISubscriber {
     private static MainFrame instance;
     ClassyTreeImplementation tree;
 
+
     public PackageViewPane getPkgpane() {
         return pkgpane;
     }
@@ -61,7 +62,7 @@ public class MainFrame extends JFrame implements ISubscriber {
         Dimension screenSize = kit.getScreenSize();
         int screenHeight = screenSize.height;
         int screenWidth = screenSize.width;
-        setSize(screenWidth / 2, screenHeight / 2);
+        setSize(screenWidth / 2, (int)(screenHeight / 1.9));
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setTitle("ClassyCrafT");
@@ -79,7 +80,7 @@ public class MainFrame extends JFrame implements ISubscriber {
         JPanel jp=new JPanel(new FlowLayout(FlowLayout.LEFT));
         jp.add(tw);
         JSplitPane sp= new JSplitPane(JSplitPane.HORIZONTAL_SPLIT,jp,pkgpane);
-        sp.setDividerLocation(200);
+        sp.setDividerLocation(180);
         add(sp);
         Test();
 
