@@ -5,6 +5,7 @@ import raf.dsw.classycraft.app.core.state.states.*;
 import raf.dsw.classycraft.app.gui.swing.main.pkgview.DiagramViewPane;
 
 import java.awt.*;
+import java.awt.event.MouseEvent;
 
 public class StateManager {
     EditContentState edi;
@@ -72,14 +73,17 @@ public class StateManager {
     public void setZoomState(){
         setCurrState(zom);
     }
-    public void mouseDown(Point pos, DiagramViewPane dview){
+    public void mouseDown(MouseEvent pos, DiagramViewPane dview){
         currState.mouseDown(pos,dview);
     }
-    public void mouseUp(Point pos, DiagramViewPane dview){
+    public void mouseUp(MouseEvent pos, DiagramViewPane dview){
         currState.mouseUp(pos,dview);
     }
-    public void mouseDrag(Point pos, DiagramViewPane dview){
+    public void mouseDrag(MouseEvent pos, DiagramViewPane dview){
         currState.mouseDrag(pos,dview);
+    }
+    public void mouseWheeled(MouseEvent e, DiagramViewPane source) {
+        currState.mouseWheeled(e,source);
     }
 
     public void setEnumState() {
@@ -89,4 +93,6 @@ public class StateManager {
     public void setEditState() {
         currState=edi;
     }
+
+
 }

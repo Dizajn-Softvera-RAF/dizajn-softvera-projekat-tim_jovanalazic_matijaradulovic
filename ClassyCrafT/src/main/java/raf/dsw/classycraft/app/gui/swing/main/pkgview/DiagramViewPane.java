@@ -1,7 +1,7 @@
 package raf.dsw.classycraft.app.gui.swing.main.pkgview;
 
 import raf.dsw.classycraft.app.core.msggen.ISubscriber;
-import raf.dsw.classycraft.app.core.treemodel.nodes.diagramNodes.connections.Connection;
+import raf.dsw.classycraft.app.core.treemodel.nodes.diagramNodes.DiagramElement;
 import raf.dsw.classycraft.app.core.treemodel.nodes.diagramNodes.entities.Interclass;
 import raf.dsw.classycraft.app.core.treemodel.nodes.projNodes.Diagram;
 import raf.dsw.classycraft.app.gui.swing.main.MainFrame;
@@ -12,6 +12,10 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseWheelEvent;
+import java.awt.geom.AffineTransform;
+import java.awt.geom.NoninvertibleTransformException;
+import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,36 +23,42 @@ public class DiagramViewPane extends JPanel implements ISubscriber {
     Diagram diag;
     List<ElementPainter> painters;
     List<ElementPainter> selPainters;
-    ElementPainter curSel;
+    Rectangle curSel;
     ElementPainter curConn;
-    public void AddInterClass(Interclass cls){
-        ElementPainter clp=new InterClassPainter(cls);
-        painters.add(clp);
-        repaint();//#!!!!!!!!!!!!!!!!!!!!!!
+
+    AffineTransform trans;
+
+    public Diagram getDiag() {
+        return diag;
     }
-    private final PackageTabbedPane pane;
+
+    public void initialize(){
+        for (var e:diag.getChildren()) {
+            AddPainter((DiagramElement) e); ;
+        }
+    }
+
     public DiagramViewPane(Diagram diagram, PackageTabbedPane p) {
+        trans=new AffineTransform();
         diagram.addSubscriber(this);
         diag=diagram;
-        pane=p;
-        this.addMouseListener(new ClassyMouseListener());
+
+        var x=new ClassyMouseListener();
+        this.addMouseListener(x);
+        this.addMouseMotionListener(x);
+        this.addMouseWheelListener(x);
+
+        diagram.addSubscriber(this);
 
         painters = new ArrayList<ElementPainter>();
         selPainters = new ArrayList<ElementPainter>();
+        initialize();
+        revalidate();
     }
 
     @Override
     public void react(Object notification) {
-        for (int i = 0; i < pane.getTabCount(); i++) {
-            var tab= ((DiagramViewPane) pane.getComponent(i));
-            if(tab!=null && tab.diag== notification)
-            {
-                pane.setTitleAt(i,tab.diag.getName());
-                pane.validate();
-                return;
-            }
-        }
-
+        repaint();
     }
 
     @Override
@@ -62,16 +72,18 @@ public class DiagramViewPane extends JPanel implements ISubscriber {
         rh.put(RenderingHints.KEY_RENDERING,
                 RenderingHints.VALUE_RENDER_QUALITY);
         g2d.setRenderingHints(rh);
+        g2d.setTransform(trans);
+
         for (var painter:painters) {
             painter.paint(g2d);
         }
-        for (var painter:selPainters) {
-            painter.paint(g2d);
-        }
+
         if(curConn!=null)
             curConn.paint(g2d);
         if(curSel!=null){
-            curSel.paint(g2d);
+            final AffineTransform def=new AffineTransform();
+            g2d.setTransform(def);
+            ElementPainter.drawSelRect(g2d, curSel);
         }
     }
 
@@ -83,29 +95,162 @@ public class DiagramViewPane extends JPanel implements ISubscriber {
         return false;
     }
 
-    public Interclass getSelectedClass() {
-        if(selPainters.size()!=1) return null;
-        if(selPainters.get(0).getElement() instanceof Interclass p) return p;
-        return null;
+
+
+    public void DeleteSelected() {
+        while (!selPainters.isEmpty()){
+            RemovePainter(selPainters.get(0));
+        }
     }
 
-    private class ClassyMouseListener extends MouseAdapter {
+    private static class ClassyMouseListener extends MouseAdapter {
         @Override
-        public void mouseClicked(MouseEvent e) {
-            MainFrame.getInstance().getPkgpane().getStateManager().mouseDown(e.getPoint(),(DiagramViewPane) e.getSource());
+        public void mousePressed(MouseEvent e) {
+            MainFrame.getInstance().getPkgpane().MousePressed(e,(DiagramViewPane) e.getSource());
         }
-
         @Override
         public void mouseDragged(MouseEvent e) {
-            MainFrame.getInstance().getPkgpane().getStateManager().mouseDrag(e.getPoint(),(DiagramViewPane) e.getSource());
-
+            MainFrame.getInstance().getPkgpane().MouseDragged(e,(DiagramViewPane) e.getSource());
+        }
+        @Override
+        public void mouseMoved(MouseEvent e) {
+            super.mouseMoved(e);
         }
 
         @Override
         public void mouseReleased(MouseEvent e) {
-            MainFrame.getInstance().getPkgpane().getStateManager().mouseUp(e.getPoint(),(DiagramViewPane) e.getSource());
+            MainFrame.getInstance().getPkgpane().MouseReleased(e,(DiagramViewPane) e.getSource());
+        }
+        @Override
+        public void mouseWheelMoved(MouseWheelEvent e) {
+            MainFrame.getInstance().getPkgpane().MouseWheeled(e,(DiagramViewPane) e.getSource());
+        }
+    }
+    public void SelectElement(ElementPainter e){
+        if(selPainters.contains(e))return;
+        e.setSelected(true);
+        selPainters.add(e);
+        repaint();
+    }
+    public void DeselectElement(ElementPainter e){
+        e.setSelected(false);
+        selPainters.remove(e);
+        repaint();
+    }
+    public void resetSelection(){
+        while(!selPainters.isEmpty()) {
+            DeselectElement(selPainters.get(0));
+        }
+    }
+    public void AddPainter(DiagramElement cls){
+        if(cls instanceof Interclass i) {
+            Point pos=i.getPos();
+            pos= tWorldCoords(pos);
+            i.setPos(pos);
+            ElementPainter clp = new InterClassPainter(i);
+            painters.add(clp);
+        }
+    }
+    public void RemovePainter(ElementPainter p){
+        painters.remove(p);
+        selPainters.remove(p);
+        p.getElement().removeSelf();
+    }
+    public ElementPainter underPointer(Point p){
+        p=tWorldCoords(p);
+        for (var pp:painters) {
+            if(pp.elementAt(p)){
+                return pp;
+            }
+        }
+        return null;
+    }
+    public void setSelect(Rectangle r){
 
+        curSel=r;
+        Shape rt=null;
+        if(r!=null){
+
+            try {
+                rt= trans.createInverse().createTransformedShape(r);
+            } catch (NoninvertibleTransformException e) {
+                throw new RuntimeException(e);
+            }
+
+            for (ElementPainter e : painters) {
+                if (rt.intersects(e.getBounds())) {
+                    //if(e.isSelected())//additve
+                      //  DeselectElement(e);
+                    //else
+                        SelectElement(e);
+                } //else if (e.isSelected()&&!additve) {
+                   // DeselectElement(e);
+                //}
+            }
         }
 
+        repaint();  // :)
+    }
+    public void Touch(Point pos){
+        pos=tWorldCoords(pos);
+        var s=underPointer(pos);
+        if(s!=null){
+            if(!s.isSelected()){
+                resetSelection();
+                SelectElement(s);
+            }
+        }
+        else
+            resetSelection();
+
+    }
+    public boolean isUnder(Point p){
+        return underPointer(p)!=null;
+    }
+    public Rectangle getCurSel() {
+        return curSel;
+    }
+    public void transEl(ElementPainter e, int dx, int dy){
+        ((Interclass) e.getElement()).trans(dx,dy);
+    }
+    public void transSel(int dx,int dy){
+        for (var e:selPainters) {
+            transEl(e,dx,dy);
+        }
+    }
+    public boolean SingleSel(){
+        return selPainters.size()==1;
+    }
+    public void transView(int dx,int dy){
+        trans.translate(dx,dy);
+        repaint();
+    }
+    public Point toViewCoords(Point pos){
+        Point2D p= trans.transform(pos,null);
+        return new Point((int)p.getX(),(int)p.getY());
+    }
+    public Point tWorldCoords(Point pos){
+        Point2D p= null;
+        try {
+            p = trans.inverseTransform(pos,null);
+        } catch (NoninvertibleTransformException e) {
+            throw new RuntimeException(e);
+        }
+        return new Point((int)p.getX(),(int)p.getY());
+    }
+    public void zoomView(double factor, Point pos){
+        double currscale=trans.getScaleX();
+        if(currscale>4&&factor>1||currscale<0.5&&factor<1) return;
+        pos=tWorldCoords(pos);
+        var newt=new AffineTransform();
+        newt.translate((pos).x, (pos).y);
+        double nsx=factor;
+        newt.scale(nsx,nsx);
+       // System.out.println(factor+" x "+currscale+" -> "+nsx);
+        newt.translate(-(pos).x,-(pos).y);
+
+        //newt.translate(trans.getTranslateX(),trans.getTranslateY());
+        trans.concatenate(newt);
+        repaint();
     }
 }

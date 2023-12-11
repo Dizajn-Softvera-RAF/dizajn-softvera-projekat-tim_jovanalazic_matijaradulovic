@@ -1,6 +1,9 @@
 package raf.dsw.classycraft.app.core.treemodel.nodes.diagramNodes.entities;
 
+import raf.dsw.classycraft.app.core.treemodel.nodes.projNodes.Diagram;
+
 import java.awt.*;
+import java.awt.event.MouseEvent;
 
 public class ClassyInterface extends Interclass {
     @Override
@@ -8,8 +11,14 @@ public class ClassyInterface extends Interclass {
         return String.format("%s Interface %s",vis.toText(),name);
     }
 
-    public ClassyInterface(String name, Visibility vis, Point pos, Dimension dim) {
-        super(name, vis, pos, dim);
+    public ClassyInterface(Point pos, Diagram d) {
+        super(pos,d);
+        col=new Color(100, 180, 150);
+
+    }
+
+    public ClassyInterface(String name, Visibility vis, Point pos, Dimension dim, Diagram d) {
+        super(name, vis, pos, dim,d);
         col=new Color(100, 180, 150);
 
     }

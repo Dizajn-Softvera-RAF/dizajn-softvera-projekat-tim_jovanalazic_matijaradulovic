@@ -5,14 +5,11 @@ import raf.dsw.classycraft.app.core.state.StateManager;
 import raf.dsw.classycraft.app.core.treemodel.nodes.projNodes.Package;
 import raf.dsw.classycraft.app.core.treemodel.nodes.projNodes.Project;
 import raf.dsw.classycraft.app.gui.swing.main.MainFrame;
-import raf.dsw.classycraft.app.gui.swing.treeview.controller.MouseController;
 import raf.dsw.classycraft.app.gui.swing.treeview.model.ClassyTreeItem;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 
 public class PackageViewPane extends JPanel implements ISubscriber {
     StateManager stateManager;
@@ -21,6 +18,19 @@ public class PackageViewPane extends JPanel implements ISubscriber {
     SideToolBar sidebar;
 
 
+    public void MousePressed(MouseEvent e, DiagramViewPane dview){
+        stateManager.mouseDown(e,dview);
+    }
+    public void MouseReleased(MouseEvent e, DiagramViewPane dview)
+    {
+        stateManager.mouseUp(e,dview);
+    }
+    public void MouseDragged(MouseEvent e, DiagramViewPane dview){
+        stateManager.mouseDrag(e,dview);
+    }
+    public void MouseWheeled(MouseEvent e, DiagramViewPane source) {
+        stateManager.mouseWheeled(e,source);
+    }
     public void StartClassState(){
         stateManager.setClassState();
     }

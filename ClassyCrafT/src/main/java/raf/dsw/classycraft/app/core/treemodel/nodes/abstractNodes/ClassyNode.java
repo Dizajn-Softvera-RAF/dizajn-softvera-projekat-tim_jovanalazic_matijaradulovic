@@ -13,7 +13,7 @@ public abstract class ClassyNode {
         this.name=name;
     }
 
-    protected ClassyNode parent;
+    protected ClassyNodeComposite parent;
 
     public void setParent(ClassyNodeComposite parent) {
         this.parent=parent;
@@ -23,7 +23,7 @@ public abstract class ClassyNode {
         return parent;
     }
 
-    public ClassyNode(String name, ClassyNode parent) {
+    public ClassyNode(String name, ClassyNodeComposite parent) {
         this.name = name;
         this.parent = parent;
     }
@@ -41,6 +41,9 @@ public abstract class ClassyNode {
         if (o == null || getClass() != o.getClass()) return false;
         ClassyNode that = (ClassyNode) o;
         return this.getFullName().equals(that.getFullName());
+    }
+    public void removeSelf(){
+        parent.removeChild(this);
     }
 
     @Override

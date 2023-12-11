@@ -10,7 +10,7 @@ import java.util.List;
 
 public class Package extends ClassyNodeComposite implements IPublisher {
 
-    public Package(String name, ClassyNode parent) {
+    public Package(String name, ClassyNodeComposite parent) {
         super(name, parent);
     }
 

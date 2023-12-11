@@ -21,9 +21,6 @@ public class TestAction extends AbstractClassyAction{
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        ClassyClass cls=new ClassyClass(null, Visibility.PUBLIC,new Point(50,50),new Dimension(50,30));
-        //ClassPainter clp=new ClassPainter(;
-        EditEntDialog d=EditEntDialog.getDialog(cls);
-        d.setVisible(true);
+
     }
 }

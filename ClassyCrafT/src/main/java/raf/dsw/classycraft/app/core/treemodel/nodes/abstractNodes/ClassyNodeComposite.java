@@ -6,7 +6,7 @@ import java.util.List;
 public abstract class ClassyNodeComposite extends ClassyNode{
     protected List<ClassyNode> children=new ArrayList<>();
 
-    public ClassyNodeComposite(String name, ClassyNode parent) {
+    public ClassyNodeComposite(String name, ClassyNodeComposite parent) {
         super(name, parent);
     }
 
@@ -39,4 +39,6 @@ public abstract class ClassyNodeComposite extends ClassyNode{
             node.setName(node.getClass().getSimpleName()+num++);
         }while (!isUnique(node));
     }
+
+
 }
