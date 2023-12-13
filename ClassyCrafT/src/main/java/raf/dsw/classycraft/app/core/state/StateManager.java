@@ -53,7 +53,7 @@ public class StateManager {
         setCurrState(inf);
     }
     public void setDependencyState(){
-        setCurrState(inf);
+        setCurrState(dep);
     }
     public void setCompositionState(){
         setCurrState(com);

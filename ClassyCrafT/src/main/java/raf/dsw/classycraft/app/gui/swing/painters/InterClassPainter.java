@@ -9,8 +9,6 @@ import java.awt.geom.RoundRectangle2D;
 
 public class InterClassPainter extends ElementPainter{
 
-
-
     @Override
     public Interclass getElement() {
         return (Interclass) element;
@@ -76,7 +74,7 @@ public class InterClassPainter extends ElementPainter{
     }
     static int contPadd=2;
     static Color textCol=Color.BLACK;
-    static Stroke stroke=new BasicStroke(2);
+    static Stroke stroke=new BasicStroke(3);
     static Font font=new Font(Font.MONOSPACED,Font.PLAIN,10);
 
     public void FitToContent(Graphics2D g){

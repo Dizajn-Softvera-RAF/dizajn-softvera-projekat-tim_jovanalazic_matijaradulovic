@@ -17,7 +17,7 @@ public class ClassState extends State {
         EditEntDialog d=EditEntDialog.getDialog(cls);
         d.ShowDialog(MainFrame.getInstance());
         if(cls.getName().isEmpty()) cls.removeSelf();
-        else dview.AddPainter(cls);
+        else dview.AddInterClass(cls);
     }
 
     @Override

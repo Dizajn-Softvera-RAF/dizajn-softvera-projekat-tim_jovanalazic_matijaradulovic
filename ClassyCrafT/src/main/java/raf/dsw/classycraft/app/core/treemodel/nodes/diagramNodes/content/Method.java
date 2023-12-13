@@ -29,6 +29,6 @@ public class Method extends ClassContent {
 
     @Override
     public String toString() {
-        return String.format("%s %s(%s) : %s",v.toString(),name,argString(),type);
+        return String.format("%s %s(%s): %s",v.toString(),name,argString(),type);
     }
 }

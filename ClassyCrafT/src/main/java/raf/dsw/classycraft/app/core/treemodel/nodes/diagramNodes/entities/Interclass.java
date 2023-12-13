@@ -16,7 +16,6 @@ public abstract class Interclass extends DiagramElement {
     Point pos;
     Dimension dim;
 
-
     public Point getPos() {
         return pos;
     }

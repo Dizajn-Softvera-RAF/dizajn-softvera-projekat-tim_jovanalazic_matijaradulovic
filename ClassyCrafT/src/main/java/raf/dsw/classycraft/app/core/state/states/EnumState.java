@@ -19,7 +19,7 @@ public class EnumState extends State {
         d.ShowDialog(MainFrame.getInstance());
         if(cls.getName().isEmpty()) cls.removeSelf();
         else
-            dview.AddPainter(cls);
+            dview.AddInterClass(cls);
 
     }
 

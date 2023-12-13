@@ -10,6 +10,6 @@ public class Attribute extends ClassContent {
 
     @Override
     public String toString() {
-        return v.toString()+" "+ name +" : "+type;
+        return v.toString()+" "+ name +": "+type;
     }
 }
