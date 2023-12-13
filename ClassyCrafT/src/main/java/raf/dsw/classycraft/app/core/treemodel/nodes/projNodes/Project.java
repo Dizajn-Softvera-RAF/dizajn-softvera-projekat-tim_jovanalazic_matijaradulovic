@@ -20,7 +20,7 @@ public class Project extends ClassyNodeComposite implements IPublisher {
     }
     String path;
 
-    public Project(String name, String author, String path, ClassyNode parent) {
+    public Project(String name, String author, String path, ClassyNodeComposite parent) {
         super(name, parent);
         this.author=author;
         this.path=path;
@@ -30,7 +30,7 @@ public class Project extends ClassyNodeComposite implements IPublisher {
         author="nepoznat";
     }
 
-    public Project(String name, ClassyNode parent) {
+    public Project(String name, ClassyNodeComposite parent) {
         super(name,parent);
         this.author="nepoznat";
         this.path="nepoznat";

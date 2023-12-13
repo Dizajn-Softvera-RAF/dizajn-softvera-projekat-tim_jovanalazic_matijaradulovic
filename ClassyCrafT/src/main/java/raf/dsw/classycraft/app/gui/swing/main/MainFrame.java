@@ -5,6 +5,12 @@ import raf.dsw.classycraft.app.core.ApplicationFramework;
 import raf.dsw.classycraft.app.core.msggen.ISubscriber;
 import raf.dsw.classycraft.app.core.msggen.Message;
 import raf.dsw.classycraft.app.core.msggen.MessageType;
+import raf.dsw.classycraft.app.core.treemodel.nodes.abstractNodes.ClassyNode;
+import raf.dsw.classycraft.app.core.treemodel.nodes.abstractNodes.ClassyNodeComposite;
+import raf.dsw.classycraft.app.core.treemodel.nodes.diagramNodes.entities.ClassyClass;
+import raf.dsw.classycraft.app.core.treemodel.nodes.diagramNodes.entities.ClassyEnum;
+import raf.dsw.classycraft.app.core.treemodel.nodes.diagramNodes.entities.ClassyInterface;
+import raf.dsw.classycraft.app.core.treemodel.nodes.projNodes.Diagram;
 import raf.dsw.classycraft.app.core.treemodel.nodes.projNodes.ProjectExplorer;
 import raf.dsw.classycraft.app.gui.swing.main.pkgview.PackageViewPane;
 import raf.dsw.classycraft.app.gui.swing.treeview.ClassyTreeImplementation;
@@ -37,8 +43,13 @@ public class MainFrame extends JFrame implements ISubscriber {
         tree.AddChild(parent,"diagram");
         parent= ((ClassyTreeItem) parent.getLastChild());
         tree.getView().expandPath(new TreePath(parent.getPath()));
+
+
+        Diagram d= ((Diagram) parent.getNode());
+        d.AddChild(new ClassyClass(new Point(70,30),d));
+        d.AddChild(new ClassyEnum(new Point(50,120),d));
+        d.AddChild(new ClassyInterface(new Point(300,100),d));
         tree.setSelectedItem(((ClassyTreeItem) parent.getParent()));
-        pkgpane.validate();
     }
 
     public ClassyTreeImplementation getTree() {
@@ -85,6 +96,7 @@ public class MainFrame extends JFrame implements ISubscriber {
         Test();
 
         setVisible(true);
+        revalidate();
     }
 
     public ActionManager getActions() {

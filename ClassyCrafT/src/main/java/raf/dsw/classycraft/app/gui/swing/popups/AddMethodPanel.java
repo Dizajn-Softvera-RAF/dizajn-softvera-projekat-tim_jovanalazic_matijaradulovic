@@ -11,7 +11,7 @@ public class AddMethodPanel extends JPanel {
     JComboBox<Visibility> cmb=new JComboBox<>(Visibility.values());
     JTextField jt1=new JTextField("povratni_tip");
     JTextField jt2=new JTextField("naziv_metode");
-    JTextField jt3=new JTextField("tip_argumenta1, tip2...");
+    JTextField jt3=new JTextField("tip_arg1, tip2...");
 
     public AddMethodPanel() {
         this.setLayout(new BoxLayout(this,BoxLayout.X_AXIS));

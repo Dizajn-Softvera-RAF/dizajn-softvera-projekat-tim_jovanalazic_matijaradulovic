@@ -1,6 +1,9 @@
 package raf.dsw.classycraft.app.core.treemodel.nodes.diagramNodes.entities;
 
+import raf.dsw.classycraft.app.core.treemodel.nodes.projNodes.Diagram;
+
 import java.awt.*;
+import java.awt.event.MouseEvent;
 
 public class ClassyClass extends Interclass {
 
@@ -9,8 +12,14 @@ public class ClassyClass extends Interclass {
         return String.format("%s Class %s",vis.toText(),name);
     }
 
-    public ClassyClass(String name, Visibility vis, Point pos, Dimension dim) {
-        super(name, vis, pos, dim);
+    public ClassyClass(Point pos, Diagram d) {
+        super(pos,d);
+        col=new Color(110, 180, 220);
+
+    }
+
+    public ClassyClass(String name, Visibility vis, Point pos, Dimension dim, Diagram d) {
+        super(name, vis, pos, dim,d);
         col=new Color(110, 180, 220);
     }
 }

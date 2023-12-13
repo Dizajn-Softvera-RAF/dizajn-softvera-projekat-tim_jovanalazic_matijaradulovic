@@ -2,33 +2,36 @@ package raf.dsw.classycraft.app.core.state.states;
 
 import raf.dsw.classycraft.app.core.state.State;
 import raf.dsw.classycraft.app.core.treemodel.nodes.diagramNodes.entities.ClassyClass;
-import raf.dsw.classycraft.app.core.treemodel.nodes.diagramNodes.entities.Visibility;
 import raf.dsw.classycraft.app.gui.swing.main.MainFrame;
 import raf.dsw.classycraft.app.gui.swing.main.pkgview.DiagramViewPane;
-import raf.dsw.classycraft.app.gui.swing.painters.ClassPainter;
-import raf.dsw.classycraft.app.gui.swing.painters.ElementPainter;
-import raf.dsw.classycraft.app.gui.swing.painters.InterClassPainter;
 import raf.dsw.classycraft.app.gui.swing.popups.EditEntDialog;
 
-import java.awt.*;
+import java.awt.event.MouseEvent;
 
 public class ClassState extends State {
 
     @Override
-    public void mouseDown(Point pos, DiagramViewPane dview) {
-        ClassyClass cls=new ClassyClass("", Visibility.PUBLIC,pos,new Dimension(50,30));
+    public void mouseDown(MouseEvent pos, DiagramViewPane dview) {
+        //dview.resetSelection();
+        ClassyClass cls=new ClassyClass(pos.getPoint(),dview.getDiag());
         EditEntDialog d=EditEntDialog.getDialog(cls);
         d.ShowDialog(MainFrame.getInstance());
-        dview.AddInterClass(cls);
+        if(cls.getName().isEmpty()) cls.removeSelf();
+        else dview.AddPainter(cls);
     }
 
     @Override
-    public void mouseUp(Point pos, DiagramViewPane dview) {
+    public void mouseUp(MouseEvent pos, DiagramViewPane dview) {
 
     }
 
     @Override
-    public void mouseDrag(Point pos, DiagramViewPane dview) {
+    public void mouseDrag(MouseEvent pos, DiagramViewPane dview) {
+
+    }
+
+    @Override
+    public void mouseWheeled(MouseEvent e, DiagramViewPane source) {
 
     }
 }

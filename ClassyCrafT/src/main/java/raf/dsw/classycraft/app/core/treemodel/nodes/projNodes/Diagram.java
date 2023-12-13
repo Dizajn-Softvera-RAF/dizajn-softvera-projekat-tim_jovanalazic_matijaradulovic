@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Diagram extends ClassyNodeComposite implements IPublisher {
-    public Diagram(String name, ClassyNode parent) {
+    public Diagram(String name, ClassyNodeComposite parent) {
         super(name, parent);
     }
 
@@ -29,7 +29,7 @@ public class Diagram extends ClassyNodeComposite implements IPublisher {
     @Override
     public void setName(String name) {
         super.setName(name);
-        notifySubscribers(this);
+        ((Package) parent).notifySubscribers(parent);
     }
 
     @Override
@@ -44,4 +44,11 @@ public class Diagram extends ClassyNodeComposite implements IPublisher {
         super.AddChild(child);
         notifySubscribers(this);
     }
+    @Override
+    public void removeChild(ClassyNode child) {
+        super.removeChild(child);
+        notifySubscribers(this);
+    }
+
+
 }

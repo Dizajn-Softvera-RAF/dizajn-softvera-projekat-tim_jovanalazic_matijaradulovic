@@ -1,15 +1,21 @@
 package raf.dsw.classycraft.app.gui.swing.painters;
 
-import raf.dsw.classycraft.app.core.treemodel.nodes.diagramNodes.DiagramElement;
 import raf.dsw.classycraft.app.core.treemodel.nodes.diagramNodes.entities.Interclass;
 
-import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseEvent;
+import java.awt.geom.Rectangle2D;
 import java.awt.geom.RoundRectangle2D;
 
 public class InterClassPainter extends ElementPainter{
 
-    Interclass element;
+
+
+    @Override
+    public Interclass getElement() {
+        return (Interclass) element;
+    }
+
     public Point getCentar(){
         return ((Interclass) element).getPos();
     }
@@ -27,13 +33,18 @@ public class InterClassPainter extends ElementPainter{
     }
     @Override
     public void paint(Graphics2D g) {
+        Color c=element.getCol();
+        if(isSelected)
+            c=c.darker();
+
         FitToContent(g);
         float ox=3*contPadd+getTopLeft().x,oy=2*contPadd+getTopLeft().y;
         float w=getDim().width,h=getDim().height;
         float cx=getTopLeft().x+w/2;
 
-        g.setColor(element.getCol());
+        g.setColor(c);
         g.fill(shape);
+
         g.setColor(textCol);
         g.setFont(font);
 
@@ -43,12 +54,18 @@ public class InterClassPainter extends ElementPainter{
         g.drawString(s,cx-d.width/2f,oy);
         oy+= contPadd*2;
 
-        for (var c: element.getElements()) {
+        for (var ce: getElement().getElements()) {
             oy+=d.height;
-            g.drawString(c.toString(),ox,oy);
+            g.drawString(ce.toString(),ox,oy);
             oy+=contPadd;
         }
 
+        g.setColor(c.darker());
+        g.setStroke(stroke);
+        g.draw(shape);
+
+        if(isSelected)
+            drawSelRect(g,shape.getBounds2D());
 
     }
 
@@ -57,29 +74,29 @@ public class InterClassPainter extends ElementPainter{
         FontMetrics fm=g.getFontMetrics(font);
         return new Dimension(fm.stringWidth(s),fm.getHeight());
     }
-    static int contPadd=3;
+    static int contPadd=2;
     static Color textCol=Color.BLACK;
-    //static Stroke stroke=new BasicStroke(2,BasicStroke.CAP_ROUND,BasicStroke.JOIN_ROUND);
-    static Font font=new Font(Font.MONOSPACED,Font.PLAIN,12);
+    static Stroke stroke=new BasicStroke(2);
+    static Font font=new Font(Font.MONOSPACED,Font.PLAIN,10);
 
     public void FitToContent(Graphics2D g){
         FontMetrics fm= g.getFontMetrics(font);
         int w,h;
         w=fm.stringWidth(element.toString());
-        if(element.getElements()!=null)
-            for (var c: element.getElements()) {
+        if(getElement().getElements()!=null)
+            for (var c: getElement().getElements()) {
                 w=Math.max(w,fm.stringWidth(c.toString()));
             }
         w+=6*contPadd;
-        h=(fm.getHeight()+contPadd)*(element.getElements().size()+1)+6*contPadd;
+        h=(fm.getHeight()+contPadd)*(getElement().getElements().size()+1)+6*contPadd;
         if(getDim().height<h||getDim().width<w) {
-            element.setDim(new Dimension(w,h));
-            resize();
+            getElement().setDim(new Dimension(w,h));
         }
+        reshape();
     }
-    public void resize(){
-        shape=new RoundRectangle2D.Float(getTopLeft().x,getTopLeft().y,getDim().width,getDim().height,10,10);
 
+    public void reshape(){
+        shape=new RoundRectangle2D.Float(getTopLeft().x,getTopLeft().y,getDim().width,getDim().height,10,10);
     }
 
 }
