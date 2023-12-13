@@ -8,6 +8,7 @@ import java.awt.geom.GeneralPath;
 import java.awt.geom.Rectangle2D;
 
 public abstract class ElementPainter {
+
     DiagramElement element;
     Shape shape;
     boolean isSelected;

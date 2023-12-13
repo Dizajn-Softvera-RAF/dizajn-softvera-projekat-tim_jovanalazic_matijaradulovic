@@ -1,10 +1,13 @@
 package raf.dsw.classycraft.app.gui.swing.main.pkgview;
 
+import com.sun.tools.javac.Main;
 import raf.dsw.classycraft.app.core.msggen.ISubscriber;
 import raf.dsw.classycraft.app.core.treemodel.nodes.diagramNodes.DiagramElement;
+import raf.dsw.classycraft.app.core.treemodel.nodes.diagramNodes.connections.Connection;
 import raf.dsw.classycraft.app.core.treemodel.nodes.diagramNodes.entities.Interclass;
 import raf.dsw.classycraft.app.core.treemodel.nodes.projNodes.Diagram;
 import raf.dsw.classycraft.app.gui.swing.main.MainFrame;
+import raf.dsw.classycraft.app.gui.swing.painters.ConnectionPainter;
 import raf.dsw.classycraft.app.gui.swing.painters.ElementPainter;
 import raf.dsw.classycraft.app.gui.swing.painters.InterClassPainter;
 
@@ -24,9 +27,13 @@ public class DiagramViewPane extends JPanel implements ISubscriber {
     List<ElementPainter> painters;
     List<ElementPainter> selPainters;
     Rectangle curSel;
-    ElementPainter curConn;
-
+    ConnectionPainter curConn;
     AffineTransform trans;
+
+    public void setCurConn(ConnectionPainter curConn) {
+        this.curConn = curConn;
+        repaint();
+    }
 
     public Diagram getDiag() {
         return diag;
@@ -34,7 +41,7 @@ public class DiagramViewPane extends JPanel implements ISubscriber {
 
     public void initialize(){
         for (var e:diag.getChildren()) {
-            AddPainter((DiagramElement) e); ;
+            AddInterClass((DiagramElement) e); ;
         }
     }
 
@@ -74,6 +81,8 @@ public class DiagramViewPane extends JPanel implements ISubscriber {
         g2d.setRenderingHints(rh);
         g2d.setTransform(trans);
 
+
+
         for (var painter:painters) {
             painter.paint(g2d);
         }
@@ -103,6 +112,8 @@ public class DiagramViewPane extends JPanel implements ISubscriber {
         }
     }
 
+
+
     private static class ClassyMouseListener extends MouseAdapter {
         @Override
         public void mousePressed(MouseEvent e) {
@@ -111,10 +122,7 @@ public class DiagramViewPane extends JPanel implements ISubscriber {
         @Override
         public void mouseDragged(MouseEvent e) {
             MainFrame.getInstance().getPkgpane().MouseDragged(e,(DiagramViewPane) e.getSource());
-        }
-        @Override
-        public void mouseMoved(MouseEvent e) {
-            super.mouseMoved(e);
+
         }
 
         @Override
@@ -142,7 +150,11 @@ public class DiagramViewPane extends JPanel implements ISubscriber {
             DeselectElement(selPainters.get(0));
         }
     }
-    public void AddPainter(DiagramElement cls){
+    public void AddPainter(ElementPainter p){
+        painters.add(p);
+        repaint();
+    }
+    public void AddInterClass(DiagramElement cls){
         if(cls instanceof Interclass i) {
             Point pos=i.getPos();
             pos= tWorldCoords(pos);
@@ -152,9 +164,20 @@ public class DiagramViewPane extends JPanel implements ISubscriber {
         }
     }
     public void RemovePainter(ElementPainter p){
+        RemoveAffilConn(p);
         painters.remove(p);
         selPainters.remove(p);
         p.getElement().removeSelf();
+    }
+    public void RemoveAffilConn(ElementPainter p){
+        for (int i = 0; i < painters.size(); i++) {
+            if(painters.get(i) instanceof ConnectionPainter cp){
+                if(cp.getElement().getSource()==p.getElement() ||cp.getElement().getDestination()==p.getElement()){
+                    RemovePainter(cp);
+                    break;
+                }
+            }
+        }
     }
     public ElementPainter underPointer(Point p){
         p=tWorldCoords(p);
@@ -211,11 +234,13 @@ public class DiagramViewPane extends JPanel implements ISubscriber {
         return curSel;
     }
     public void transEl(ElementPainter e, int dx, int dy){
-        ((Interclass) e.getElement()).trans(dx,dy);
+        double z=trans.getScaleX();
+        ((Interclass) e.getElement()).trans((int)(dx/z),(int)(dy/z));
     }
     public void transSel(int dx,int dy){
         for (var e:selPainters) {
-            transEl(e,dx,dy);
+            if(e instanceof InterClassPainter)
+                transEl(e,dx,dy);
         }
     }
     public boolean SingleSel(){
@@ -252,5 +277,21 @@ public class DiagramViewPane extends JPanel implements ISubscriber {
         //newt.translate(trans.getTranslateX(),trans.getTranslateY());
         trans.concatenate(newt);
         repaint();
+    }
+
+    public void setConEnd(Point pos){
+        pos=tWorldCoords(pos);
+        ((ConnectionPainter) curConn).setEndPoint(pos);
+        repaint();
+    }
+    public void letGo(Point pos) {
+        var x=this.underPointer(pos);
+        if(x!=null && x.getElement()!= ((Connection)curConn.getElement()).getSource()) {
+
+            ((Connection) curConn.getElement()).setDestination(((Interclass) x.getElement()));
+            this.getDiag().AddChild(curConn.getElement());
+            this.AddPainter(curConn);
+        }
+        this.setCurConn(null);
     }
 }
