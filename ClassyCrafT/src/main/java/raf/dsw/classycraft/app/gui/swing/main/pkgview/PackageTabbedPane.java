@@ -12,6 +12,7 @@ public class PackageTabbedPane extends JTabbedPane implements ISubscriber {
         packaged=pack;
         if(packaged!=null){
             InitializeTabs();
+
             pack.addSubscriber(this);
         }
     }
@@ -19,7 +20,9 @@ public class PackageTabbedPane extends JTabbedPane implements ISubscriber {
     private void InitializeTabs() {
         if(packaged!=null)
             for (Diagram dig:packaged.getDiagrams()) {
-                this.addTab(dig.getName(),new DiagramViewPane(dig,this));
+                var na=dig.getName();
+                var dv=new DiagramViewPane(dig,this);
+                this.addTab(na,dv);
             }
     }
 
@@ -27,5 +30,9 @@ public class PackageTabbedPane extends JTabbedPane implements ISubscriber {
     public void react(Object notification) {
         this.removeAll();
         InitializeTabs();
+    }
+
+    public DiagramViewPane getDiagView() {
+        return ((DiagramViewPane) getSelectedComponent());
     }
 }

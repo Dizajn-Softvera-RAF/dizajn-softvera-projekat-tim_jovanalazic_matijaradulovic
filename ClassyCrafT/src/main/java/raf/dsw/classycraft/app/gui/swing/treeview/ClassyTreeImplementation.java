@@ -6,19 +6,21 @@ import raf.dsw.classycraft.app.core.treemodel.ClassyRepository;
 import raf.dsw.classycraft.app.core.treemodel.factory.AbstractNodeFactory;
 import raf.dsw.classycraft.app.core.treemodel.nodes.abstractNodes.ClassyNode;
 import raf.dsw.classycraft.app.core.treemodel.nodes.abstractNodes.ClassyNodeComposite;
+import raf.dsw.classycraft.app.core.treemodel.nodes.projNodes.Diagram;
 import raf.dsw.classycraft.app.core.treemodel.nodes.projNodes.Package;
 import raf.dsw.classycraft.app.core.treemodel.nodes.projNodes.ProjectExplorer;
 import raf.dsw.classycraft.app.gui.swing.treeview.model.ClassyTreeItem;
 import raf.dsw.classycraft.app.gui.swing.treeview.view.ClassyTreeView;
 
 import javax.swing.*;
+import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreePath;
 import javax.swing.tree.TreeSelectionModel;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ClassyTreeImplementation implements ClassyTree, IPublisher {
+public class ClassyTreeImplementation implements ClassyTree, IPublisher, ISubscriber {
     private DefaultTreeModel treeModel;
     private ClassyTreeView treeView;
     public ClassyTreeView getView(){return treeView;}
@@ -43,6 +45,19 @@ public class ClassyTreeImplementation implements ClassyTree, IPublisher {
         return treeView;
     }
 
+    public void AddChildItem(ClassyTreeItem parent, ClassyNode node){
+        ClassyTreeItem newItem=new ClassyTreeItem(node);
+        parent.add(newItem);
+        treeView.expandPath(new TreePath(parent.getPath()) );
+        SwingUtilities.updateComponentTreeUI(treeView);
+
+    }
+    public void Update(ClassyTreeItem parent){
+        parent.removeAllChildren();
+        for (var c: ((ClassyNodeComposite) parent.getNode()).getChildren()) {
+            AddChildItem(parent,c);
+        }
+    }
     public boolean AddChild(ClassyTreeItem parentItem, String type) {
         if(! (parentItem.getNode() instanceof ClassyNodeComposite parentNode) ){
                 return false;
@@ -51,11 +66,12 @@ public class ClassyTreeImplementation implements ClassyTree, IPublisher {
         if(newNode==null){
             return false;
         }
-        ClassyTreeItem newItem=new ClassyTreeItem(newNode);
+
         parentNode.AddChild(newNode);
-        parentItem.add(newItem);
-        treeView.expandPath(new TreePath(parentItem.getPath()) );
-        SwingUtilities.updateComponentTreeUI(treeView);
+        AddChildItem(parentItem,newNode);
+
+        if(newNode instanceof Diagram diz)
+            diz.addSubscriber(this);
         return true;
     }
 
@@ -153,4 +169,25 @@ public class ClassyTreeImplementation implements ClassyTree, IPublisher {
             sub.react (this.selectedItem);
         }
     }
+
+    @Override
+    public void react(Object notification) {//treba mi aktivni dijagram............
+        if(selectedItem!=null&& notification instanceof Diagram d){
+        var x=find(selectedItem,d);
+        if(x!=null) {
+            Update(x);
+        }
+        }
+    }
+    public ClassyTreeItem find(ClassyTreeItem anc,ClassyNode node){
+        var it=((DefaultMutableTreeNode) anc).depthFirstEnumeration();
+        while (it.hasMoreElements()){
+            ClassyTreeItem n= ((ClassyTreeItem) it.nextElement());
+            if(n.getNode()==node){
+                return n;
+            }
+        }
+        return null;
+    }
+
 }

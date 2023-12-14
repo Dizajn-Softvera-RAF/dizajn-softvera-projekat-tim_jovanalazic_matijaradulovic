@@ -137,7 +137,7 @@ public abstract class ConnectionPainter extends ElementPainter{
     }
     @Override
     public boolean elementAt(Point pos) {
-        int prec=5;
+        int prec=12;
         Rectangle c=new Rectangle(pos.x-prec/2,pos.y-prec/2,prec,prec);
         return line.intersects(c);
     }

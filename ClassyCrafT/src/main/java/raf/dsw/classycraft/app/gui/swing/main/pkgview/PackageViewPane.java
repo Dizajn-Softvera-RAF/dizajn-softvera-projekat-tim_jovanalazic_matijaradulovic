@@ -16,7 +16,9 @@ public class PackageViewPane extends JPanel implements ISubscriber {
     ProjInfoPane projInfo;
     PackageTabbedPane packTabs;
     SideToolBar sidebar;
-
+    public DiagramViewPane getActiveDiagramP(){
+        return packTabs.getDiagView();
+    }
 
     public void MousePressed(MouseEvent e, DiagramViewPane dview){
         stateManager.mouseDown(e,dview);
@@ -66,8 +68,7 @@ public class PackageViewPane extends JPanel implements ISubscriber {
             removeAll();
             projInfo=null;
             packTabs=null;
-            revalidate();
-            repaint();
+            //repaint();
         }
     }
     public void updateView(Package pack){
@@ -85,7 +86,6 @@ public class PackageViewPane extends JPanel implements ISubscriber {
             add(packTabs,BorderLayout.CENTER);
             add(sidebar,BorderLayout.EAST);
         }
-        revalidate();
     }
 
     public void StartGeneralization() {

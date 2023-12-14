@@ -32,7 +32,7 @@ public class DiagramViewPane extends JPanel implements ISubscriber {
 
     public void setCurConn(ConnectionPainter curConn) {
         this.curConn = curConn;
-        repaint();
+        //repaint();
     }
 
     public Diagram getDiag() {
@@ -60,12 +60,11 @@ public class DiagramViewPane extends JPanel implements ISubscriber {
         painters = new ArrayList<ElementPainter>();
         selPainters = new ArrayList<ElementPainter>();
         initialize();
-        revalidate();
     }
 
     @Override
     public void react(Object notification) {
-        repaint();
+        //repaint();
     }
 
     @Override
@@ -112,6 +111,10 @@ public class DiagramViewPane extends JPanel implements ISubscriber {
         }
     }
 
+    public void Fit() {
+         FitToRect(getBounds2());
+         //repaint();
+    }
 
 
     private static class ClassyMouseListener extends MouseAdapter {
@@ -138,12 +141,12 @@ public class DiagramViewPane extends JPanel implements ISubscriber {
         if(selPainters.contains(e))return;
         e.setSelected(true);
         selPainters.add(e);
-        repaint();
+        //repaint();
     }
     public void DeselectElement(ElementPainter e){
         e.setSelected(false);
         selPainters.remove(e);
-        repaint();
+        //repaint();
     }
     public void resetSelection(){
         while(!selPainters.isEmpty()) {
@@ -152,7 +155,7 @@ public class DiagramViewPane extends JPanel implements ISubscriber {
     }
     public void AddPainter(ElementPainter p){
         painters.add(p);
-        repaint();
+        //repaint();
     }
     public void AddInterClass(DiagramElement cls){
         if(cls instanceof Interclass i) {
@@ -248,7 +251,7 @@ public class DiagramViewPane extends JPanel implements ISubscriber {
     }
     public void transView(int dx,int dy){
         trans.translate(dx,dy);
-        repaint();
+        //repaint();
     }
     public Point toViewCoords(Point pos){
         Point2D p= trans.transform(pos,null);
@@ -276,13 +279,13 @@ public class DiagramViewPane extends JPanel implements ISubscriber {
 
         //newt.translate(trans.getTranslateX(),trans.getTranslateY());
         trans.concatenate(newt);
-        repaint();
+        //repaint();
     }
 
     public void setConEnd(Point pos){
         pos=tWorldCoords(pos);
         ((ConnectionPainter) curConn).setEndPoint(pos);
-        repaint();
+        //repaint();
     }
     public void letGo(Point pos) {
         var x=this.underPointer(pos);
@@ -293,5 +296,50 @@ public class DiagramViewPane extends JPanel implements ISubscriber {
             this.AddPainter(curConn);
         }
         this.setCurConn(null);
+    }
+    public ElementPainter getSelected(){
+        return selPainters.get(0);
+    }
+
+    public Rectangle getBounds2(){
+        if(painters.isEmpty()) return null;
+        Rectangle r= new Rectangle(painters.get(0).getBounds());
+        for (var e:painters) {
+            r=addRect(r,e.getBounds());
+        }
+        return r;
+    }
+    private Rectangle addRect(Rectangle r1,Rectangle r2){
+        int minx,miny,maxx,maxy;
+        minx=Math.min(r1.x,r2.x);
+        miny=Math.min(r1.y,r2.y);
+        maxx= (int)Math.max(r1.getMaxX(),r2.getMaxX());
+        maxy= (int)Math.max(r1.getMaxY(),r2.getMaxY());
+
+        int w=maxx-minx;
+        int h=maxy-miny;
+        return new Rectangle(minx,miny,w,h);
+    }
+
+    public void FitToRect(Rectangle r){
+        if(r==null)return;
+        double scw=(double)this.getWidth()/r.width;
+        double sch=(double)this.getHeight()/r.height;
+        double scfact = Math.min(scw,sch);
+        scfact=Math.max(scfact,0.2);
+        scfact=Math.min(scfact,5);
+        System.out.println("zooooom "+scfact);
+        int dx1=(int)r.getCenterX();
+        int dy1=(int)r.getCenterY();
+        int dx2=this.getWidth()/2;
+        int dy2=this.getHeight()/2;
+
+        AffineTransform ntrans=new AffineTransform();
+        ntrans.translate(+dx2,+dy2);
+        ntrans.scale(scfact,scfact);
+        ntrans.translate(-dx1,-dy1);
+        trans=ntrans;
+
+
     }
 }

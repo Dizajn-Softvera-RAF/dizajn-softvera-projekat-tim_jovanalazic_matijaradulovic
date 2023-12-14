@@ -7,9 +7,13 @@ import raf.dsw.classycraft.app.core.msggen.Message;
 import raf.dsw.classycraft.app.core.msggen.MessageType;
 import raf.dsw.classycraft.app.core.treemodel.nodes.abstractNodes.ClassyNode;
 import raf.dsw.classycraft.app.core.treemodel.nodes.abstractNodes.ClassyNodeComposite;
+import raf.dsw.classycraft.app.core.treemodel.nodes.diagramNodes.content.Attribute;
+import raf.dsw.classycraft.app.core.treemodel.nodes.diagramNodes.content.EnumItem;
+import raf.dsw.classycraft.app.core.treemodel.nodes.diagramNodes.content.Method;
 import raf.dsw.classycraft.app.core.treemodel.nodes.diagramNodes.entities.ClassyClass;
 import raf.dsw.classycraft.app.core.treemodel.nodes.diagramNodes.entities.ClassyEnum;
 import raf.dsw.classycraft.app.core.treemodel.nodes.diagramNodes.entities.ClassyInterface;
+import raf.dsw.classycraft.app.core.treemodel.nodes.diagramNodes.entities.Visibility;
 import raf.dsw.classycraft.app.core.treemodel.nodes.projNodes.Diagram;
 import raf.dsw.classycraft.app.core.treemodel.nodes.projNodes.ProjectExplorer;
 import raf.dsw.classycraft.app.gui.swing.main.pkgview.PackageViewPane;
@@ -20,6 +24,9 @@ import raf.dsw.classycraft.app.gui.swing.treeview.view.ClassyTreeView;
 import javax.swing.*;
 import javax.swing.tree.TreePath;
 import java.awt.*;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.util.Arrays;
 
 public class MainFrame extends JFrame implements ISubscriber {
     private static MainFrame instance;
@@ -43,13 +50,29 @@ public class MainFrame extends JFrame implements ISubscriber {
         tree.AddChild(parent,"diagram");
         parent= ((ClassyTreeItem) parent.getLastChild());
         tree.getView().expandPath(new TreePath(parent.getPath()));
+        tree.setSelectedItem(((ClassyTreeItem) parent.getParent()));
 
 
         Diagram d= ((Diagram) parent.getNode());
-        d.AddChild(new ClassyClass(new Point(70,30),d));
-        d.AddChild(new ClassyEnum(new Point(50,120),d));
-        d.AddChild(new ClassyInterface(new Point(300,100),d));
+        var c=new ClassyClass("Klasa1",Visibility.PUBLIC,new Point(130,70),new Dimension(),d);
+        var a1=new Attribute("polje1", Visibility.PROTECTED,"String");
+        var a2=new Attribute("polje2", Visibility.PRIVATE,"int");
+        var a3=new Attribute("polje3", Visibility.PRIVATE,"double");
+        var m1=new Method("Metod1",Visibility.PUBLIC,"void",new String[0]);
+        var m2=new Method("Metod2",Visibility.PUBLIC,"Object[]", new String[]{"Object","int"});
+        var m3=new Method("Metod3",Visibility.PRIVATE,"String",new String[]{"Point","float","float"});
+        var e1=new EnumItem("stavka1");
+        var e2=new EnumItem("stavka2");
+        var e3=new EnumItem("stavka3");
+        var e4=new EnumItem("stavka4");
+
+        c.setElements(Arrays.asList(m1,m2,a1,a2,a3));
+        var e=new ClassyEnum("Enum1",Visibility.PUBLIC,new Point(150,220),new Dimension(),d);
+        e.setElements(Arrays.asList(e1,e2,e3,e4));
+        var i=new ClassyInterface("Interfejs1",Visibility.PUBLIC,new Point(380,160),new Dimension(),d);
+        i.setElements(Arrays.asList(m1,m2,m3));
         tree.setSelectedItem(((ClassyTreeItem) parent.getParent()));
+
     }
 
     public ClassyTreeImplementation getTree() {
@@ -93,10 +116,13 @@ public class MainFrame extends JFrame implements ISubscriber {
         JSplitPane sp= new JSplitPane(JSplitPane.HORIZONTAL_SPLIT,jp,pkgpane);
         sp.setDividerLocation(180);
         add(sp);
-        Test();
-
-        setVisible(true);
         revalidate();
+        addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowOpened(WindowEvent e) {
+                Test();
+            }
+        });
     }
 
     public ActionManager getActions() {

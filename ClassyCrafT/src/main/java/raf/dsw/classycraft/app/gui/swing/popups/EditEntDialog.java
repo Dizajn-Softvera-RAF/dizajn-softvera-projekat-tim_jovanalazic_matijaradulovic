@@ -41,7 +41,6 @@ public class EditEntDialog extends JPanel {
             res.addab.setVisible(true);
         }
 
-        res.revalidate();
         return res;
     }
     private EditEntDialog(Interclass ent){

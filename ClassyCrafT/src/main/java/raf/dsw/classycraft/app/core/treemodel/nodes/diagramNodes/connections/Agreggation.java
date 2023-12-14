@@ -7,4 +7,6 @@ public class Agreggation extends Connection{
     public Agreggation(Interclass source, String name, Diagram d) {
         super(source, name, d);
     }
+
+
 }

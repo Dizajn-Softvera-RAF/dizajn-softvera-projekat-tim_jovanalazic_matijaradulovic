@@ -19,7 +19,7 @@ public class AggregationState extends State {
         var x=dview.underPointer(pos.getPoint());
         if(x!=null){
             exi=true;
-            ConnectionPainter c =new AggregationPainter(new Agreggation((Interclass) x.getElement(),"veza",dview.getDiag()));
+            ConnectionPainter c =new AggregationPainter(new Agreggation((Interclass) x.getElement(),null,dview.getDiag()));
             dview.setCurConn(c);
         }
     }

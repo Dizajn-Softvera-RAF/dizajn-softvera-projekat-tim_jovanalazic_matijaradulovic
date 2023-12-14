@@ -17,6 +17,13 @@ public class ClassyInterface extends Interclass {
 
     }
 
+    @Override
+    public Interclass getCopy() {
+        var x= new ClassyInterface(name,vis,new Point(pos),new Dimension(dim), ((Diagram) parent));
+        x.setElements(this.getElements());
+        return x;
+    }
+
     public ClassyInterface(String name, Visibility vis, Point pos, Dimension dim, Diagram d) {
         super(name, vis, pos, dim,d);
         col=new Color(100, 180, 150);
