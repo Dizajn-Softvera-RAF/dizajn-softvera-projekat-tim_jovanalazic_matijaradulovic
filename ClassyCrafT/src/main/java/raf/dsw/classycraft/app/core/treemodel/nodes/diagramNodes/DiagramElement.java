@@ -16,7 +16,7 @@ public abstract class DiagramElement extends ClassyNode implements Cloneable{
     }
 
     public void IChanged(){
-        ((Diagram) getParent()).notifySubscribers(getParent());
+        //((Diagram) getParent()).notifySubscribers(getParent());
 
     }
 

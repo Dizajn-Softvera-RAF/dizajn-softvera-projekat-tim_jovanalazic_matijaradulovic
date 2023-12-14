@@ -32,7 +32,7 @@ public class DiagramViewPane extends JPanel implements ISubscriber {
 
     public void setCurConn(ConnectionPainter curConn) {
         this.curConn = curConn;
-        //repaint();
+        repaint();
     }
 
     public Diagram getDiag() {
@@ -64,7 +64,7 @@ public class DiagramViewPane extends JPanel implements ISubscriber {
 
     @Override
     public void react(Object notification) {
-        //repaint();
+        repaint();
     }
 
     @Override
@@ -113,7 +113,7 @@ public class DiagramViewPane extends JPanel implements ISubscriber {
 
     public void Fit() {
          FitToRect(getBounds2());
-         //repaint();
+         repaint();
     }
 
 
@@ -141,12 +141,12 @@ public class DiagramViewPane extends JPanel implements ISubscriber {
         if(selPainters.contains(e))return;
         e.setSelected(true);
         selPainters.add(e);
-        //repaint();
+        repaint();
     }
     public void DeselectElement(ElementPainter e){
         e.setSelected(false);
         selPainters.remove(e);
-        //repaint();
+        repaint();
     }
     public void resetSelection(){
         while(!selPainters.isEmpty()) {
@@ -155,7 +155,7 @@ public class DiagramViewPane extends JPanel implements ISubscriber {
     }
     public void AddPainter(ElementPainter p){
         painters.add(p);
-        //repaint();
+        repaint();
     }
     public void AddInterClass(DiagramElement cls){
         if(cls instanceof Interclass i) {
@@ -164,6 +164,7 @@ public class DiagramViewPane extends JPanel implements ISubscriber {
             i.setPos(pos);
             ElementPainter clp = new InterClassPainter(i);
             painters.add(clp);
+            repaint();
         }
     }
     public void RemovePainter(ElementPainter p){
@@ -239,6 +240,7 @@ public class DiagramViewPane extends JPanel implements ISubscriber {
     public void transEl(ElementPainter e, int dx, int dy){
         double z=trans.getScaleX();
         ((Interclass) e.getElement()).trans((int)(dx/z),(int)(dy/z));
+        repaint();
     }
     public void transSel(int dx,int dy){
         for (var e:selPainters) {
@@ -251,7 +253,7 @@ public class DiagramViewPane extends JPanel implements ISubscriber {
     }
     public void transView(int dx,int dy){
         trans.translate(dx,dy);
-        //repaint();
+        repaint();
     }
     public Point toViewCoords(Point pos){
         Point2D p= trans.transform(pos,null);
@@ -279,13 +281,13 @@ public class DiagramViewPane extends JPanel implements ISubscriber {
 
         //newt.translate(trans.getTranslateX(),trans.getTranslateY());
         trans.concatenate(newt);
-        //repaint();
+        repaint();
     }
 
     public void setConEnd(Point pos){
         pos=tWorldCoords(pos);
         ((ConnectionPainter) curConn).setEndPoint(pos);
-        //repaint();
+        repaint();
     }
     public void letGo(Point pos) {
         var x=this.underPointer(pos);

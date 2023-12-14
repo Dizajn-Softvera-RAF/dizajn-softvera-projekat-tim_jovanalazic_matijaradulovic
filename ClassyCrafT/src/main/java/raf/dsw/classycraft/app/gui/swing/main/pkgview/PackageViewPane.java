@@ -68,7 +68,7 @@ public class PackageViewPane extends JPanel implements ISubscriber {
             removeAll();
             projInfo=null;
             packTabs=null;
-            //repaint();
+            repaint();
         }
     }
     public void updateView(Package pack){

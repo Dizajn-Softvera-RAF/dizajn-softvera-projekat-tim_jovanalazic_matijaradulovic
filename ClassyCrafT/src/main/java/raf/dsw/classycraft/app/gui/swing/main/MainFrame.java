@@ -52,7 +52,6 @@ public class MainFrame extends JFrame implements ISubscriber {
         tree.getView().expandPath(new TreePath(parent.getPath()));
         tree.setSelectedItem(((ClassyTreeItem) parent.getParent()));
 
-
         Diagram d= ((Diagram) parent.getNode());
         var c=new ClassyClass("Klasa1",Visibility.PUBLIC,new Point(130,70),new Dimension(),d);
         var a1=new Attribute("polje1", Visibility.PROTECTED,"String");
@@ -117,10 +116,17 @@ public class MainFrame extends JFrame implements ISubscriber {
         sp.setDividerLocation(180);
         add(sp);
         revalidate();
+
         addWindowListener(new WindowAdapter() {
             @Override
             public void windowOpened(WindowEvent e) {
                 Test();
+                SwingUtilities.invokeLater(new Runnable() {
+                    @Override
+                    public void run() {
+                        pkgpane.getActiveDiagramP().repaint();
+                    }
+                });
             }
         });
     }
