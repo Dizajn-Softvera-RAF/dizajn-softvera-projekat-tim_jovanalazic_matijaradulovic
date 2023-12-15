@@ -1,45 +1,41 @@
 package raf.dsw.classycraft.app.core.state.states;
 
 import raf.dsw.classycraft.app.core.state.State;
-import raf.dsw.classycraft.app.core.treemodel.nodes.diagramNodes.connections.Agreggation;
-import raf.dsw.classycraft.app.core.treemodel.nodes.diagramNodes.connections.Generalization;
+import raf.dsw.classycraft.app.core.treemodel.nodes.diagramNodes.connections.Aggregation;
+import raf.dsw.classycraft.app.core.treemodel.nodes.diagramNodes.connections.Connection;
 import raf.dsw.classycraft.app.core.treemodel.nodes.diagramNodes.entities.Interclass;
-import raf.dsw.classycraft.app.gui.swing.main.pkgview.DiagramViewPane;
-import raf.dsw.classycraft.app.gui.swing.painters.AggregationPainter;
-import raf.dsw.classycraft.app.gui.swing.painters.ConnectionPainter;
-import raf.dsw.classycraft.app.gui.swing.painters.GeneralizationPainter;
+import raf.dsw.classycraft.app.core.treemodel.nodes.projNodes.Diagram;
+import raf.dsw.classycraft.app.gui.swing.main.pkgview.DiagramView;
 
 import java.awt.event.MouseEvent;
 
-public class AggregationState extends State {
+public class AggregationState extends ConnectionStateAbs implements State {
 
-    boolean exi;
+
     @Override
-    public void mouseDown(MouseEvent pos, DiagramViewPane dview) {
-        var x=dview.underPointer(pos.getPoint());
-        if(x!=null){
-            exi=true;
-            ConnectionPainter c =new AggregationPainter(new Agreggation((Interclass) x.getElement(),null,dview.getDiag()));
-            dview.setCurConn(c);
-        }
+    public void mouseDown(MouseEvent pos, DiagramView dviewv) {
+        super.mouseDown(pos,dviewv);
     }
 
     @Override
-    public void mouseUp(MouseEvent pos, DiagramViewPane dview) {
-        if(exi)
-            dview.letGo(pos.getPoint());
-        exi=false;
+    public void mouseUp(MouseEvent pos, DiagramView dviewv) {
+        super.mouseUp(pos,dviewv);
     }
 
     @Override
-    public void mouseDrag(MouseEvent pos, DiagramViewPane dview) {
-        if(exi){
-            dview.setConEnd(pos.getPoint());
-        }
+    public void mouseDrag(MouseEvent pos, DiagramView dviewv) {
+        super.mouseDrag(pos,dviewv);
     }
 
     @Override
-    public void mouseWheeled(MouseEvent e, DiagramViewPane source) {
+    public void mouseWheeled(MouseEvent e, DiagramView source) {
 
+    }
+
+
+
+    @Override
+    public Connection makeInstance(Interclass souce, String name, Diagram d) {
+        return new Aggregation(souce,name,d);
     }
 }

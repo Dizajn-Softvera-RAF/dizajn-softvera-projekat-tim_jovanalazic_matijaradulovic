@@ -1,11 +1,15 @@
 package raf.dsw.classycraft.app.gui.swing.treeview;
 
+import raf.dsw.classycraft.app.controller.events.NodeChangedClassyEvent;
+import raf.dsw.classycraft.app.controller.events.NodeChildrenClassyEvent;
+import raf.dsw.classycraft.app.controller.events.SelectionClassyEvent;
 import raf.dsw.classycraft.app.core.msggen.IPublisher;
 import raf.dsw.classycraft.app.core.msggen.ISubscriber;
 import raf.dsw.classycraft.app.core.treemodel.ClassyRepository;
 import raf.dsw.classycraft.app.core.treemodel.factory.AbstractNodeFactory;
 import raf.dsw.classycraft.app.core.treemodel.nodes.abstractNodes.ClassyNode;
 import raf.dsw.classycraft.app.core.treemodel.nodes.abstractNodes.ClassyNodeComposite;
+import raf.dsw.classycraft.app.core.treemodel.nodes.abstractNodes.ClassyNodeLeaf;
 import raf.dsw.classycraft.app.core.treemodel.nodes.projNodes.Diagram;
 import raf.dsw.classycraft.app.core.treemodel.nodes.projNodes.Package;
 import raf.dsw.classycraft.app.core.treemodel.nodes.projNodes.ProjectExplorer;
@@ -13,14 +17,13 @@ import raf.dsw.classycraft.app.gui.swing.treeview.model.ClassyTreeItem;
 import raf.dsw.classycraft.app.gui.swing.treeview.view.ClassyTreeView;
 
 import javax.swing.*;
-import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreePath;
 import javax.swing.tree.TreeSelectionModel;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ClassyTreeImplementation implements ClassyTree, IPublisher, ISubscriber {
+public class ClassyTreeI implements ClassyTree, IPublisher, ISubscriber {
     private DefaultTreeModel treeModel;
     private ClassyTreeView treeView;
     public ClassyTreeView getView(){return treeView;}
@@ -28,10 +31,10 @@ public class ClassyTreeImplementation implements ClassyTree, IPublisher, ISubscr
         return treeModel;
     }
 
-    ClassyTreeItem selectedItem;
-    public void setSelectedItem(ClassyTreeItem sel){
-        selectedItem=sel;
-        notifySubscribers(sel);
+    ClassyTreeItem openedItem;
+    public void setOpenedItem(ClassyTreeItem sel){
+        openedItem =sel;
+        notifySubscribers( new SelectionClassyEvent(this,sel));
     }
     @Override
     public ClassyTreeView generateTree(ProjectExplorer pe) {
@@ -45,7 +48,11 @@ public class ClassyTreeImplementation implements ClassyTree, IPublisher, ISubscr
         return treeView;
     }
 
-    public void AddChildItem(ClassyTreeItem parent, ClassyNode node){
+    public void AddChildItem(ClassyTreeItem parent, ClassyNode node){ //main add
+        if(node instanceof Diagram d){ //caution!
+            d.addSubscriber(this);
+        }
+
         ClassyTreeItem newItem=new ClassyTreeItem(node);
         parent.add(newItem);
         treeView.expandPath(new TreePath(parent.getPath()) );
@@ -87,6 +94,7 @@ public class ClassyTreeImplementation implements ClassyTree, IPublisher, ISubscr
     }
 
     private boolean RenameItem( ClassyTreeItem item,String newName) {
+        if(item.getNode() instanceof ClassyNodeLeaf) return false;
         String oldName = item.toString();
         item.setName(newName);
         item.getNode().setName(newName);
@@ -99,7 +107,7 @@ public class ClassyTreeImplementation implements ClassyTree, IPublisher, ISubscr
         item.getNode().setName(oldName);
         return false;
     }
-    public  boolean RenameSel(String name){
+    public boolean RenameSel(String name){
         if(getSelectedNode()!=null)
             return RenameItem(getSelectedNode(),name);
         return false;
@@ -109,11 +117,17 @@ public class ClassyTreeImplementation implements ClassyTree, IPublisher, ISubscr
     }
 
 
-    private boolean RemoveNode(ClassyTreeItem item) {
+    private boolean RemoveNode(ClassyTreeItem item) {//main remove
         if(item==treeModel.getRoot())
             return false;
-        if(item==selectedItem || item.isNodeDescendant(selectedItem))
-            setSelectedItem(null);
+        if(item== openedItem || item.isNodeDescendant(openedItem))
+            setOpenedItem(null);
+
+        if(item.getNode() instanceof ClassyNodeLeaf) return false;  //generate error or implement delete notify...
+        if(item.getNode() instanceof Diagram d){
+            d.removeSubscriber(this);
+        }
+
 
         treeView.setSelectionPath(treeView.getSelectionPath().getParentPath());
 
@@ -125,7 +139,11 @@ public class ClassyTreeImplementation implements ClassyTree, IPublisher, ISubscr
         SwingUtilities.updateComponentTreeUI(treeView);
         return true;
     }
+    private void RemoveTreeItem(ClassyTreeItem item){
+        ((DefaultTreeModel)treeView.getModel()).removeNodeFromParent(item);
+        SwingUtilities.updateComponentTreeUI(treeView);
 
+    }
     @Override
     public boolean AppendChild(String type) {
         if(getSelectedNode()!=null)
@@ -164,23 +182,39 @@ public class ClassyTreeImplementation implements ClassyTree, IPublisher, ISubscr
     }
 
     @Override
-    public void notifySubscribers(Object notification) {
+    public void notifySubscribers(Object notification) { //notifies package view after selection change
         for (ISubscriber sub:subscribers) {
-            sub.react (this.selectedItem);
+            sub.react(notification);
         }
     }
 
+
+
+
+
     @Override
-    public void react(Object notification) {//treba mi aktivni dijagram............
-        if(selectedItem!=null&& notification instanceof Diagram d){
-        var x=find(selectedItem,d);
-        if(x!=null) {
-            Update(x);
+    public void react(Object notification) {  //diagrams belonging to curently selected package has elements added/removed, diagram elemnet name chaged...
+        if(notification instanceof NodeChildrenClassyEvent ech){
+            while (ech.hasNextAdded()){
+                ClassyNode c=ech.getNextAdded();//diagram element
+                AddChildSel(c);
+            }
+            while(ech.hasNextRemoved()){
+                ClassyNode c=ech.getNextRemoved();
+                RemoveChildSel(c);
+            }
         }
+        else if(notification instanceof NodeChangedClassyEvent nch){
+            ClassyNode c=nch.getNode();
+            var p=c.getParent();
+            var x=find(openedItem,c);
+            SwingUtilities.updateComponentTreeUI(treeView);
+
+
         }
     }
     public ClassyTreeItem find(ClassyTreeItem anc,ClassyNode node){
-        var it=((DefaultMutableTreeNode) anc).depthFirstEnumeration();
+        var it=anc.depthFirstEnumeration();
         while (it.hasMoreElements()){
             ClassyTreeItem n= ((ClassyTreeItem) it.nextElement());
             if(n.getNode()==node){
@@ -188,6 +222,31 @@ public class ClassyTreeImplementation implements ClassyTree, IPublisher, ISubscr
             }
         }
         return null;
+    }
+
+    public ClassyTreeItem getRoot(){
+        return ((ClassyTreeItem) this.getTreeModel().getRoot());
+    }
+
+    public void RemoveNode(ClassyNode child){
+        child.getParent();
+        var x=find(getRoot(),child);
+        RemoveNode(x);
+    }
+    public void RemoveChildSel(ClassyNode child){
+        child.getParent();
+        var x=find(openedItem,child);
+        RemoveTreeItem(x);
+    }
+    public void AddChildSel(ClassyNode child){
+
+        var x=find(openedItem,child.getParent());//diagram
+        AddChildItem(x,child);
+    }
+    public void AddNode(ClassyNode child){
+        child.getParent();
+        var x=find(getRoot(),child.getParent());
+        AddChildItem(x,child);
     }
 
 }

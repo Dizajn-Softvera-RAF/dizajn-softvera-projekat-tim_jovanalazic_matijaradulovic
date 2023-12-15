@@ -7,4 +7,7 @@ public class Dependency extends Connection{
     public Dependency(Interclass source, String name, Diagram d) {
         super(source, name, d);
     }
+
+    public Dependency() {
+    }
 }

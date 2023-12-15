@@ -18,6 +18,9 @@ public class ClassyClass extends Interclass {
         col=new Color(110, 180, 220);
 
     }
+    public ClassyClass(){
+        super();
+    }
 
     @Override
     public Interclass getCopy() {

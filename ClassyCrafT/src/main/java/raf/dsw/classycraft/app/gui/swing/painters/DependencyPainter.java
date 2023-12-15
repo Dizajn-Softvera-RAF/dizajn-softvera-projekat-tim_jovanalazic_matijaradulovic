@@ -27,10 +27,7 @@ public class DependencyPainter extends ConnectionPainter{
 
 
     public void MakeShape(){
-        if(isCompleted()){
-            getPoints();
-        }
-
+        getPoints();
         line=new Line2D.Double(begPoint,endPoint);
 
         Point vp= ConnectionPainter.Geom.getVect(begPoint,endPoint);

@@ -9,6 +9,15 @@ public abstract class Connection extends DiagramElement {
     Interclass source;
     Interclass destination;
 
+    protected Connection() {
+
+    }
+
+
+    public void setSource(Interclass source) {
+        this.source = source;
+    }
+
     public Interclass getSource() {
         return source;
     }
@@ -21,15 +30,14 @@ public abstract class Connection extends DiagramElement {
     public Connection(Interclass source, String name, Diagram d) {
         super(name,d);
         this.source = source;
-        if(name==null){
-            name=getSource().getName()+"->"+getDestination().getName();
-
-        }
     }
 
 
     public void setDestination(Interclass destination) {
         this.destination = destination;
+        if(name==null){
+            name=getSource().getName()+"->"+getDestination().getName();
+        }
     }
 
     @Override

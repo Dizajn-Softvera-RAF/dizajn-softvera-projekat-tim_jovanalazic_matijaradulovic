@@ -2,7 +2,9 @@ package raf.dsw.classycraft.app.controller;
 
 import raf.dsw.classycraft.app.core.treemodel.nodes.diagramNodes.entities.Interclass;
 import raf.dsw.classycraft.app.gui.swing.main.MainFrame;
-import raf.dsw.classycraft.app.gui.swing.main.pkgview.DiagramViewPane;
+import raf.dsw.classycraft.app.gui.swing.main.pkgview.DiagramViewModel;
+import raf.dsw.classycraft.app.gui.swing.main.pkgview.DiagramView;
+import raf.dsw.classycraft.app.gui.swing.painters.factory.PainterSimpleFactory;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -17,13 +19,15 @@ public class CloneAction extends AbstractClassyAction{
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        DiagramViewPane dv= MainFrame.getInstance().getPkgpane().getActiveDiagramP();
+        DiagramView dvv= MainFrame.getInstance().getPkgpane().getActiveDiagramP();
+        if(dvv==null) return;
+        DiagramViewModel dv=dvv.getModel();
         if(dv.SingleSel()){
             var x=dv.getSelected().getElement();
             if(x instanceof Interclass i){
                 Interclass xp=i.getCopy();
                 xp.getPos().translate(xp.getDim().width+10,0);
-                dv.AddInterClass(xp);
+                dv.AddPainter(PainterSimpleFactory.makePainter(xp));
             }
         }
     }

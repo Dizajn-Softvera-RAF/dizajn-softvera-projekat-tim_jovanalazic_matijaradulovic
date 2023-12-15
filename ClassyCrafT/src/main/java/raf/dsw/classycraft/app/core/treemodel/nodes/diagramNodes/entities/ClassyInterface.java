@@ -17,6 +17,9 @@ public class ClassyInterface extends Interclass {
 
     }
 
+    public ClassyInterface() {
+    }
+
     @Override
     public Interclass getCopy() {
         var x= new ClassyInterface(name,vis,new Point(pos),new Dimension(dim), ((Diagram) parent));

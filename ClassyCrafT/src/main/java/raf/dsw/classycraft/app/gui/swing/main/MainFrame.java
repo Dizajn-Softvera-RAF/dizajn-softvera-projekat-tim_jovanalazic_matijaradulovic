@@ -5,8 +5,6 @@ import raf.dsw.classycraft.app.core.ApplicationFramework;
 import raf.dsw.classycraft.app.core.msggen.ISubscriber;
 import raf.dsw.classycraft.app.core.msggen.Message;
 import raf.dsw.classycraft.app.core.msggen.MessageType;
-import raf.dsw.classycraft.app.core.treemodel.nodes.abstractNodes.ClassyNode;
-import raf.dsw.classycraft.app.core.treemodel.nodes.abstractNodes.ClassyNodeComposite;
 import raf.dsw.classycraft.app.core.treemodel.nodes.diagramNodes.content.Attribute;
 import raf.dsw.classycraft.app.core.treemodel.nodes.diagramNodes.content.EnumItem;
 import raf.dsw.classycraft.app.core.treemodel.nodes.diagramNodes.content.Method;
@@ -17,7 +15,7 @@ import raf.dsw.classycraft.app.core.treemodel.nodes.diagramNodes.entities.Visibi
 import raf.dsw.classycraft.app.core.treemodel.nodes.projNodes.Diagram;
 import raf.dsw.classycraft.app.core.treemodel.nodes.projNodes.ProjectExplorer;
 import raf.dsw.classycraft.app.gui.swing.main.pkgview.PackageViewPane;
-import raf.dsw.classycraft.app.gui.swing.treeview.ClassyTreeImplementation;
+import raf.dsw.classycraft.app.gui.swing.treeview.ClassyTreeI;
 import raf.dsw.classycraft.app.gui.swing.treeview.model.ClassyTreeItem;
 import raf.dsw.classycraft.app.gui.swing.treeview.view.ClassyTreeView;
 
@@ -30,13 +28,12 @@ import java.util.Arrays;
 
 public class MainFrame extends JFrame implements ISubscriber {
     private static MainFrame instance;
-    ClassyTreeImplementation tree;
+    ClassyTreeI tree;
 
 
     public PackageViewPane getPkgpane() {
         return pkgpane;
     }
-
     PackageViewPane pkgpane;
     ActionManager actions;
 
@@ -50,7 +47,7 @@ public class MainFrame extends JFrame implements ISubscriber {
         tree.AddChild(parent,"diagram");
         parent= ((ClassyTreeItem) parent.getLastChild());
         tree.getView().expandPath(new TreePath(parent.getPath()));
-        tree.setSelectedItem(((ClassyTreeItem) parent.getParent()));
+        tree.setOpenedItem(((ClassyTreeItem) parent.getParent()));
 
         Diagram d= ((Diagram) parent.getNode());
         var c=new ClassyClass("Klasa1",Visibility.PUBLIC,new Point(130,70),new Dimension(),d);
@@ -70,11 +67,15 @@ public class MainFrame extends JFrame implements ISubscriber {
         e.setElements(Arrays.asList(e1,e2,e3,e4));
         var i=new ClassyInterface("Interfejs1",Visibility.PUBLIC,new Point(380,160),new Dimension(),d);
         i.setElements(Arrays.asList(m1,m2,m3));
-        tree.setSelectedItem(((ClassyTreeItem) parent.getParent()));
+        d.AddChild(c);
+        d.AddChild(e);
+        d.AddChild(i);
+        
+        tree.setOpenedItem(((ClassyTreeItem) parent.getParent()));
 
     }
 
-    public ClassyTreeImplementation getTree() {
+    public ClassyTreeI getTree() {
         return tree;
     }
 
@@ -95,7 +96,7 @@ public class MainFrame extends JFrame implements ISubscriber {
         Dimension screenSize = kit.getScreenSize();
         int screenHeight = screenSize.height;
         int screenWidth = screenSize.width;
-        setSize(screenWidth / 2, (int)(screenHeight / 1.9));
+        setSize(screenWidth / 2, (int)(screenHeight / 1.7));
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setTitle("ClassyCrafT");
@@ -108,7 +109,7 @@ public class MainFrame extends JFrame implements ISubscriber {
         ApplicationFramework.getInstance().getMsgGen().addSubscriber(this);
 
         ProjectExplorer pe= ApplicationFramework.getInstance().getTreeRepo().getRoot();
-        ClassyTreeView tw=(tree = new ClassyTreeImplementation()).generateTree(pe);
+        ClassyTreeView tw=(tree = new ClassyTreeI()).generateTree(pe);
         pkgpane=new PackageViewPane();
         JPanel jp=new JPanel(new FlowLayout(FlowLayout.LEFT));
         jp.add(tw);

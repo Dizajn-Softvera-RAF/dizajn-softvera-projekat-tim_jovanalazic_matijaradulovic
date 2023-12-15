@@ -1,14 +1,16 @@
 package raf.dsw.classycraft.app.core.state.states;
 
 import raf.dsw.classycraft.app.core.state.State;
-import raf.dsw.classycraft.app.gui.swing.main.pkgview.DiagramViewPane;
+import raf.dsw.classycraft.app.gui.swing.main.pkgview.DiagramView;
 
 import java.awt.event.MouseEvent;
 
-public class DeleteState extends State {
+public class DeleteState implements State {
 
     @Override
-    public void mouseDown(MouseEvent pos, DiagramViewPane dview) {
+    public void mouseDown(MouseEvent pos, DiagramView dviewv) {
+        var dview=dviewv.getModel();
+
         var x=dview.underPointer(pos.getPoint());
         if (x==null)return;
         if(x.isSelected())
@@ -18,7 +20,8 @@ public class DeleteState extends State {
     }
 
     @Override
-    public void mouseUp(MouseEvent pos, DiagramViewPane dview) {
+    public void mouseUp(MouseEvent pos, DiagramView dviewv) {
+
 //        if(dview.isUnder(pos)){
 //            var s=dview.underPointer(pos);
 //            if(s.isSelected())
@@ -29,12 +32,12 @@ public class DeleteState extends State {
     }
 
     @Override
-    public void mouseDrag(MouseEvent pos, DiagramViewPane dview) {
+    public void mouseDrag(MouseEvent pos, DiagramView dview) {
 
     }
 
     @Override
-    public void mouseWheeled(MouseEvent e, DiagramViewPane source) {
+    public void mouseWheeled(MouseEvent e, DiagramView source) {
 
     }
 }

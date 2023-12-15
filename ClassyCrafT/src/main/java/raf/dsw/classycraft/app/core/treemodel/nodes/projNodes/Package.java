@@ -1,5 +1,6 @@
 package raf.dsw.classycraft.app.core.treemodel.nodes.projNodes;
 
+import raf.dsw.classycraft.app.controller.events.NodeChildrenClassyEvent;
 import raf.dsw.classycraft.app.core.msggen.IPublisher;
 import raf.dsw.classycraft.app.core.msggen.ISubscriber;
 import raf.dsw.classycraft.app.core.treemodel.nodes.abstractNodes.ClassyNode;
@@ -17,13 +18,13 @@ public class Package extends ClassyNodeComposite implements IPublisher {
     @Override
     public void AddChild(ClassyNode child) {
         super.AddChild(child);
-        notifySubscribers(this);
+        notifySubscribers(NodeChildrenClassyEvent.childAddedEvent(child));
     }
 
     @Override
     public void removeChild(ClassyNode child) {
         super.removeChild(child);
-        notifySubscribers(this);
+        notifySubscribers(NodeChildrenClassyEvent.childRemovedEvent(child));
 
     }
 
@@ -50,9 +51,9 @@ public class Package extends ClassyNodeComposite implements IPublisher {
     }
 
     @Override
-    public void notifySubscribers(Object notification) {
+    public void notifySubscribers(Object notification) { //notifies package tabbed pane for diagram tab addition/removal
         for (ISubscriber sub:subscribers) {
-            sub.react (this);
+            sub.react (notification);
         }
     }
 

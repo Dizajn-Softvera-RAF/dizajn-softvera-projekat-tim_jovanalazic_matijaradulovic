@@ -1,5 +1,7 @@
 package raf.dsw.classycraft.app.core.treemodel.nodes.projNodes;
 
+import raf.dsw.classycraft.app.controller.events.NodeChildrenClassyEvent;
+import raf.dsw.classycraft.app.controller.events.NodeChangedClassyEvent;
 import raf.dsw.classycraft.app.core.msggen.IPublisher;
 import raf.dsw.classycraft.app.core.msggen.ISubscriber;
 import raf.dsw.classycraft.app.core.treemodel.nodes.abstractNodes.ClassyNode;
@@ -29,26 +31,24 @@ public class Diagram extends ClassyNodeComposite implements IPublisher {
     @Override
     public void setName(String name) {
         super.setName(name);
-        ((Package) parent).notifySubscribers(parent);
+        notifySubscribers(new NodeChangedClassyEvent(this));
     }
 
     @Override
-    public void notifySubscribers(Object notification) {
-        for (ISubscriber sub:subscribers) {
-            sub.react (this);
+    public void notifySubscribers(Object notification) {  //package tabbed pane after name change for tab title change, if child removed/added from diagram view notify jtree for update
+        for (ISubscriber sub:subscribers) { //notify diagram view to repaint? x
+            sub.react(notification);
         }
     }
 
     @Override
     public void AddChild(ClassyNode child) {
         super.AddChild(child);
-        notifySubscribers(this);
+        notifySubscribers(NodeChildrenClassyEvent.childAddedEvent(child));
     }
     @Override
     public void removeChild(ClassyNode child) {
         super.removeChild(child);
-        notifySubscribers(this);
+        notifySubscribers(NodeChildrenClassyEvent.childRemovedEvent(child));
     }
-
-
 }

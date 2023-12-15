@@ -1,10 +1,13 @@
 
 package raf.dsw.classycraft.app.core.msggen;
 
+import raf.dsw.classycraft.app.controller.events.ClassyEvent;
+
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-public class Message {
+public class Message extends ClassyEvent {
+
     public MessageType getType() {
         return type;
     }
@@ -21,17 +24,17 @@ public class Message {
     String text;
     LocalDateTime timestamp;
 
-    public Message( String text, MessageType type, LocalDateTime timestamp) {
+    public Message(Object source,String text, MessageType type, LocalDateTime timestamp) {
+        super(source);
         this.type = type;
         this.text = text;
         this.timestamp = timestamp;
     }
 
-    public Message( String text,MessageType type) {
-        this.type = type;
-        this.text = text;
-        this.timestamp=LocalDateTime.now();
+    public Message(String text,MessageType type) {
+        this(null,text,type,LocalDateTime.now());
     }
+
 
     @Override
     public String toString() {

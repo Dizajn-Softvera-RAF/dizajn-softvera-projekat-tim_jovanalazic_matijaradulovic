@@ -1,5 +1,6 @@
 package raf.dsw.classycraft.app.gui.swing.main.pkgview;
 
+import raf.dsw.classycraft.app.controller.events.SelectionClassyEvent;
 import raf.dsw.classycraft.app.core.msggen.ISubscriber;
 import raf.dsw.classycraft.app.core.state.StateManager;
 import raf.dsw.classycraft.app.core.treemodel.nodes.projNodes.Package;
@@ -16,21 +17,23 @@ public class PackageViewPane extends JPanel implements ISubscriber {
     ProjInfoPane projInfo;
     PackageTabbedPane packTabs;
     SideToolBar sidebar;
-    public DiagramViewPane getActiveDiagramP(){
-        return packTabs.getDiagView();
+    public DiagramView getActiveDiagramP(){
+        if(packTabs!=null)
+            return packTabs.getDiagView();
+        return null;
     }
 
-    public void MousePressed(MouseEvent e, DiagramViewPane dview){
+    public void MousePressed(MouseEvent e, DiagramView dview){
         stateManager.mouseDown(e,dview);
     }
-    public void MouseReleased(MouseEvent e, DiagramViewPane dview)
+    public void MouseReleased(MouseEvent e, DiagramView dview)
     {
         stateManager.mouseUp(e,dview);
     }
-    public void MouseDragged(MouseEvent e, DiagramViewPane dview){
+    public void MouseDragged(MouseEvent e, DiagramView dview){
         stateManager.mouseDrag(e,dview);
     }
-    public void MouseWheeled(MouseEvent e, DiagramViewPane source) {
+    public void MouseWheeled(MouseEvent e, DiagramView source) {
         stateManager.mouseWheeled(e,source);
     }
     public void StartClassState(){
@@ -50,50 +53,63 @@ public class PackageViewPane extends JPanel implements ISubscriber {
         return stateManager;
     }
 
+    public void StartGeneralization() {
+        stateManager.setGeneralizationState();
+    }
+    public void StartEditState() {
+        stateManager.setEditState();
+    }
+
     public PackageViewPane(){
         setLayout(new BorderLayout());
         MainFrame.getInstance().getTree().addSubscriber(this);
         stateManager=new StateManager();
-
     }
+
     @Override
-    public void react(Object notification) {
-
-        if(notification!=null && (((ClassyTreeItem) notification).getNode() instanceof Package currpackage))
-        {
-            updateView(currpackage);
-        }
-        else {
-
-            removeAll();
-            projInfo=null;
-            packTabs=null;
-            repaint();
+    public void react(Object notification) { // jtree after selection changed
+        if(notification instanceof SelectionClassyEvent esel){
+            ClassyTreeItem selItem=(ClassyTreeItem) esel.getSelected();
+            if(selItem!=null && selItem.getNode() instanceof Package p){
+                makeView(p);
+            }
+            else {
+                deleteView();
+            }
         }
     }
-    public void updateView(Package pack){
 
-        this.removeAll();
+    //reinit?
+    private void deleteView() {
+        if(packTabs!=null){
+            packTabs.Clean();
+        }
+        if(projInfo!=null){
+            projInfo.Clean();
+        }
+
+        removeAll();
         projInfo=null;
         packTabs=null;
         sidebar=null;
+        revalidate();
+        repaint();
+    }
+    //public void Clean(){}
+    //public void Initialize(){}
+    public void makeView(Package pack){
+
+        deleteView();
         if(pack!=null) {
             Project p = pack.getProject();
             projInfo = new ProjInfoPane(p);
             packTabs = new PackageTabbedPane(pack);
             sidebar=new SideToolBar();
+
             add(projInfo, BorderLayout.NORTH);
             add(packTabs,BorderLayout.CENTER);
             add(sidebar,BorderLayout.EAST);
         }
-    }
-
-    public void StartGeneralization() {
-        stateManager.setGeneralizationState();
-    }
-
-    public void StartEditState() {
-        stateManager.setEditState();
     }
 
 

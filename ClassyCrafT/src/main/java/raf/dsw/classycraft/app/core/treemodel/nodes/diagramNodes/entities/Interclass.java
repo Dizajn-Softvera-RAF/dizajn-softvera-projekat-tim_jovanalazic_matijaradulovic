@@ -16,6 +16,12 @@ public abstract class Interclass extends DiagramElement implements Cloneable {
     Point pos;
     Dimension dim;
 
+    protected Interclass() {
+        pos=new Point();
+        dim=new Dimension();
+        vis=Visibility.PUBLIC;
+    }
+
     public Point getPos() {
         return pos;
     }
@@ -32,7 +38,7 @@ public abstract class Interclass extends DiagramElement implements Cloneable {
         this.elements = elements;
         IChanged();
     }
-
+    public void IChanged(){}
     public Interclass(String n, Visibility vis, Point pos, Dimension dim, Diagram d) {
         super(n,d);
         this.vis = vis;
@@ -50,7 +56,6 @@ public abstract class Interclass extends DiagramElement implements Cloneable {
     }
     public Interclass(Point pos, Diagram d){
         this("", Visibility.DEFAULT,pos,new Dimension(50,30),d);
-
     }
 
 

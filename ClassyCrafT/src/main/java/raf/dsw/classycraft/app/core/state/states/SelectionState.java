@@ -1,16 +1,18 @@
 package raf.dsw.classycraft.app.core.state.states;
 
 import raf.dsw.classycraft.app.core.state.State;
-import raf.dsw.classycraft.app.gui.swing.main.pkgview.DiagramViewPane;
+import raf.dsw.classycraft.app.gui.swing.main.pkgview.DiagramView;
 
 import java.awt.*;
 import java.awt.event.MouseEvent;
 
-public class SelectionState extends State {
+public class SelectionState implements State {
 
     Point origin;
    @Override
-    public void mouseDown(MouseEvent pos, DiagramViewPane dview) {
+    public void mouseDown(MouseEvent pos, DiagramView dviewv) {
+       var dview=dviewv.getModel();
+
        var s=dview.underPointer(pos.getPoint());
        if(s!=null ){
            if(s.isSelected()){
@@ -33,14 +35,18 @@ public class SelectionState extends State {
     }
 
     @Override
-    public void mouseUp(MouseEvent epos, DiagramViewPane dview) {
+    public void mouseUp(MouseEvent epos, DiagramView dviewv) {
+        var dview=dviewv.getModel();
+
         Point pos=epos.getPoint();
        origin=null;
-        dview.setSelect(null);
+        dview.setSelectRect(null);
     }
 
     @Override
-    public void mouseDrag(MouseEvent epos, DiagramViewPane dview) {
+    public void mouseDrag(MouseEvent epos, DiagramView dviewv) {
+        var dview=dviewv.getModel();
+
         Point pos=epos.getPoint();
 
         if(origin==null){
@@ -57,12 +63,12 @@ public class SelectionState extends State {
         int nx = Math.min(p1.x, pos.x);
         if(!epos.isControlDown())
             dview.resetSelection();
-        dview.setSelect(new Rectangle(nx, ny, Math.abs(w), Math.abs(h)));
+        dview.setSelectRect(new Rectangle(nx, ny, Math.abs(w), Math.abs(h)));
 
     }
 
     @Override
-    public void mouseWheeled(MouseEvent e, DiagramViewPane source) {
+    public void mouseWheeled(MouseEvent e, DiagramView source) {
 
     }
 }

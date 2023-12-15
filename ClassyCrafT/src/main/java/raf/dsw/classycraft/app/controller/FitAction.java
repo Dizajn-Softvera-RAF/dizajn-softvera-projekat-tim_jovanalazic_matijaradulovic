@@ -19,6 +19,8 @@ public class FitAction extends AbstractClassyAction{
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        MainFrame.getInstance().getPkgpane().getActiveDiagramP().Fit();
+        var dvp=MainFrame.getInstance().getPkgpane().getActiveDiagramP();
+        if(dvp==null) return;
+        dvp.getModel().Fit(dvp.getWidth(), dvp.getHeight());
     }
 }

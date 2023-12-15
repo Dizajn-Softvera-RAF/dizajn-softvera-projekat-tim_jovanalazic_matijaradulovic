@@ -1,8 +1,8 @@
 package raf.dsw.classycraft.app.core.treemodel.nodes.projNodes;
 
+import raf.dsw.classycraft.app.controller.events.NodeChangedClassyEvent;
 import raf.dsw.classycraft.app.core.msggen.IPublisher;
 import raf.dsw.classycraft.app.core.msggen.ISubscriber;
-import raf.dsw.classycraft.app.core.treemodel.nodes.abstractNodes.ClassyNode;
 import raf.dsw.classycraft.app.core.treemodel.nodes.abstractNodes.ClassyNodeComposite;
 
 import java.util.ArrayList;
@@ -13,7 +13,7 @@ public class Project extends ClassyNodeComposite implements IPublisher {
 
     public void setAuthor(String author) {
         this.author = author;
-        notifySubscribers(this);
+        notifySubscribers(new NodeChangedClassyEvent(this)); //proj info pane
     }
     public String getAuthor(){
         return author;
@@ -40,7 +40,7 @@ public class Project extends ClassyNodeComposite implements IPublisher {
     @Override
     public void setName(String name) {
         super.setName(name);
-        notifySubscribers(this);
+        notifySubscribers(new NodeChangedClassyEvent(this)); //proj info pane
     }
 
     List<ISubscriber> subscribers=new ArrayList<>();
@@ -55,9 +55,9 @@ public class Project extends ClassyNodeComposite implements IPublisher {
     }
 
     @Override
-    public void notifySubscribers(Object notification) {
+    public void notifySubscribers(Object notification) { //notifies proj info pane to display modified project info
         for (ISubscriber sub:subscribers) {
-            sub.react (this);
+            sub.react(notification);
         }
     }
 
