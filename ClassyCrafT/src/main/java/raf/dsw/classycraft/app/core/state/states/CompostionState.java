@@ -2,44 +2,41 @@ package raf.dsw.classycraft.app.core.state.states;
 
 import raf.dsw.classycraft.app.core.state.State;
 import raf.dsw.classycraft.app.core.treemodel.nodes.diagramNodes.connections.Composition;
-import raf.dsw.classycraft.app.core.treemodel.nodes.diagramNodes.connections.Generalization;
+import raf.dsw.classycraft.app.core.treemodel.nodes.diagramNodes.connections.Connection;
 import raf.dsw.classycraft.app.core.treemodel.nodes.diagramNodes.entities.Interclass;
-import raf.dsw.classycraft.app.gui.swing.main.pkgview.DiagramViewPane;
+import raf.dsw.classycraft.app.core.treemodel.nodes.projNodes.Diagram;
+import raf.dsw.classycraft.app.gui.swing.main.pkgview.DiagramView;
 import raf.dsw.classycraft.app.gui.swing.painters.CompositionPainter;
 import raf.dsw.classycraft.app.gui.swing.painters.ConnectionPainter;
-import raf.dsw.classycraft.app.gui.swing.painters.GeneralizationPainter;
 
 import java.awt.event.MouseEvent;
 
-public class CompostionState extends State {
+public class CompostionState extends ConnectionStateAbs implements State {
 
     boolean exi;
+
     @Override
-    public void mouseDown(MouseEvent pos, DiagramViewPane dview) {
-        var x=dview.underPointer(pos.getPoint());
-        if(x!=null){
-            exi=true;
-            ConnectionPainter c =new CompositionPainter(new Composition((Interclass) x.getElement(),"veza",dview.getDiag()));
-            dview.setCurConn(c);
-        }
+    public void mouseDown(MouseEvent pos, DiagramView dviewv) {
+        super.mouseDown(pos,dviewv);
     }
 
     @Override
-    public void mouseUp(MouseEvent pos, DiagramViewPane dview) {
-        if(exi)
-            dview.letGo(pos.getPoint());
-        exi=false;
+    public void mouseUp(MouseEvent pos, DiagramView dviewv) {
+        super.mouseUp(pos,dviewv);
     }
 
     @Override
-    public void mouseDrag(MouseEvent pos, DiagramViewPane dview) {
-        if(exi){
-            dview.setConEnd(pos.getPoint());
-        }
+    public void mouseDrag(MouseEvent pos, DiagramView dviewv) {
+        super.mouseDrag(pos,dviewv);
     }
 
     @Override
-    public void mouseWheeled(MouseEvent e, DiagramViewPane source) {
+    public void mouseWheeled(MouseEvent e, DiagramView source) {
 
+    }
+
+    @Override
+    public Connection makeInstance(Interclass souce, String name, Diagram d) {
+        return new Composition(souce,name,d);
     }
 }

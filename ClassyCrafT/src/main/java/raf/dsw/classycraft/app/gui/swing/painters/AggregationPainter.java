@@ -1,6 +1,5 @@
 package raf.dsw.classycraft.app.gui.swing.painters;
 
-import raf.dsw.classycraft.app.core.treemodel.nodes.diagramNodes.connections.Agreggation;
 import raf.dsw.classycraft.app.core.treemodel.nodes.diagramNodes.connections.Connection;
 
 import java.awt.*;

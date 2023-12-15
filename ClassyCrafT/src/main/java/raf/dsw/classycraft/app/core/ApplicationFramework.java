@@ -1,23 +1,23 @@
 package raf.dsw.classycraft.app.core;
 
 
-import raf.dsw.classycraft.app.core.msggen.generator.MessageGeneratorImplementation;
+import raf.dsw.classycraft.app.core.msggen.generator.MessageGenerator;
 import raf.dsw.classycraft.app.core.msggen.loggers.Logger;
 import raf.dsw.classycraft.app.core.msggen.loggers.LoggerFactory;
-import raf.dsw.classycraft.app.core.treemodel.ClassyRepositoryImplementation;
+import raf.dsw.classycraft.app.core.treemodel.ClassyRepositoryI;
 import raf.dsw.classycraft.app.core.treemodel.nodes.projNodes.ProjectExplorer;
 
 public class ApplicationFramework {
-    ClassyRepositoryImplementation treeRepo;
+    ClassyRepositoryI treeRepo;
     Logger clog;
     Logger flog;
-    MessageGeneratorImplementation msgGen;
+    MessageGenerator msgGen;
 
-    public MessageGeneratorImplementation getMsgGen() {
+    public MessageGenerator getMsgGen() {
         return msgGen;
     }
 
-    public ClassyRepositoryImplementation getTreeRepo() {
+    public ClassyRepositoryI getTreeRepo() {
         return treeRepo;
     }
 
@@ -25,11 +25,11 @@ public class ApplicationFramework {
     private ApplicationFramework(){
     }
     private void initialize(){
-        msgGen=new MessageGeneratorImplementation();
+        msgGen=new MessageGenerator();
         LoggerFactory logFact=new LoggerFactory();
         clog=logFact.getLogger("console");
         flog=logFact.getLogger("file");
-        treeRepo=new ClassyRepositoryImplementation(new ProjectExplorer("Explorer"));
+        treeRepo=new ClassyRepositoryI(new ProjectExplorer("Explorer"));
     }
     public static ApplicationFramework getInstance(){
         if(instance==null){

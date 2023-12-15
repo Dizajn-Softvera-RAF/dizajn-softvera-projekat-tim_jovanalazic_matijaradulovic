@@ -41,7 +41,6 @@ public class EditEntDialog extends JPanel {
             res.addab.setVisible(true);
         }
 
-        res.revalidate();
         return res;
     }
     private EditEntDialog(Interclass ent){
@@ -114,7 +113,7 @@ public class EditEntDialog extends JPanel {
             AddAttributePanel p=new AddAttributePanel();
             if(JOptionPane.CLOSED_OPTION== JOptionPane.showOptionDialog(this,p,"Dodavanje atributa",JOptionPane.DEFAULT_OPTION,JOptionPane.PLAIN_MESSAGE,null,null,null))
                 return;
-            AddItem(p.getContent());
+                AddItem(p.getContent());
         });
         addmb.addActionListener((ActionEvent e)-> {
             AddMethodPanel p=new AddMethodPanel();

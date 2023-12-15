@@ -7,6 +7,7 @@ public class AppCore {
     public  static void main (String [] args){
         ApplicationFramework appCore = ApplicationFramework.getInstance();
         MainFrame mainView = MainFrame.getInstance();
+        mainView.setVisible(true);
 
     }
 }

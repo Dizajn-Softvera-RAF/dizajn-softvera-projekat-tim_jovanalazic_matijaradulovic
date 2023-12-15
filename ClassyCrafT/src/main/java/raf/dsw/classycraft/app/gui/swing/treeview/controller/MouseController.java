@@ -23,7 +23,7 @@ public class MouseController extends MouseAdapter {
                 });
             }
             if(e.getClickCount() == 2) {
-                MainFrame.getInstance().getTree().setSelectedItem( (ClassyTreeItem)selPath.getLastPathComponent() );
+                MainFrame.getInstance().getTree().setOpenedItem( (ClassyTreeItem)selPath.getLastPathComponent() );
             }
 
 

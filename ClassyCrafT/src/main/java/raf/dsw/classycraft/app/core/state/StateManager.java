@@ -1,10 +1,8 @@
 package raf.dsw.classycraft.app.core.state;
 
-import raf.dsw.classycraft.app.controller.EditContentAction;
 import raf.dsw.classycraft.app.core.state.states.*;
-import raf.dsw.classycraft.app.gui.swing.main.pkgview.DiagramViewPane;
+import raf.dsw.classycraft.app.gui.swing.main.pkgview.DiagramView;
 
-import java.awt.*;
 import java.awt.event.MouseEvent;
 
 public class StateManager {
@@ -73,16 +71,16 @@ public class StateManager {
     public void setZoomState(){
         setCurrState(zom);
     }
-    public void mouseDown(MouseEvent pos, DiagramViewPane dview){
+    public void mouseDown(MouseEvent pos, DiagramView dview){
         currState.mouseDown(pos,dview);
     }
-    public void mouseUp(MouseEvent pos, DiagramViewPane dview){
+    public void mouseUp(MouseEvent pos, DiagramView dview){
         currState.mouseUp(pos,dview);
     }
-    public void mouseDrag(MouseEvent pos, DiagramViewPane dview){
+    public void mouseDrag(MouseEvent pos, DiagramView dview){
         currState.mouseDrag(pos,dview);
     }
-    public void mouseWheeled(MouseEvent e, DiagramViewPane source) {
+    public void mouseWheeled(MouseEvent e, DiagramView source) {
         currState.mouseWheeled(e,source);
     }
 

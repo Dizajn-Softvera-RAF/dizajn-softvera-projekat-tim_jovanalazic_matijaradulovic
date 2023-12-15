@@ -1,6 +1,9 @@
 package raf.dsw.classycraft.app.controller;
 
+
 public class ActionManager {
+    CloneAction cloneAction;
+    FitAction fitAction;
     AboutUsAction aboutUsAction;
     AddDiagramAction addDiagramAction;
     AddDirectoryAction addDirectoryAction;
@@ -20,6 +23,15 @@ public class ActionManager {
     DeleteElementAction deleteElementAction;
     GeneralizationAction generalizationAction;
     EditContentAction editContentAction;
+
+
+    public CloneAction getCloneAction() {
+        return cloneAction;
+    }
+
+    public FitAction getFitAction() {
+        return fitAction;
+    }
 
     public GeneralizationAction getGeneralizationAction() {
         return generalizationAction;
@@ -70,6 +82,8 @@ public class ActionManager {
     }
 
     public ActionManager() {
+        fitAction=new FitAction();
+        cloneAction=new CloneAction();
         editContentAction=new EditContentAction();
         generalizationAction=new GeneralizationAction();
         aboutUsAction=new AboutUsAction();

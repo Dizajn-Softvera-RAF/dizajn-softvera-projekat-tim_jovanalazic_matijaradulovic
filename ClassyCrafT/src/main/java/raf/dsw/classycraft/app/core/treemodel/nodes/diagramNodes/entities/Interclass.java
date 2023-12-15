@@ -10,11 +10,17 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
-public abstract class Interclass extends DiagramElement {
+public abstract class Interclass extends DiagramElement implements Cloneable {
     Visibility vis;
     List<ClassContent> elements=new ArrayList<>();
     Point pos;
     Dimension dim;
+
+    protected Interclass() {
+        pos=new Point();
+        dim=new Dimension();
+        vis=Visibility.PUBLIC;
+    }
 
     public Point getPos() {
         return pos;
@@ -32,7 +38,7 @@ public abstract class Interclass extends DiagramElement {
         this.elements = elements;
         IChanged();
     }
-
+    public void IChanged(){}
     public Interclass(String n, Visibility vis, Point pos, Dimension dim, Diagram d) {
         super(n,d);
         this.vis = vis;
@@ -50,7 +56,6 @@ public abstract class Interclass extends DiagramElement {
     }
     public Interclass(Point pos, Diagram d){
         this("", Visibility.DEFAULT,pos,new Dimension(50,30),d);
-
     }
 
 
@@ -60,6 +65,18 @@ public abstract class Interclass extends DiagramElement {
     }
     public void trans(int dx,int dy){
         setPos(new Point(pos.x+dx,pos.y+dy) );
+    }
+    public abstract Interclass getCopy();
+
+    @Override
+    public Object clone() throws CloneNotSupportedException {
+        return super.clone();
+    }
+
+    //public abstract String title();
+    @Override
+    public String toString() {
+        return super.toString();
     }
 }
 

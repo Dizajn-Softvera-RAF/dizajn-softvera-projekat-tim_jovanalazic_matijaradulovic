@@ -31,5 +31,6 @@ public class MyMenyBar extends JMenuBar {
         AboutUsAction aua = new AboutUsAction();
         infoMenu.add(aua);
         add(infoMenu);
+
     }
 }

@@ -2,7 +2,7 @@ package raf.dsw.classycraft.app.core.treemodel.nodes.abstractNodes;
 
 import java.util.Objects;
 
-public abstract class ClassyNode {
+public abstract class ClassyNode implements Cloneable {
 
     protected String name;
     public String getName() {

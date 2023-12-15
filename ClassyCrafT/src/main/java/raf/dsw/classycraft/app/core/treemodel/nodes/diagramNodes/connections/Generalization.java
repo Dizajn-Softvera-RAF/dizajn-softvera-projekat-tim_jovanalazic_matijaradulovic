@@ -8,4 +8,7 @@ public class Generalization extends Connection {
     public Generalization(Interclass source, String name, Diagram d) {
         super(source, name, d);
     }
+
+    public Generalization() {
+    }
 }

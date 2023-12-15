@@ -110,6 +110,8 @@ public abstract class ConnectionPainter extends ElementPainter{
         }
     }
     public void getPoints(){
+        Point nbeg;
+        Point nend;
         Point clbusta=((Connection)element).getSource().getPos();
         Dimension dima=((Connection)element).getSource().getDim();
         Point tlbusta= new Point(clbusta.x-dima.width/2,clbusta.y-dima.height/2);
@@ -120,8 +122,18 @@ public abstract class ConnectionPainter extends ElementPainter{
             Dimension dima2 = ((Connection) element).getDestination().getDim();
             Point tl2=new Point(cl2.x-dima2.width / 2, cl2.y-dima2.height / 2);
             r2 = new Rectangle(tl2, dima2);
-            endPoint=Geom.interRectLine(r2,Geom.Cent(r1),Geom.Cent(r2));
-            begPoint=Geom.interRectLine(r1,Geom.Cent(r1),Geom.Cent(r2));;
+            nend=Geom.interRectLine(r2,Geom.Cent(r1),Geom.Cent(r2));
+            nbeg=Geom.interRectLine(r1,Geom.Cent(r1),Geom.Cent(r2));
+            if(nbeg!=null)
+                begPoint=nbeg;
+            if(nend!=null)
+                endPoint=nend;
+            if(r1.intersects(r2)){
+                //begPoint=Geom.Cent(r1);
+                //endPoint=Geom.Cent(r2);
+                begPoint=new Point();
+                endPoint=new Point();
+            }
 
         }
         else{
@@ -129,7 +141,9 @@ public abstract class ConnectionPainter extends ElementPainter{
             if (x != null) {
                 begPoint=x;
             }
-
+            else {
+                begPoint=new Point(endPoint);
+            }
         }
     }
     public void setEndPoint(Point p){
@@ -137,7 +151,7 @@ public abstract class ConnectionPainter extends ElementPainter{
     }
     @Override
     public boolean elementAt(Point pos) {
-        int prec=5;
+        int prec=12;
         Rectangle c=new Rectangle(pos.x-prec/2,pos.y-prec/2,prec,prec);
         return line.intersects(c);
     }
@@ -149,9 +163,9 @@ public abstract class ConnectionPainter extends ElementPainter{
         g.setColor(Color.BLACK);
         g.setStroke(stroc);
         g.draw(line);
-
         if(isSelected){
             drawSelRect(g,line.getBounds2D());
+            g.setStroke(stroc);
         }
 
     }

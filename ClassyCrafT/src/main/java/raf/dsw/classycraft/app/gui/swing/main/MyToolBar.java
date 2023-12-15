@@ -18,5 +18,10 @@ public class MyToolBar extends JToolBar {
         add(new EditAuthorAction());
         add(new TestAction());
 
+        this.addSeparator();
+
+        add(MainFrame.getInstance().getActions().getCloneAction());
+        add(MainFrame.getInstance().getActions().getFitAction());
+
     }
 }

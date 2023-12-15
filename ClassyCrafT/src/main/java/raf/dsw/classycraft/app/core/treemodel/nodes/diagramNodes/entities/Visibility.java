@@ -16,7 +16,7 @@ public enum Visibility {
             case "#"->{
                 return PROTECTED;
             }
-            case ""->{
+            case " "->{
                 return DEFAULT;
             }
         }

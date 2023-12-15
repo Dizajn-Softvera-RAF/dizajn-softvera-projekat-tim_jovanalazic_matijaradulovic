@@ -87,9 +87,9 @@ public class InterClassPainter extends ElementPainter{
             }
         w+=6*contPadd;
         h=(fm.getHeight()+contPadd)*(getElement().getElements().size()+1)+6*contPadd;
-        if(getDim().height<h||getDim().width<w) {
+        //if(getDim().height<h||getDim().width<w) {
             getElement().setDim(new Dimension(w,h));
-        }
+        //}
         reshape();
     }
 

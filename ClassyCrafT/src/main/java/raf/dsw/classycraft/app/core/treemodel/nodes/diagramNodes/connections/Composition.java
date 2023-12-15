@@ -7,4 +7,7 @@ public class Composition extends Connection {
     public Composition(Interclass source, String name, Diagram d) {
         super(source, name, d);
     }
+
+    public Composition() {
+    }
 }
