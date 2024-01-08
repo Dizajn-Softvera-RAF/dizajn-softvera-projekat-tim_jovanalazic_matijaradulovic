@@ -9,6 +9,8 @@ import raf.dsw.classycraft.app.core.treemodel.nodes.diagramNodes.DiagramElement;
 import raf.dsw.classycraft.app.core.treemodel.nodes.diagramNodes.connections.Connection;
 import raf.dsw.classycraft.app.core.treemodel.nodes.diagramNodes.entities.Interclass;
 import raf.dsw.classycraft.app.core.treemodel.nodes.projNodes.Diagram;
+import raf.dsw.classycraft.app.gui.swing.main.CommandManager;
+import raf.dsw.classycraft.app.gui.swing.main.ConnectionAddCommand;
 import raf.dsw.classycraft.app.gui.swing.painters.ConnectionPainter;
 import raf.dsw.classycraft.app.gui.swing.painters.ElementPainter;
 import raf.dsw.classycraft.app.gui.swing.painters.InterClassPainter;
@@ -30,13 +32,10 @@ public class DiagramViewModel implements IPublisher, ISubscriber
     Rectangle curSel;
     ConnectionPainter curConn;
     AffineTransform trans;
+    CommandManager manager;
 
-    public void Reset(){
 
-    }
-    public void fix(){
 
-    }
     public void AddPainter(Interclass cls){
         AddPainter(PainterSimpleFactory.makePainter(cls));
     }
@@ -48,6 +47,7 @@ public class DiagramViewModel implements IPublisher, ISubscriber
         curSel=null;
         curConn=null;
         trans=new AffineTransform();
+        manager=new CommandManager();
         initialize();
 
     }
@@ -257,9 +257,7 @@ public class DiagramViewModel implements IPublisher, ISubscriber
     }
 
     public void transEl(ElementPainter e, int dx, int dy){
-        double z=trans.getScaleX();
-        ((Interclass) e.getElement()).trans((int)(dx/z),(int)(dy/z));
-        repaint(e.getBounds());
+        manager.addCommand(new MoveCommand(this, e, dx, dy, trans));
     }
     public void transElements(List<ElementPainter> le,int dx,int dy){
         for (var e:le) {
@@ -284,8 +282,7 @@ public class DiagramViewModel implements IPublisher, ISubscriber
         if(x!=null && x.getElement()!= curConn.getElement().getSource()) {
 
             curConn.getElement().setDestination(((Interclass) x.getElement()));
-            this.diag.AddChild(curConn.getElement());
-            this.AddPainter(curConn);
+            manager.addCommand(new ConnectionAddCommand(curConn, this));
         }
         this.setCurConn(null);
     }
@@ -349,5 +346,9 @@ public class DiagramViewModel implements IPublisher, ISubscriber
 //            repaint(null);
 //
 //        }
+    }
+
+    public CommandManager ManagerGet() {
+        return manager;
     }
 }
