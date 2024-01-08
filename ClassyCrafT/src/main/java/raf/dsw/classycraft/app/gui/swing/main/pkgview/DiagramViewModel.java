@@ -1,8 +1,10 @@
 package raf.dsw.classycraft.app.gui.swing.main.pkgview;
 
+import raf.dsw.classycraft.app.controller.events.NodeChildrenClassyEvent;
 import raf.dsw.classycraft.app.controller.events.PaintClassyEvent;
 import raf.dsw.classycraft.app.core.msggen.IPublisher;
 import raf.dsw.classycraft.app.core.msggen.ISubscriber;
+import raf.dsw.classycraft.app.core.treemodel.nodes.abstractNodes.ClassyNode;
 import raf.dsw.classycraft.app.core.treemodel.nodes.diagramNodes.DiagramElement;
 import raf.dsw.classycraft.app.core.treemodel.nodes.diagramNodes.connections.Connection;
 import raf.dsw.classycraft.app.core.treemodel.nodes.diagramNodes.entities.Interclass;
@@ -12,6 +14,7 @@ import raf.dsw.classycraft.app.gui.swing.painters.ElementPainter;
 import raf.dsw.classycraft.app.gui.swing.painters.InterClassPainter;
 import raf.dsw.classycraft.app.gui.swing.painters.factory.PainterSimpleFactory;
 
+import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.NoninvertibleTransformException;
@@ -19,7 +22,7 @@ import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DiagramViewModel implements IPublisher
+public class DiagramViewModel implements IPublisher, ISubscriber
 {
     Diagram diag;
     List<ElementPainter> painters;
@@ -28,9 +31,18 @@ public class DiagramViewModel implements IPublisher
     ConnectionPainter curConn;
     AffineTransform trans;
 
+    public void Reset(){
 
+    }
+    public void fix(){
+
+    }
+    public void AddPainter(Interclass cls){
+        AddPainter(PainterSimpleFactory.makePainter(cls));
+    }
     public DiagramViewModel(Diagram d){
         diag=d;
+        //d.addSubscriber(this);
         painters=new ArrayList<>();
         selPainters=new ArrayList<>();
         curSel=null;
@@ -81,6 +93,14 @@ public class DiagramViewModel implements IPublisher
         selPainters.remove(p);
         p.getElement().removeSelf();
         repaint(p.getBounds());
+    }
+    public ElementPainter findPainter(ClassyNode node){
+        for (var p:painters) {
+            if(p.getElement().equals(node)){
+                return p;
+            }
+        }
+        return null;
     }
     private void RemoveAffilConn(ElementPainter p){
         for (ElementPainter painter : painters) {
@@ -312,5 +332,22 @@ public class DiagramViewModel implements IPublisher
         for (var s:subs) {
             s.react(notification);
         }
+    }
+
+    @Override
+    public void react(Object notification) {
+//        if(notification instanceof NodeChildrenClassyEvent ech){
+//            ech.reset();
+//            while (ech.hasNextAdded()){
+//                ClassyNode c=ech.getNextAdded();//diagram element
+//                AddPainter(PainterSimpleFactory.makePainter(((DiagramElement) c)));
+//            }
+//            while(ech.hasNextRemoved()){
+//                ClassyNode c=ech.getNextRemoved();
+//                RemovePainter(findPainter(c));
+//            }
+//            repaint(null);
+//
+//        }
     }
 }

@@ -18,7 +18,7 @@ public class PackageTabbedPane extends JTabbedPane implements ISubscriber {
 
     private void InitializeTabs() {
         if(packaged!=null)
-            for (Diagram dig:packaged.getDiagrams()) {
+            for (Diagram dig:packaged.DiagramsGet()) {
                 addTab(dig);
             }
     }

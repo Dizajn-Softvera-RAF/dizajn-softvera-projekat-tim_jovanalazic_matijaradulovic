@@ -1,5 +1,6 @@
 package raf.dsw.classycraft.app.core.treemodel.nodes.projNodes;
 
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import raf.dsw.classycraft.app.controller.events.NodeChildrenClassyEvent;
 import raf.dsw.classycraft.app.core.msggen.IPublisher;
 import raf.dsw.classycraft.app.core.msggen.ISubscriber;
@@ -8,7 +9,7 @@ import raf.dsw.classycraft.app.core.treemodel.nodes.abstractNodes.ClassyNodeComp
 
 import java.util.ArrayList;
 import java.util.List;
-
+@JsonTypeName("pack")
 public class Package extends ClassyNodeComposite implements IPublisher {
 
     public Package(String name, ClassyNodeComposite parent) {
@@ -30,7 +31,7 @@ public class Package extends ClassyNodeComposite implements IPublisher {
 
     public Package() {
     }
-    public List<Diagram> getDiagrams(){
+    public List<Diagram> DiagramsGet(){
         List<Diagram> res=new ArrayList<Diagram>();
         for (ClassyNode child:children) {
             if(child instanceof Diagram d){
@@ -39,7 +40,7 @@ public class Package extends ClassyNodeComposite implements IPublisher {
         }
         return res;
     }
-    List<ISubscriber> subscribers=new ArrayList<>();
+    transient List<ISubscriber> subscribers=new ArrayList<>();
     @Override
     public void addSubscriber(ISubscriber subscr) {
         subscribers.add(subscr);
@@ -57,11 +58,21 @@ public class Package extends ClassyNodeComposite implements IPublisher {
         }
     }
 
-    public Project getProject(){
+    public Project projGet(){
         ClassyNode currper=this;
         while ( !(currper.getParent() instanceof Project)){
             currper=currper.getParent();
         }
         return (Project) currper.getParent();
+    }
+    public void fixxx(){
+        for (var c:children) {
+            if(c instanceof Package p){
+                p.fixxx();
+            }
+            else if (c instanceof Diagram d){
+                d.icanfixthat();
+            }
+        }
     }
 }

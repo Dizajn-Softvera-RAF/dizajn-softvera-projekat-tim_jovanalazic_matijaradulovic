@@ -1,5 +1,6 @@
 package raf.dsw.classycraft.app.core.treemodel.nodes.projNodes;
 
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import raf.dsw.classycraft.app.controller.events.NodeChangedClassyEvent;
 import raf.dsw.classycraft.app.core.msggen.IPublisher;
 import raf.dsw.classycraft.app.core.msggen.ISubscriber;
@@ -8,6 +9,7 @@ import raf.dsw.classycraft.app.core.treemodel.nodes.abstractNodes.ClassyNodeComp
 import java.util.ArrayList;
 import java.util.List;
 
+@JsonTypeName("proj")
 public class Project extends ClassyNodeComposite implements IPublisher {
     String author;
 
@@ -19,6 +21,17 @@ public class Project extends ClassyNodeComposite implements IPublisher {
         return author;
     }
     String path;
+    transient Boolean changed=true;
+
+    public void Unsaved(){
+        changed=true;
+    }
+    public boolean SavedIs(){
+        return  !changed &&path!=null;
+    }
+    public void Saved(){
+        //changed=false;
+    }
 
     public Project(String name, String author, String path, ClassyNodeComposite parent) {
         super(name, parent);
@@ -36,14 +49,16 @@ public class Project extends ClassyNodeComposite implements IPublisher {
         this.path="nepoznat";
     }
 
-
+    public String PathGet(){
+        return  path;
+    }
     @Override
     public void setName(String name) {
         super.setName(name);
         notifySubscribers(new NodeChangedClassyEvent(this)); //proj info pane
     }
 
-    List<ISubscriber> subscribers=new ArrayList<>();
+    transient List<ISubscriber> subscribers=new ArrayList<>();
     @Override
     public void addSubscriber(ISubscriber subscr) {
         subscribers.add(subscr);
@@ -60,6 +75,10 @@ public class Project extends ClassyNodeComposite implements IPublisher {
             sub.react(notification);
         }
     }
-
+    public void fixme(){
+        for (var c:children) {
+            ((Package) c).fixxx();
+        }
+    }
 
 }

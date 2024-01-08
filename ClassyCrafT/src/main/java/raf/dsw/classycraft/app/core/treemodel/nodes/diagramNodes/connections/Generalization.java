@@ -1,8 +1,13 @@
 package raf.dsw.classycraft.app.core.treemodel.nodes.diagramNodes.connections;
 
+import com.fasterxml.jackson.annotation.JsonTypeName;
+import lombok.Getter;
+import lombok.Setter;
 import raf.dsw.classycraft.app.core.treemodel.nodes.diagramNodes.entities.Interclass;
 import raf.dsw.classycraft.app.core.treemodel.nodes.projNodes.Diagram;
-
+@Getter
+@Setter
+@JsonTypeName("gen")
 public class Generalization extends Connection {
 
     public Generalization(Interclass source, String name, Diagram d) {

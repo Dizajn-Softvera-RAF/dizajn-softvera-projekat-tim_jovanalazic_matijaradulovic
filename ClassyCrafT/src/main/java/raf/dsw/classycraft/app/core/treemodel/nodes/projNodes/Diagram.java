@@ -1,15 +1,20 @@
 package raf.dsw.classycraft.app.core.treemodel.nodes.projNodes;
 
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import raf.dsw.classycraft.app.controller.events.NodeChildrenClassyEvent;
 import raf.dsw.classycraft.app.controller.events.NodeChangedClassyEvent;
 import raf.dsw.classycraft.app.core.msggen.IPublisher;
 import raf.dsw.classycraft.app.core.msggen.ISubscriber;
 import raf.dsw.classycraft.app.core.treemodel.nodes.abstractNodes.ClassyNode;
 import raf.dsw.classycraft.app.core.treemodel.nodes.abstractNodes.ClassyNodeComposite;
+import raf.dsw.classycraft.app.core.treemodel.nodes.diagramNodes.connections.Connection;
+import raf.dsw.classycraft.app.core.treemodel.nodes.diagramNodes.entities.Interclass;
+import raf.dsw.classycraft.app.gui.swing.painters.ConnectionPainter;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@JsonTypeName("diag")
 public class Diagram extends ClassyNodeComposite implements IPublisher {
     public Diagram(String name, ClassyNodeComposite parent) {
         super(name, parent);
@@ -17,7 +22,7 @@ public class Diagram extends ClassyNodeComposite implements IPublisher {
 
     public Diagram() {
     }
-    List<ISubscriber> subscribers=new ArrayList<>();
+    transient List<ISubscriber> subscribers=new ArrayList<>();
     @Override
     public void addSubscriber(ISubscriber subscr) {
         subscribers.add(subscr);
@@ -40,7 +45,18 @@ public class Diagram extends ClassyNodeComposite implements IPublisher {
             sub.react(notification);
         }
     }
-
+    public void icanfixthat(){
+        for(int i=0;i<getChildren().size();i++){
+            if(children.get(i) instanceof Connection con){
+                Interclass s=con.getSource();
+                Interclass d=con.getDestination();;
+                children.remove(s);
+                children.remove(d);
+                AddChild(s);
+                AddChild(d);
+            }
+        }
+    }
     @Override
     public void AddChild(ClassyNode child) {
         super.AddChild(child);

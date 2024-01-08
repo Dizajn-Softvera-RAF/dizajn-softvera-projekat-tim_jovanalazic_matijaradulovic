@@ -1,11 +1,16 @@
 package raf.dsw.classycraft.app.core.treemodel.nodes.diagramNodes.entities;
 
+import com.fasterxml.jackson.annotation.JsonTypeName;
+import lombok.Getter;
+import lombok.Setter;
 import raf.dsw.classycraft.app.core.treemodel.nodes.projNodes.Diagram;
 import raf.dsw.classycraft.app.core.treemodel.nodes.projNodes.ProjectExplorer;
 
 import java.awt.*;
 import java.awt.event.MouseEvent;
-
+@Getter
+@Setter
+@JsonTypeName("cls")
 public class ClassyClass extends Interclass {
 
     @Override
@@ -20,10 +25,12 @@ public class ClassyClass extends Interclass {
     }
     public ClassyClass(){
         super();
+        col=new Color(110, 180, 220);
+
     }
 
     @Override
-    public Interclass getCopy() {
+    public Interclass CopyGet() {
         var x= new ClassyClass(name,vis,new Point(pos),new Dimension(dim), ((Diagram) parent));
         x.setElements(this.getElements());
         return x;

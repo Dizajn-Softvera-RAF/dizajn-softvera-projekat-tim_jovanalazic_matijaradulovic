@@ -3,6 +3,7 @@ package raf.dsw.classycraft.app.gui.swing.treeview;
 import raf.dsw.classycraft.app.controller.events.NodeChangedClassyEvent;
 import raf.dsw.classycraft.app.controller.events.NodeChildrenClassyEvent;
 import raf.dsw.classycraft.app.controller.events.SelectionClassyEvent;
+import raf.dsw.classycraft.app.core.ApplicationFramework;
 import raf.dsw.classycraft.app.core.msggen.IPublisher;
 import raf.dsw.classycraft.app.core.msggen.ISubscriber;
 import raf.dsw.classycraft.app.core.treemodel.ClassyRepository;
@@ -10,9 +11,13 @@ import raf.dsw.classycraft.app.core.treemodel.factory.AbstractNodeFactory;
 import raf.dsw.classycraft.app.core.treemodel.nodes.abstractNodes.ClassyNode;
 import raf.dsw.classycraft.app.core.treemodel.nodes.abstractNodes.ClassyNodeComposite;
 import raf.dsw.classycraft.app.core.treemodel.nodes.abstractNodes.ClassyNodeLeaf;
+import raf.dsw.classycraft.app.core.treemodel.nodes.diagramNodes.entities.Interclass;
 import raf.dsw.classycraft.app.core.treemodel.nodes.projNodes.Diagram;
 import raf.dsw.classycraft.app.core.treemodel.nodes.projNodes.Package;
+import raf.dsw.classycraft.app.core.treemodel.nodes.projNodes.Project;
 import raf.dsw.classycraft.app.core.treemodel.nodes.projNodes.ProjectExplorer;
+import raf.dsw.classycraft.app.gui.swing.main.MainFrame;
+import raf.dsw.classycraft.app.gui.swing.painters.ConnectionPainter;
 import raf.dsw.classycraft.app.gui.swing.treeview.model.ClassyTreeItem;
 import raf.dsw.classycraft.app.gui.swing.treeview.view.ClassyTreeView;
 
@@ -203,11 +208,14 @@ public class ClassyTreeI implements ClassyTree, IPublisher, ISubscriber {
                 ClassyNode c=ech.getNextRemoved();
                 RemoveChildSel(c);
             }
+            SwingUtilities.updateComponentTreeUI(treeView);
+
         }
         else if(notification instanceof NodeChangedClassyEvent nch){
             ClassyNode c=nch.getNode();
             var p=c.getParent();
-            var x=find(openedItem,c);
+            var x=find(getRoot(),c);
+            //x.setName2(nch.getNode().getName());
             SwingUtilities.updateComponentTreeUI(treeView);
 
 
@@ -240,7 +248,7 @@ public class ClassyTreeI implements ClassyTree, IPublisher, ISubscriber {
     }
     public void AddChildSel(ClassyNode child){
 
-        var x=find(openedItem,child.getParent());//diagram
+        var x=find(getRoot(),child.getParent());//diagram
         AddChildItem(x,child);
     }
     public void AddNode(ClassyNode child){
@@ -248,5 +256,39 @@ public class ClassyTreeI implements ClassyTree, IPublisher, ISubscriber {
         var x=find(getRoot(),child.getParent());
         AddChildItem(x,child);
     }
+    public void AddNodeR(ClassyNode child){
+        AddNode(child);
+        if(child instanceof ClassyNodeComposite comp){
+            for (var c:comp.getChildren()) {
+                AddNodeR(c);
+            }
+        }
 
+    }
+
+
+
+
+    public void loadProj(Project p){
+        p.setParent(((ClassyNodeComposite) getRoot().getNode()));
+        p.parenthesise();
+        AddNodeR(p);
+        //p.fixme();
+    }
+
+    public void loadDiagram(Diagram d){
+        d.parenthesise();
+        if(getSelectedNode().getNode() instanceof Diagram dor){
+            d.setParent(((ClassyNodeComposite) dor.getParent()));
+            for (var c:d.getChildren()) {
+                c.setParent(dor);
+                dor.AddChild(c);
+            }
+            //d.icanfixthat();//i cannot fix it :(
+
+            MainFrame.getInstance().getPkgpane().getActiveDiagramP().reset();
+        }
+
+
+    }
 }
