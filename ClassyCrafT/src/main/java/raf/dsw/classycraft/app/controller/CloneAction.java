@@ -25,7 +25,7 @@ public class CloneAction extends AbstractClassyAction{
         if(dv.SingleSel()){
             var x=dv.getSelected().getElement();
             if(x instanceof Interclass i){
-                Interclass xp=i.getCopy();
+                Interclass xp=i.CopyGet();
                 xp.getPos().translate(xp.getDim().width+10,0);
                 dv.AddPainter(PainterSimpleFactory.makePainter(xp));
             }

@@ -1,20 +1,28 @@
 package raf.dsw.classycraft.app.core.treemodel.nodes.diagramNodes;
 
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import raf.dsw.classycraft.app.controller.events.NodeChangedClassyEvent;
 import raf.dsw.classycraft.app.core.msggen.IPublisher;
 import raf.dsw.classycraft.app.core.msggen.ISubscriber;
 import raf.dsw.classycraft.app.core.treemodel.nodes.abstractNodes.ClassyNode;
 import raf.dsw.classycraft.app.core.treemodel.nodes.abstractNodes.ClassyNodeComposite;
 import raf.dsw.classycraft.app.core.treemodel.nodes.abstractNodes.ClassyNodeLeaf;
+import raf.dsw.classycraft.app.core.treemodel.nodes.diagramNodes.entities.ClassyClass;
+import raf.dsw.classycraft.app.core.treemodel.nodes.diagramNodes.entities.ClassyEnum;
+import raf.dsw.classycraft.app.core.treemodel.nodes.diagramNodes.entities.ClassyInterface;
 import raf.dsw.classycraft.app.core.treemodel.nodes.projNodes.Diagram;
-import raf.dsw.classycraft.app.core.treemodel.nodes.projNodes.ProjectExplorer;
+import raf.dsw.classycraft.app.core.treemodel.nodes.projNodes.Package;
+import raf.dsw.classycraft.app.core.treemodel.nodes.projNodes.Project;
 
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public abstract class DiagramElement extends ClassyNodeLeaf implements Cloneable, IPublisher {
-    protected Color col;
+
+    protected transient Color col;
+    int rgb;
     int stroke;
 
     public int getStroke() {
@@ -30,17 +38,19 @@ public abstract class DiagramElement extends ClassyNodeLeaf implements Cloneable
 
     }
 
-    @Override
-    public void setName(String name) {
+    public void setName2(String name) {
         super.setName(name);
         ParentsNotify(new NodeChangedClassyEvent(this));
+    }
+    public void setName(String name){
+        super.setName(name);
     }
 
     public void setDiagram(Diagram d) {
         parent=d;
 
     }
-    public Color getCol() {
+    public Color ColGet() {
         return col;
     }
     public DiagramElement(String n, ClassyNodeComposite parent){
@@ -69,4 +79,6 @@ public abstract class DiagramElement extends ClassyNodeLeaf implements Cloneable
             s.react(notification);
         }
     }
+
+
 }

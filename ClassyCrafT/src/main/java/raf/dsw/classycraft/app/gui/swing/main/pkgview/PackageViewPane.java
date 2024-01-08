@@ -101,7 +101,7 @@ public class PackageViewPane extends JPanel implements ISubscriber {
 
         deleteView();
         if(pack!=null) {
-            Project p = pack.getProject();
+            Project p = pack.projGet();
             projInfo = new ProjInfoPane(p);
             packTabs = new PackageTabbedPane(pack);
             sidebar=new SideToolBar();

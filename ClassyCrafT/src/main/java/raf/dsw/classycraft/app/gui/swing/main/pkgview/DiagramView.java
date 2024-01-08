@@ -17,7 +17,13 @@ import java.util.List;
 
 public class DiagramView extends JPanel implements ISubscriber {
     DiagramViewModel model;
+    public void reset(){
+        model.removeSubscriber(this);
+        model=new DiagramViewModel(model.getDiag());
+        model.addSubscriber(this);
+        repaint();
 
+    }
 
     public DiagramViewModel getModel(){
         return model;
@@ -41,7 +47,7 @@ public class DiagramView extends JPanel implements ISubscriber {
 
 
     public DiagramView(Diagram diagram) {
-        diagram.addSubscriber(this);
+        //diagram.addSubscriber(this);
         var x=new ClassyMouseListener();
         this.addMouseListener(x);
         this.addMouseMotionListener(x);
@@ -61,11 +67,7 @@ public class DiagramView extends JPanel implements ISubscriber {
             }
         }
     }
-
-    @Override
-    protected void paintComponent(Graphics g) {
-        super.paintComponent(g);
-
+    public void PAINT(Graphics g){
         Graphics2D g2d= ((Graphics2D) g);
         RenderingHints rh =
                 new RenderingHints(RenderingHints.KEY_ANTIALIASING,
@@ -74,6 +76,7 @@ public class DiagramView extends JPanel implements ISubscriber {
                 RenderingHints.VALUE_RENDER_QUALITY);
         g2d.setRenderingHints(rh);
         g2d.setTransform(getTrans());
+
 
 
 
@@ -88,6 +91,12 @@ public class DiagramView extends JPanel implements ISubscriber {
             g2d.setTransform(def);
             ElementPainter.drawSelRect(g2d, getCurSelRect());
         }
+    }
+    @Override
+    protected void paintComponent(Graphics g) {
+        super.paintComponent(g);
+
+        PAINT( g);
     }
 
     @Override

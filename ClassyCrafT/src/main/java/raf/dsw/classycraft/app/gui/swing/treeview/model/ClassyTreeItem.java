@@ -23,4 +23,6 @@ public class ClassyTreeItem extends DefaultMutableTreeNode {
     public void setName(String name) {
         node.setName(name);
     }
+    public void setName2(String name){
+    }
 }

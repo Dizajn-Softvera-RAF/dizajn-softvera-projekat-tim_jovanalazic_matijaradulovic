@@ -3,8 +3,6 @@ package raf.dsw.classycraft.app.gui.swing.painters;
 import raf.dsw.classycraft.app.core.treemodel.nodes.diagramNodes.entities.Interclass;
 
 import java.awt.*;
-import java.awt.event.MouseEvent;
-import java.awt.geom.Rectangle2D;
 import java.awt.geom.RoundRectangle2D;
 
 public class InterClassPainter extends ElementPainter{
@@ -31,7 +29,7 @@ public class InterClassPainter extends ElementPainter{
     }
     @Override
     public void paint(Graphics2D g) {
-        Color c=element.getCol();
+        Color c=element.ColGet();
         if(isSelected)
             c=c.darker();
 

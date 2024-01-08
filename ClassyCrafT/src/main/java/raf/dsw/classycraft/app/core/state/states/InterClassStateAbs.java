@@ -14,7 +14,7 @@ public abstract class InterClassStateAbs {
 
     Interclass prototype;
     public Interclass makeInstance(Point pos, Diagram d){
-        var x=prototype.getCopy();
+        var x=prototype.CopyGet();
         x.setPos(pos);
         x.setDiagram(d);
         d.AddChild(x);

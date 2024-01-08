@@ -137,7 +137,7 @@ public class EditEntDialog extends JPanel {
         );
         savb.addActionListener((ActionEvent e)-> {
                 entity.setElements(Collections.list(model.elements()));
-                entity.setName(nametf.getText());
+                entity.setName2(nametf.getText());
 
                     SwingUtilities.windowForComponent(this).dispose();
 

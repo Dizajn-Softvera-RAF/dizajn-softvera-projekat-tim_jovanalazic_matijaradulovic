@@ -11,7 +11,10 @@ public class NodeChildrenClassyEvent extends ClassyEvent{
 
     List<ClassyNode> rchildrenl;
     ListIterator<ClassyNode> rchildren;
-
+    public void reset(){
+        children=childrenl.listIterator();
+        rchildren=rchildrenl.listIterator();
+    }
     public boolean isRemoved(){
         return !rchildrenl.isEmpty();
     }

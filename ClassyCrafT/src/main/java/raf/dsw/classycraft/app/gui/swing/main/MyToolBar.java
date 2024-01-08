@@ -16,12 +16,18 @@ public class MyToolBar extends JToolBar {
         add(new RemoveAction());
         add(new RenameAction());
         add(new EditAuthorAction());
-        add(new TestAction());
+        add(MainFrame.getInstance().getActions().getSaveAction());
+        add(MainFrame.getInstance().getActions().getOpenAction());
+        add(MainFrame.getInstance().getActions().getSaveDiagram());
+        add(MainFrame.getInstance().getActions().getOpenDiagram());
+        //add(new TestAction());
 
         this.addSeparator();
 
         add(MainFrame.getInstance().getActions().getCloneAction());
         add(MainFrame.getInstance().getActions().getFitAction());
-
+        add(MainFrame.getInstance().getActions().getUndoAction());
+        add(MainFrame.getInstance().getActions().getRedoAction());
+        add(MainFrame.getInstance().getActions().getExportAction());
     }
 }
